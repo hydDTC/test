@@ -1,3 +1,7 @@
+* {
+    margin:0;
+    padding:0;
+}
 *,
 *:before,
 *:after {
@@ -8,6 +12,9 @@
     -webkit-touch-callout: none;
 }
 
+html, body {
+    height:100%;
+}
 audio,
 canvas,
 progress,
@@ -28,6 +35,9 @@ strong {
 img {
     max-width: 100%;
     border: 0;
+}
+ul li {
+    list-style:none;
 }
 
 svg:not(:root) {

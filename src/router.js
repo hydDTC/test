@@ -12,14 +12,16 @@ const creative = () => import(/* webpackChunkName: "tabs" */ './views/creative')
 const creativeDetail = () => import(/* webpackChunkName: "tabs" */ './views/creativeDetail');
 const user = () => import(/* webpackChunkName: "tabs" */ './views/user');
 
+
+const home = () => import(/* webpackChunkName: "tabs" */ './views/home');
+
 const footer = () => import(/* webpackChunkName: "tabs" */ './components/footer');
 const login = () => import(/* webpackChunkName: "user" */ './views/login');
 
 let routes = [{
     path: '*',
     components: {
-        node: index,
-        footer: footer
+        mode: home
     },
 }];
 
@@ -44,7 +46,7 @@ let user_r = [
                 ]
             }
         ]
-    }
+    },
 ]
 
 let tabs = [

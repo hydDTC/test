@@ -42,7 +42,7 @@
   }
 
 </script>
-<style>
+<style scoped>
   .tabbar {
     left: 0;
     bottom: 0;

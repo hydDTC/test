@@ -6,6 +6,7 @@ import component from './component';
 component(Vue) // 全局注册的component
 require("./vendor.js")  // 全局的css
 
+
 Vue.config.productionTip = false;
 
 new Vue({

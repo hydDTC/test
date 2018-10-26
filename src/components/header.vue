@@ -37,7 +37,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .header {
     left: 0;
     top: 0;

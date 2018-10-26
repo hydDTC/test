@@ -13,6 +13,9 @@
             <router-link to="/campaign/campaignDetail">咪咕</router-link>
 
           </li>
+
+          <li v-for=" item in items">{{item.id}}22</li>
+
         </ul>
       </div>
     </div>
@@ -26,7 +29,18 @@
   </div>
 </template>
 <script>
-    export default {}
+    export default {
+        data() {
+            return {
+                items: [
+                    {'id':111},
+                    {'id':111},
+                    {'id':111},
+                    {'id':111},
+                ]
+            }
+        }
+    }
 </script>
 <style>
   .scroll-content, ul>li {
