@@ -52,7 +52,6 @@
                 /* 第一屏的背景图片的宽高 */
                 topHeight: '',
                 topWidth: '',
-                topMargin: '',
                 bannerTopArr : [
                     {
                         'img': 'img/yidongzhongduan.png',
@@ -91,23 +90,20 @@
             /* width58vh  height 55vh top 61vh   innerHeight  */
             let height = window.document.body.offsetHeight;
             let width = window.document.body.offsetWidth;
-            this.topHeight = (58 * height / 667) + 'vh';
-            this.topWidth  = (55 * width / 375) + 'vh';
-            this.topMargin = (61 * height / 667) + 'vh';
+            this.topHeight = (58 * 667 / height) + 'vh';
+            this.topWidth  = (55 * 375 / width) + 'vh';
 
             this.$refs.bannerTop.style.backgroundSize = `${this.topWidth}, ${this.topHeight}`
-            this.$refs.bannerMargin.style.marginTop = `${this.topMargin }`
 
             window.addEventListener('resize', (event)=>{
                 height = event.target.innerHeight;
                 width = event.target.innerWidth;
                 // 这边按照6的尺寸来
-                this.topHeight = (58 * height / 667) + 'vh';
-                this.topWidth  = (55 * width / 375) + 'vh';
-                this.topMargin = (61 * height / 667) + 'vh';
+                this.topHeight = (58 * 667 / height) + 'vh';
+                this.topWidth  = (55 * 375 / width) + 'vh';
+                console.log(this.topHeight)
                 console.log(this.$refs.bannerTop)
-                this.$refs.bannerTop.style.backgroundSize = `${this.topWidth}, ${this.topHeight}`
-                this.$refs.bannerMargin.style.marginTop = `${this.topMargin }`
+                this.$refs.bannerTop.style.backgroundSize = `${this.topWidth},${this.topHeight}`
             })
         }
     }
@@ -146,7 +142,7 @@
                     height: 50vh;
                 }
                 .banner-content {
-                   /* margin-top: @topMargin;*/
+                    margin-top: 60vh;
                     ul {
                         text-align: center;
                         li {
@@ -242,18 +238,18 @@
     }
 
 
-    /*ipad*/
-    @media screen and(min-width: 768px) {
-        .banner-content {
-            margin-top: 10% !important;
-        }
-    }
-    /*iphonex*/
-    @media all and(min-height: 812px) and (max-height: 812px) {
-        .banner-content {
-            margin-top: 20% !important;
-        }
-    }
+    /*!*ipad*!*/
+    /*@media screen and(min-width: 768px) {*/
+        /*.banner-content {*/
+            /*margin-top: 65vh !important;*/
+        /*}*/
+    /*}*/
+    /*!*iphonex*!*/
+    /*@media all and(min-height: 812px) and (max-height: 812px) {*/
+        /*.banner-content {*/
+            /*margin-top: 55vh !important;*/
+        /*}*/
+    /*}*/
     /*ihone5*/
     @media screen and(max-width: 320px) {
         .banner-content {
