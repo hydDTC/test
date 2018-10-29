@@ -9,36 +9,142 @@
                 <span>400-670-9927</span>
             </div>
         </div>
-        <div class="containerFull" ref='containerFull'>
-            <div class="banner banner-top" ref="bannerTop">
-                <!--<img src="../assets/home/first-screen_02.png">-->
-                <div class="banner-content" ref="bannerMargin">
-                    <ul>
-                        <li v-for="arr in bannerTopArr">
-                            <img :src="arr.img">
-                            <p>{{arr.num}}</p>
-                            <p>{{arr.text}}</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="banner banner-engine">
-                <div class="title">
+
+
+
+
+        <div class="containerFull" ref="containerFull">
+
+            <div class="swiper-container" ref="swiper">
+                <div class="swiper-wrapper">
+                    <!-- 第一屏 -->
+                    <div class="swiper-slide" id="one">
+
+                        <div class="banner banner-top" ref="bannerTop">
+                            <!--<img src="../assets/home/first-screen_02.png">-->
+                            <div class="banner-content" ref="bannerMargin">
+                                <ul>
+                                    <li v-for="arr in bannerTopArr">
+                                        <img :src="arr.img">
+                                        <p>{{arr.num}}</p>
+                                        <p>{{arr.text}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="swiper-slide" id="two">
+
+                        <!-- 第二屏幕  -->
+                        <div class="banner banner-engine">
+                            <div class="title"></div>
+                            <div class="text">
+                                智橙V4运作核心 — 智橙决策引擎，由AI技术、大数据等打造而成。
+                                机器通过不断学习，基于大数据产出专属的智能决策，助力广告主进行营销、产品、用户体验等
+                                全方位智能营销策略，使其在广泛的场景应用中创造更大价值，轻松实现营销目标。
+                            </div>
+                            <div class="banner-content">
+                                <ul>
+                                    <li v-for="engine in engineArr">
+                                        <div class="left">
+                                            <div class="img">
+                                                <img :src="engine.img">
+                                            </div>
+                                            <div>
+                                                <p>{{engine.text1}}</p>
+                                                <p>{{engine.text2}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="right">
+                                            <ul>
+                                                <li  v-for="child in engine.arr">{{child.text}}</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 第三屏幕  -->
+                        <div class="banner banner-scheme">
+                            <div class="title"></div>
+                            <div class="text">
+                                三大核心能力为依托，为电商类、网服类、金融类、游戏类、工具类客户提供全面解决方案
+                            </div>
+                            <div class="banner-content">
+                                <div class="top">
+                                    <div class="left">
+                                        <img src="../assets/home/scheme-1.png">
+                                    </div>
+                                    <div class="right">
+                                        <img src="../assets/home/scheme-2.png">
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li><span class="icon">1</span> <span>当用户通过手机进行浏览行为时采集及整理其数据; </span></li>
+                                    <li><span class="icon">2</span> <span>依托智橙三大核心能力精准定向、智能推荐、信息流流量;</span></li>
+                                    <li><span class="icon">3</span> <span>当满足投放条件的用户再次产生手机浏览行为  触达投放 。 </span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 成功方案  -->
+                        <div class="banner banner-case">
+                            <div class="title"></div>
+                            <div class="text">
+                                <span v-for="case1 in success_title">{{case1.name}}</span>
+                            </div>
+                            <div class="banner-content">
+
+                                <div class="top">
+                                    <div class="left">
+                                        <div class="top_title">
+                                            <span>icon:</span>
+                                            <span>uc浏览器</span>
+                                        </div>
+                                        <!-- 这边的背景建议单独给一个div -->
+                                        <div class="top_bg"></div>
+                                    </div>
+                                    <div class="right"></div>
+                                </div>
+
+                                <div class="bottom">
+                                    <img src="../assets/home/uc-light.png">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 媒体资源  -->
+                        <div class="banner banner-media">
+                            <div class="title"></div>
+                            <div class="banner-content">
+
+                            </div>
+                        </div>
+
+                    </div>
+
 
                 </div>
-                <div class="text"></div>
-                <div class="banner-content">
-                </div>
             </div>
+
 
 
 
         </div>
-        <div class="login">
+
+
+
+
+
+        <div class="login" ref="login">
             <button>登陆平台</button>
             <button>注册账号</button>
         </div>
-        <div class="slipping">
+        <div class="slipping" ref="slipping">
             <!-- 这边要用相对路径-->
             <img src="../assets/home/slipping.png" />
         </div>
@@ -52,6 +158,7 @@
                 /* 第一屏的背景图片的宽高 */
                 topHeight: '',
                 topWidth: '',
+                /* 第一屏 */
                 bannerTopArr : [
                     {
                         'img': 'img/yidongzhongduan.png',
@@ -78,29 +185,271 @@
                         'num': '智能推荐',
                         'text': '投放策略'
                     }
+                ],
+                /* 第er 屏 */
+                engineArr: [
+                    {
+                        img:'img/engine-1.png',
+                        text1: '智能',
+                        text2: '投放策略',
+                        arr: [
+                            {
+                                text: '模型、算法、分析'
+                            },
+                            {
+                                text:'归因、服务、策略'
+                            }
+
+                        ]
+                    },
+                    {
+                        'img':'img/engine-2.png',
+                        text1: '智能',
+                        text2: '广告创意',
+                        arr: [
+                            {
+                                text: '内容洞察  素材洞察'
+                            },
+                            {
+                                text:'内容管理系统'
+                            },
+                            {
+                                text:'广告素材  动态落地页'
+                            }
+
+                        ]
+                    },
+                    {
+                        'img':'img/engine-3.png',
+                        text1: '智能',
+                        text2: '决策分析',
+                        arr: [
+                            {
+                                text: '媒介策略  人群洞察  产品洞察'
+                            },
+                            {
+                                text:'DMP大数据平台'
+                            },
+                            {
+                                text:'第一方数据  第三方数据'
+                            }
+
+                        ]
+                    }
+                ],
+                /* 成功方案 */
+                success_title: [
+                    {
+                        'name': '工具类'
+                    },
+                    {
+                        'name': '游戏类'
+                    },
+                    {
+                        'name': '网服类'
+                    },
+                    {
+                        'name': '电商类'
+                    },
+                    {
+                        'name': '金融类'
+                    },
+
+                ],
+                success_program : [
+                    [
+                        {
+                            'name': 'UC浏览器',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_uc.png',
+                            'bg': 'http://img.zcdsp.com/common/1f809a7a9ac7e8f2a0c6ab1e9466a32b.jpg',
+                            'type': 'tool0',
+                            'index': '0',
+                            'text': {
+                                'type': '案例类型：工具类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.56 元',
+                                'act': '激活成本：5 元',
+                                'cpr':'点击率：8.00%'
+                            }
+                        },
+                        {
+                            'name': '快手',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_kuai.png',
+                            'bg': 'http://img.zcdsp.com/common/9ddefeff524898acd2a6992df9a0ee0c.jpg',
+                            'type': 'tool1',
+                            'index': '1',
+                            'text': {
+                                'type': '案例类型：工具类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPA成本：<5元',
+                                'act':'日均新增用户：500+'
+                            }
+                        }
+                    ],
+                    [
+                        {
+                            'name': '魔域',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_moyu.png',
+                            'bg': 'http://img.zcdsp.com/common/fdea634cdac8fa30ce468cf34b590829.jpg',
+                            'type': 'game0',
+                            'index': '0',
+                            'text': {
+                                'type': '案例类型：游戏类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.48元',
+                                'act':'激活成本：39元',
+                                'cpr':'点击率：1.76%'
+                            }
+                        }
+                    ],
+                    [
+                        {
+                            'name': '饿了么',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_e.png',
+                            'bg': 'http://img.zcdsp.com/common/af7d5d135a5f7f70f7123214686066bb.jpg',
+                            'type': 'network0',
+                            'index': '0',
+                            'text': {
+                                'target': '营销目标：通过智橙平台精准广告推送，高效传递品牌信息，有效提升精准度和转化效果，为品牌带来更多有效用户。',
+                                'type': '案例类型：网服类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.38元',
+                                'act':'激活成本：6元',
+                                'cpr':'点击率：3.4%'
+                            }
+                        },
+                        {
+                            'name': '每日优鲜',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_xian.png',
+                            'bg': 'http://img.zcdsp.com/common/eb3de8e877a9119e92b7ec9d2b131e13.jpg',
+                            'type': 'network1',
+                            'index': '1',
+                            'text': {
+                                'type': '案例类型：网服类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.50元',
+                                'act':'激活成本：6元',
+                                'cpr':'点击率：2.50%'
+                            }
+                        }
+                    ],
+                    [
+                        {
+                            'name': '拼多多',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_ping.png',
+                            'bg': 'http://img.zcdsp.com/common/8a978bbc9e41d2b897c4c7982aa1b50d.jpg',
+                            'type':'electric0',
+                            'index': '0',
+                            'text': {
+                                'type': '案例类型：电商类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.28元',
+                                'act':'激活成本：5元',
+                                'cpr':'点击率：3.52%'
+                            }
+                        },
+                        {
+                            'name': '网易考拉',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_bear.png',
+                            'bg': 'http://img.zcdsp.com/common/43f3410b2a17eedd8d6201ed059047d9.jpg',
+                            'type':'electric1',
+                            'index': '1',
+                            'text': {
+                                'type': '案例类型：电商类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.30元',
+                                'act':'激活成本：15元',
+                            }
+                        }
+                    ],
+                    [
+                        {
+                            'name': '拍拍贷',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_pai.png',
+                            'bg': 'http://img.zcdsp.com/common/d57540d58befc5c680f82f3717734a25.jpg',
+                            'type':'money0',
+                            'index': '0',
+                            'text': {
+                                'type': '案例类型：金融类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc': 'CPC成本：0.40元',
+                                'act':'点击率：2.50%',
+                            }
+                        },
+                        {
+                            'name': '你我贷',
+                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_dai.png',
+                            'bg': 'http://img.zcdsp.com/common/4899ea625a7a279f6d5f8d8bedb25581.jpg',
+                            'type':'money1',
+                            'index': '1',
+                            'text': {
+                                'type': '案例类型：金融类',
+                                'platform': '投放平台：智橙移动端',
+                                'cpc':' CPC成本：0.30-0.50元',
+                                'act':'激活成本：10-12元',
+                                'cpr':'点击率：3.00%-5.00%',
+                            }
+                        }
+                    ],
                 ]
             }
         },
         mounted(){
-            console.log( this.$refs.containerFull);
-            this.$refs.containerFull.addEventListener('scroll', (event)=>{
+            /* swiper */
+            console.log(this.$refs.containerFull)
 
+            let that = this;
+
+
+            var mySwiper = new Swiper('.swiper-container', {
+                direction: 'vertical', // 垂直切换选项
+                loop: false, // 循环模式选项
+
+                // 如果需要分页器
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+
+                // 如果需要前进后退按钮
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+
+                // 如果需要滚动条
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                },
+                on: {
+                    slideChangeTransitionStart: function() {
+                        // 这边 event没有这个参数 。所以用that了
+                        if (this.activeIndex === 1) {
+                            // that.$refs.containerFull.style.overflow = 'auto';
+                            that.$refs.swiper.style.overflow = 'auto';
+                            that.$refs.slipping.style.opacity = '0';
+                            that.$refs.login.style.opacity = '0';
+                        } else {
+                            that.$refs.swiper.style.overflow = 'hidden';
+                        }
+                    },
+                },
             })
+
 
             /* width58vh  height 55vh top 61vh   innerHeight  */
             let height = window.document.body.offsetHeight;
             let width = window.document.body.offsetWidth;
-            this.topHeight = (58 * 667 / height) + 'vh';
-            this.topWidth  = (55 * 375 / width) + 'vh';
+            this.topHeight = (58 * height / 667) + 'vh';
+            this.topWidth  = (55 * width / 375) + 'vh';
 
-            this.$refs.bannerTop.style.backgroundSize = `${this.topWidth}, ${this.topHeight}`
+            this.$refs.bannerTop.style.backgroundSize = `${this.topWidth},${this.topHeight}`
 
             window.addEventListener('resize', (event)=>{
                 height = event.target.innerHeight;
                 width = event.target.innerWidth;
                 // 这边按照6的尺寸来
-                this.topHeight = (58 * 667 / height) + 'vh';
-                this.topWidth  = (55 * 375 / width) + 'vh';
+                this.topHeight = (58 * height / 667) + 'vh';
+                this.topWidth  = (55 * width / 375) + 'vh';
                 console.log(this.topHeight)
                 console.log(this.$refs.bannerTop)
                 this.$refs.bannerTop.style.backgroundSize = `${this.topWidth},${this.topHeight}`
@@ -122,6 +471,7 @@
         background-color: #08061a;
     }
     .containerFull {
+        overflow: hidden;
         position: absolute;
         top:0;
         bottom:0;
@@ -129,12 +479,17 @@
         right:0;
         margin-top: 0.64rem;
         color: white;
+        .swiper-container {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
         .banner {
             width: 100%;
-            height:100%;
             /* 处理margin-top有问题 */
             padding-top:0.01rem;
             &.banner-top{
+                height:100%;
                 background: url('../assets/home/first-screen_02.png') no-repeat;
                /* <!--background-size: @topWidth @topHeight;-->*/
                 img {
@@ -165,7 +520,197 @@
                 }
             }
             &.banner-engine {
-              background-color: #161734;
+                padding-bottom: 1rem;
+                background-color: #161734;
+                .title {
+                    margin-top: 1rem;
+                    background: url('../assets/home/engine.png') no-repeat center center;
+                    width: 100%;
+                    height: 1rem;
+                    /* 这块的背景图貌似不太清晰 */
+                    background-size: 5.44rem 0.74rem;
+                }
+                .text {
+                    padding:0.09rem;
+                    font-size: 0.16rem;
+                    text-indent: 0.6rem;
+                    margin-top: 0.3rem;
+                }
+                .banner-content {
+                   > ul {
+                        > li {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 0.8rem;
+                            line-height: 0.5rem;
+                            .left {
+                                font-size: 0.2rem;
+                                margin-left:0.4rem;
+                                text-align: center;
+                                width: 2.98rem;
+                                height:1.46rem;
+                                background-color: #0f1d47;
+                                display:table;
+                                >.img {
+                                    display:table-cell;
+                                    vertical-align: middle;
+                                    width:0.69rem;
+                                    height:0.66rem;
+                                    img {
+                                        width:100%;
+                                        height:100%;
+                                    }
+                                }
+                                div {
+                                    vertical-align: middle;
+                                    display:table-cell;
+                                }
+                            }
+                            .right {
+                                font-size:0.16rem;
+                                width:3.10rem;
+                                height:1.10rem;
+                                > ul {
+                                    li {
+                                        list-style: circle outside url('../assets/home/engine-4.png')
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            &.banner-scheme {
+                padding-bottom: 1rem;
+                color: black;
+                background-color: #e7effe;
+                .title {
+                    margin-top: 1rem;
+                    background: url('../assets/home/scheme.png') no-repeat center center;
+                    width: 100%;
+                    height: 1rem;
+                    /* 这块的背景图貌似不太清晰 */
+                    background-size: 5.44rem 0.74rem;
+                }
+                .text {
+                    padding:0.09rem;
+                    font-size: 0.16rem;
+                    text-indent: 0.6rem;
+                    margin-top: 0.3rem;
+                }
+                .banner-content {
+                    margin-top: 0.6rem;
+                   .top {
+                       display: flex;
+                       justify-content: space-around;
+                       .left {
+                           img {
+                               width: 2.47rem;
+                               height: 4.67rem;
+                           }
+                       }
+                       .right {
+                           width: 2.47rem;
+                           height: 4.67rem;
+                       }
+                   }
+                    ul {
+                        margin-top: 0.8rem;
+                        li {
+                            font-size: 0.19rem;
+                            line-height: 0.54rem;
+                            margin-left:0.5rem;
+                            .icon {
+                                display: inline-block;
+                                width:0.26rem;
+                                text-align: center;
+                                height:0.26rem;
+                                line-height: 0.26rem;
+                                border-radius: 50%;
+                                background-color: #128bf8;
+                                margin-right: 0.2rem;
+                            }
+                            span {
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+
+            }
+            &.banner-case {
+                padding: 1rem 0.4rem;
+                color: white;
+                background-color: #161734;
+                .title {
+                    background: url('../assets/home/case.png') no-repeat center center;
+                    width: 100%;
+                    height: 1rem;
+                    /* 这块的背景图貌似不太清晰 */
+                    background-size: 5.44rem 0.74rem;
+                }
+                .text {
+                    text-align: center;
+                    margin-top: 0.28rem;
+                    font-size: 0.16rem;
+                    span {
+                        border: 1px solid #3f4051;
+                        display: inline-block;
+                        width:1.06rem;
+                        height:0.39rem;
+                        margin-right:0.23rem;
+                    }
+                }
+                .banner-content {
+                    margin-top: 0.55rem;
+                    .top {
+                        .left {
+                            vertical-align: bottom;
+                             display: inline-block;
+                            .top_title {
+                                height: 0.9rem;
+                            }
+                            .top_bg {
+                                background: url('../assets/home/case-bg.png') no-repeat center center;
+                                width: 4.19rem;
+                                height: 3.84rem;
+                                background-size: 4.19rem 3.84rem;
+                            }
+                        }
+                        .right {
+                            margin-left:-0.3rem;
+                            display: inline-block;
+                            background: url('../assets/home/case-iphone.png') no-repeat center center;
+                            width: 2.49rem;
+                            height: 4.74rem;
+                            background-size: 2.49rem  4.74rem;
+                        }
+                    }
+                    .bottom {
+                        margin-top: 0.5rem;
+                        img {
+                            width: 0.44rem;
+                            height:0.44rem;
+                        }
+                    }
+                }
+
+            }
+            &.banner-media{
+                padding: 1rem 0.4rem;
+                color: black;
+                background-color: #e7effe;
+                .title {
+                    background: url('../assets/home/media.png') no-repeat center center;
+                    width: 100%;
+                    height: 1rem;
+                    background-size: 5.44rem 0.74rem;
+                }
+                .banner-content {
+
+                }
+
             }
 
         }
