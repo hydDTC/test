@@ -130,33 +130,48 @@
                         <!-- 联系我们  -->
                         <div class="banner banner-link">
                             <div class="title"></div>
-                            <div class="text"></div>
+                            <div class="text">
+                                请留下您的联系方式，我们的广告顾问将尽快与您取得联系，免费咨询……
+                            </div>
                             <div class="banner-content">
                                 <div class="form">
                                     <div class="connect">
-                                        <input v-model="userName" placeholder="企业名称(必填)" type="text">
-                                        <i class="zcdsp-icon">&#xe66a;</i>
+                                        <input v-model="form.company_name" placeholder="企业名称(必填)" type="text">
+                                        <img src="../assets/home/company-icon.png" />
                                     </div>
 
                                     <div class="connect">
-                                        <input v-model="userName" type="customer_name" placeholder="姓名(必填)">
-                                        <i class="zcdsp-icon">&#xe66a;</i>
+                                        <input v-model="form.userName" type="customer_name" placeholder="姓名(必填)">
+                                        <img src="../assets/home/name-icon.png" />
                                     </div>
 
                                     <div class="connect">
-                                        <input v-model="phone" type="text" placeholder="以1开头的11位手机号码(必填)">
-                                        <i class="zcdsp-icon">&#xe66a;</i>
+                                        <input v-model="form.phone" type="text" placeholder="以1开头的11位手机号码(必填)">
+                                        <img src="../assets/home/phone-icon.png" />
                                     </div>
                                     <button>预约顾客咨询</button>
                                 </div>
 
                                 <div class="center">
                                     <div class="left">
-                                        <img src="">
+                                        <img src="../assets/home/code.png">
                                     </div>
-                                    <div class="right"></div>
+                                    <div class="right">
+                                        <p><img src="../assets/home/phone.png">  <span>400-670-9927</span></p>
+                                        <p>周一至周五 9:00-18:00 (节假日除外)</p>
+                                    </div>
                                 </div>
+
+                                <button class="zhanghu">自动开通广告账户</button>
                             </div>
+                        </div>
+
+                        <!-- footer -->
+
+                        <div class="footer">
+                            <p>Copyright (C) 2015~ 2019<a href="/">zcmobi.com</a>All Rights Reserved. </p>
+                            <p>沪ICP备09044414号</p>
+                            <!--Copyright (C) 2015~ {{year}}   <a href="/">{{domain}}</a>   All Rights Reserved. 沪ICP备09044414号-->
                         </div>
 
                     </div>
@@ -427,7 +442,13 @@
                     ],
                 ],
                 /* 媒体资源 */
-                mediaArr: []
+                mediaArr: [],
+                form: {
+                    company_name:'',
+                    userName:'',
+                    phone: ''
+
+                }
             }
         },
         created() {
@@ -445,6 +466,7 @@
             var mySwiper = new Swiper('.swiper-container', {
                 direction: 'vertical', // 垂直切换选项
                 loop: false, // 循环模式选项
+                autoHeight: true, //高度随内容变化
 
                 // 如果需要分页器
                 pagination: {
@@ -471,6 +493,7 @@
                             that.$refs.login.style.opacity = '0';
                         } else {
                             that.$refs.swiper.style.overflow = 'hidden';
+                            // that.$refs.containerFull.style.overflow = 'hidden';
                         }
                     },
                 },
@@ -486,14 +509,7 @@
             this.$refs.bannerTop.style.backgroundSize = `${this.topWidth},${this.topHeight}`
 
             window.addEventListener('resize', (event)=>{
-                height = event.target.innerHeight;
-                width = event.target.innerWidth;
-                // 这边按照6的尺寸来
-                this.topHeight = (58 * height / 667) + 'vh';
-                this.topWidth  = (55 * width / 375) + 'vh';
-                console.log(this.topHeight)
-                console.log(this.$refs.bannerTop)
-                this.$refs.bannerTop.style.backgroundSize = `${this.topWidth},${this.topHeight}`
+
             })
         }
     }
@@ -512,7 +528,7 @@
         background-color: #08061a;
     }
     .containerFull {
-        overflow: hidden;
+        overflow: auto;
         position: absolute;
         top:0;
         bottom:0;
@@ -521,9 +537,12 @@
         margin-top: 0.64rem;
         color: white;
         .swiper-container {
-            overflow: hidden;
+            overflow: hidden    ;
             width: 100%;
             height: 100%;
+            #two {
+                height: auto;
+            }
         }
         .banner {
             width: 100%;
@@ -531,8 +550,7 @@
             padding-top:0.01rem;
             &.banner-top{
                 height:100%;
-                background: url('../assets/home/first-screen_02.png') no-repeat;
-               /* <!--background-size: @topWidth @topHeight;-->*/
+                background: url('../assets/home/first-screen_02.png') no-repeat top center;
                 img {
                     width: 7.50rem;
                     height: 50vh;
@@ -569,7 +587,6 @@
                     width: 100%;
                     height: 1rem;
                     /* 这块的背景图貌似不太清晰 */
-                    background-size: 5.44rem 0.74rem;
                 }
                 .text {
                     padding:0.09rem;
@@ -632,7 +649,6 @@
                     width: 100%;
                     height: 1rem;
                     /* 这块的背景图貌似不太清晰 */
-                    background-size: 5.44rem 0.74rem;
                 }
                 .text {
                     padding:0.09rem;
@@ -689,7 +705,6 @@
                     width: 100%;
                     height: 1rem;
                     /* 这块的背景图貌似不太清晰 */
-                    background-size: 5.44rem 0.74rem;
                 }
                 .text {
                     text-align: center;
@@ -746,7 +761,6 @@
                     background: url('../assets/home/media.png') no-repeat center center;
                     width: 100%;
                     height: 1rem;
-                    background-size: 5.44rem 0.74rem;
                 }
                 .banner-content {
                     margin-top: 0.42rem;
@@ -763,7 +777,94 @@
                 }
 
             }
+            &.banner-link{
+                padding: 1rem 0.4rem;
+                color: white;
+                background-color: #0a0c2b;
+                .title {
+                    background: url('../assets/home/link.png') no-repeat center center;
+                    width: 100%;
+                    height: 1rem;
+                    /*background-size: 5.44rem 0.74rem;*/
+                }
+                .text {
+                    font-size: 0.16rem;
+                    color: white;
+                    margin-top: 0.3rem;
+                }
+                .banner-content {
+                    margin-top: 0.42rem;
+                   .form {
+                       .connect {
+                           position:relative;
+                           width:92%;
+                           margin-left: 0.2rem;
+                           margin-top: 0.32rem;
+                           input {
+                               text-indent: 0.5rem;
+                               width:100%;
+                               height: 0.4rem;
+                           }
+                           img {
+                               width:0.17rem;
+                               height:0.18rem;
+                               position: absolute;
+                               left: 0.1rem;
+                               top: 0.1rem;
+                           }
+                       }
 
+                   }
+                    .center {
+                        text-align: center;
+                        margin: 0.5rem auto;
+                        display: table;
+                        .left {
+                            padding-right: 0.5rem;
+                            vertical-align: middle;
+                            display: table-cell;
+                            img {
+                                width: 1rem;
+                                height: 1rem;
+                            }
+                        }
+                        .right {
+                            text-align: left;
+                            display: table-cell;
+                            vertical-align: bottom;
+                            line-height: 0.5rem;
+                            img {
+                                width:0.34rem;
+                                height: 0.35rem;
+                                vertical-align: middle;
+                                margin-right: 0.1rem;
+                            }
+
+                        }
+                    }
+                    button {
+                        background: transparent;
+                        width:92%;
+                        font-size: 0.18rem;
+                        height: 0.45rem;
+                        margin-left: 0.2rem;
+                        margin-top: 0.37rem;
+                        border: 2px solid #9d9eaa;
+                        color: white;
+                        &.zhanghu {
+                            background-color: #0371d7;
+                            border: none;
+                        }
+                    }
+                }
+
+            }
+        }
+        .footer {
+            background-color: #06081f;
+            height: 0.35rem;
+            font-size: 0.12rem;
+            text-align: center;
         }
     }
 
