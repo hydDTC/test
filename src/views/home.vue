@@ -121,7 +121,41 @@
                         <div class="banner banner-media">
                             <div class="title"></div>
                             <div class="banner-content">
+                                <div v-for="media in mediaArr">
+                                    <img :src="media.img" />
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- 联系我们  -->
+                        <div class="banner banner-link">
+                            <div class="title"></div>
+                            <div class="text"></div>
+                            <div class="banner-content">
+                                <div class="form">
+                                    <div class="connect">
+                                        <input v-model="userName" placeholder="企业名称(必填)" type="text">
+                                        <i class="zcdsp-icon">&#xe66a;</i>
+                                    </div>
+
+                                    <div class="connect">
+                                        <input v-model="userName" type="customer_name" placeholder="姓名(必填)">
+                                        <i class="zcdsp-icon">&#xe66a;</i>
+                                    </div>
+
+                                    <div class="connect">
+                                        <input v-model="phone" type="text" placeholder="以1开头的11位手机号码(必填)">
+                                        <i class="zcdsp-icon">&#xe66a;</i>
+                                    </div>
+                                    <button>预约顾客咨询</button>
+                                </div>
+
+                                <div class="center">
+                                    <div class="left">
+                                        <img src="">
+                                    </div>
+                                    <div class="right"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -391,7 +425,14 @@
                             }
                         }
                     ],
-                ]
+                ],
+                /* 媒体资源 */
+                mediaArr: []
+            }
+        },
+        created() {
+            for (let i = 0; i < 24; i ++) {
+                this.mediaArr.push( {'img': `img/2-${1+i}.png`})
             }
         },
         mounted(){
@@ -708,7 +749,17 @@
                     background-size: 5.44rem 0.74rem;
                 }
                 .banner-content {
-
+                    margin-top: 0.42rem;
+                    text-align: center;
+                    line-height: 0.5rem;
+                    > div {
+                        margin-left: 0.2rem;
+                        display: inline-block;
+                        img {
+                            width: 1.44rem;
+                            height: 0.6rem;
+                        }
+                    }
                 }
 
             }
