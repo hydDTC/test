@@ -81,6 +81,7 @@ body {
     display: block;
     overflow-x: hidden;
     overflow-y: scroll;
+    /* 谷歌*/
     -webkit-overflow-scrolling: touch;
     will-change: scroll-position;
     contain: size style layout;

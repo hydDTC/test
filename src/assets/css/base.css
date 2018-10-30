@@ -14,6 +14,7 @@
 
 html, body {
     height:100%;
+    /*transform: scale(0.8);*/
 }
 audio,
 canvas,
@@ -200,4 +201,18 @@ template {
 :focus,
 :active {
     outline: none;
+}
+
+
+/* 官网的 这个写在style里面没有效果  */
+@media screen and (max-aspect-ratio: 3/4){
+    .banner-content {
+        margin-top:10vh !important;
+    }
+
+}
+@media screen and (min-aspect-ratio: 9/16){
+    .banner-content {
+        margin-top:5vh !important;
+    }
 }

@@ -1,5 +1,6 @@
 <template>
     <div class="container-main">
+        <div class="scroll-content">
         <div class="header">
             <div class="left">
                 <img src="../assets/home/quick-menu.png" />
@@ -11,17 +12,12 @@
         </div>
 
 
-
-
         <div class="containerFull" ref="containerFull">
 
-            <div class="swiper-container" ref="swiper">
-                <div class="swiper-wrapper">
-                    <!-- 第一屏 -->
-                    <div class="swiper-slide" id="one">
-
+                        <!--首屏-->
                         <div class="banner banner-top" ref="bannerTop">
                             <!--<img src="../assets/home/first-screen_02.png">-->
+                            <div class="title"></div>
                             <div class="banner-content" ref="bannerMargin">
                                 <ul>
                                     <li v-for="arr in bannerTopArr">
@@ -33,11 +29,7 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="swiper-slide" id="two">
-
-                        <!-- 第二屏幕  -->
+                        <!-- 决策引擎  -->
                         <div class="banner banner-engine">
                             <div class="title"></div>
                             <div class="text">
@@ -58,9 +50,9 @@
                                             </div>
                                         </div>
                                         <div class="right">
-                                            <ul>
-                                                <li  v-for="child in engine.arr">{{child.text}}</li>
-                                            </ul>
+                                            <div v-for="child in engine.arr">
+                                                <img class="icon" src="../assets/home/engine-4.png"><span>{{child.text}}</span>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
@@ -167,27 +159,14 @@
                         </div>
 
                         <!-- footer -->
-
                         <div class="footer">
                             <p>Copyright (C) 2015~ 2019<a href="/">zcmobi.com</a>All Rights Reserved. </p>
                             <p>沪ICP备09044414号</p>
                             <!--Copyright (C) 2015~ {{year}}   <a href="/">{{domain}}</a>   All Rights Reserved. 沪ICP备09044414号-->
                         </div>
 
-                    </div>
-
-
-                </div>
-            </div>
-
-
-
 
         </div>
-
-
-
-
 
         <div class="login" ref="login">
             <button>登陆平台</button>
@@ -197,6 +176,7 @@
             <!-- 这边要用相对路径-->
             <img src="../assets/home/slipping.png" />
         </div>
+    </div>
     </div>
 </template>
 
@@ -448,7 +428,15 @@
                     userName:'',
                     phone: ''
 
-                }
+                },
+                /*   */
+                startx:'',
+                starty:'',
+                endx:'',
+                endy:'',
+                nx:'',
+                ny:'',
+                angle:''
             }
         },
         created() {
@@ -457,58 +445,53 @@
             }
         },
         mounted(){
-            /* swiper */
-            console.log(this.$refs.containerFull)
+            this.$refs.containerFull.addEventListener('touchstart', (event)=>{
+                console.log('touchstart')
+                console.log(event)
+                var touch = event.touches[0];
+                this.startx = Math.floor(touch.pageX);
+                this.starty = Math.floor(touch.pageY);
+                // if (event.target.scrollTop > 0 && event.target.scrollTop< 700) {
+                //         console.log('超过啦')
+                //         this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
+                //     }
+            })
+            this.$refs.containerFull.addEventListener('touchmove', (event)=>{
+                console.log('touchmove')
+                console.log(event)
 
-            let that = this;
-
-
-            var mySwiper = new Swiper('.swiper-container', {
-                direction: 'vertical', // 垂直切换选项
-                loop: false, // 循环模式选项
-                autoHeight: true, //高度随内容变化
-
-                // 如果需要分页器
-                pagination: {
-                    el: '.swiper-pagination',
-                },
-
-                // 如果需要前进后退按钮
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-
-                // 如果需要滚动条
-                scrollbar: {
-                    el: '.swiper-scrollbar',
-                },
-                on: {
-                    slideChangeTransitionStart: function() {
-                        // 这边 event没有这个参数 。所以用that了
-                        if (this.activeIndex === 1) {
-                            // that.$refs.containerFull.style.overflow = 'auto';
-                            that.$refs.swiper.style.overflow = 'auto';
-                            that.$refs.slipping.style.opacity = '0';
-                            that.$refs.login.style.opacity = '0';
-                        } else {
-                            that.$refs.swiper.style.overflow = 'hidden';
-                            // that.$refs.containerFull.style.overflow = 'hidden';
-                        }
-                    },
-                },
             })
 
+            this.$refs.containerFull.addEventListener('touchend', (event)=>{
+                console.log('touchend')
+                console.log(event)
+                //获取最后的坐标位置
+                this.endx = Math.floor(event.changedTouches[0].pageX);
+                this.endy = Math.floor(event.changedTouches[0].pageY);
+                console.log('结束');
 
-            /* width58vh  height 55vh top 61vh   innerHeight  */
-            let height = window.document.body.offsetHeight;
-            let width = window.document.body.offsetWidth;
-            this.topHeight = (58 * height / 667) + 'vh';
-            this.topWidth  = (55 * width / 375) + 'vh';
+                //获取开始位置和离开位置的距离
+                this.nx = this.endx-this.startx;
+                this.ny = this.endy-this.starty;
 
-            this.$refs.bannerTop.style.backgroundSize = `${this.topWidth},${this.topHeight}`
+                console.log(this.nx)
+                console.log(this.ny)
 
-            window.addEventListener('resize', (event)=>{
+                //通过坐标计算角度公式 Math.atan2(y,x)*180/Math.PI
+                this.angle = Math.atan2(this.ny, this.nx) * 180 / Math.PI;
+                if(Math.abs(this.nx) <= 1 ||Math.abs(this.ny) <= 1){
+                    console.log('滑动距离太小');
+                    return false;
+                }
+                //通过滑动的角度判断触摸的方向
+                if(this.angle <= -45 && this.angle >= -135){
+                    alert('上滑动');
+                    return false;
+                }else if(this.angle < 135 && this.angle >= 45){
+                    alert('下滑动');
+                    return false;
+                }
+
 
             })
         }
@@ -527,7 +510,11 @@
         right:0;
         background-color: #08061a;
     }
+    .scroll-content {
+        background-color: #08061a;
+    }
     .containerFull {
+        /*transition: all 1s;*/
         overflow: auto;
         position: absolute;
         top:0;
@@ -536,27 +523,20 @@
         right:0;
         margin-top: 0.64rem;
         color: white;
-        .swiper-container {
-            overflow: hidden    ;
-            width: 100%;
-            height: 100%;
-            #two {
-                height: auto;
-            }
-        }
         .banner {
             width: 100%;
             /* 处理margin-top有问题 */
             padding-top:0.01rem;
             &.banner-top{
                 height:100%;
-                background: url('../assets/home/first-screen_02.png') no-repeat top center;
-                img {
-                    width: 7.50rem;
-                    height: 50vh;
+                .title {
+                    height: 53vh;
+                    background: url('../assets/home/first-screen_02.png') no-repeat top center;
+                    /*background-size: contain; 要写再下方哦  auto是不会让图片变形 会自动调整*/
+                    background-size: auto 100%;
                 }
                 .banner-content {
-                    margin-top: 60vh;
+                    margin-top: 10vh;
                     ul {
                         text-align: center;
                         li {
@@ -584,26 +564,30 @@
                 .title {
                     margin-top: 1rem;
                     background: url('../assets/home/engine.png') no-repeat center center;
-                    width: 100%;
-                    height: 1rem;
+                    background-size: auto 100%;
+                    height: 0.48rem;
                     /* 这块的背景图貌似不太清晰 */
                 }
                 .text {
+                    /*transform: scale(0.95);*/
                     padding:0.09rem;
                     font-size: 0.16rem;
                     text-indent: 0.6rem;
                     margin-top: 0.3rem;
                 }
                 .banner-content {
+                    padding: 0 0.4rem;
                    > ul {
+                       margin-left:0.3rem;
                         > li {
+                            align-items: center;
                             display: flex;
                             justify-content: space-between;
                             margin-top: 0.8rem;
                             line-height: 0.5rem;
                             .left {
+                                margin-right:0.3rem;
                                 font-size: 0.2rem;
-                                margin-left:0.4rem;
                                 text-align: center;
                                 width: 2.98rem;
                                 height:1.46rem;
@@ -626,13 +610,24 @@
                             }
                             .right {
                                 font-size:0.16rem;
-                                width:3.10rem;
+                                width:3.4rem;
                                 height:1.10rem;
-                                > ul {
-                                    li {
-                                        list-style: circle outside url('../assets/home/engine-4.png')
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+
+                                div {
+                                    .icon {
+                                        margin-right:0.24rem;
+                                        width: 0.18rem;
+                                        height: 0.18rem;
                                     }
                                 }
+                                /*> ul {*/
+                                    /*li {*/
+                                        /*list-style: circle outside url('../assets/home/engine-4.png')*/
+                                    /*}*/
+                                /*}*/
                             }
                         }
                     }
@@ -646,8 +641,8 @@
                 .title {
                     margin-top: 1rem;
                     background: url('../assets/home/scheme.png') no-repeat center center;
-                    width: 100%;
-                    height: 1rem;
+                    background-size: auto 100%;
+                    height: 0.48rem;
                     /* 这块的背景图貌似不太清晰 */
                 }
                 .text {
@@ -673,6 +668,7 @@
                        }
                    }
                     ul {
+                        margin-left:0.3rem;
                         margin-top: 0.8rem;
                         li {
                             font-size: 0.19rem;
@@ -703,7 +699,8 @@
                 .title {
                     background: url('../assets/home/case.png') no-repeat center center;
                     width: 100%;
-                    height: 1rem;
+                    background-size: auto 100%;
+                    height: 0.48rem;
                     /* 这块的背景图貌似不太清晰 */
                 }
                 .text {
@@ -759,8 +756,8 @@
                 background-color: #e7effe;
                 .title {
                     background: url('../assets/home/media.png') no-repeat center center;
-                    width: 100%;
-                    height: 1rem;
+                    background-size: auto 100%;
+                    height: 0.48rem;
                 }
                 .banner-content {
                     margin-top: 0.42rem;
@@ -783,14 +780,14 @@
                 background-color: #0a0c2b;
                 .title {
                     background: url('../assets/home/link.png') no-repeat center center;
-                    width: 100%;
-                    height: 1rem;
-                    /*background-size: 5.44rem 0.74rem;*/
+                    background-size: auto 100%;
+                    height: 0.48rem;
                 }
                 .text {
                     font-size: 0.16rem;
                     color: white;
                     margin-top: 0.3rem;
+                    text-indent: 0.6rem;
                 }
                 .banner-content {
                     margin-top: 0.42rem;
@@ -803,14 +800,14 @@
                            input {
                                text-indent: 0.5rem;
                                width:100%;
-                               height: 0.4rem;
+                               height: 0.6rem;
                            }
                            img {
-                               width:0.17rem;
-                               height:0.18rem;
+                               width:0.27rem;
+                               height:0.28rem;
                                position: absolute;
                                left: 0.1rem;
-                               top: 0.1rem;
+                               top: 0.15rem;
                            }
                        }
 
@@ -846,7 +843,7 @@
                         background: transparent;
                         width:92%;
                         font-size: 0.18rem;
-                        height: 0.45rem;
+                        height: 0.65rem;
                         margin-left: 0.2rem;
                         margin-top: 0.37rem;
                         border: 2px solid #9d9eaa;
@@ -935,19 +932,6 @@
     }
 
 
-    /*!*ipad*!*/
-    /*@media screen and(min-width: 768px) {*/
-        /*.banner-content {*/
-            /*margin-top: 65vh !important;*/
-        /*}*/
-    /*}*/
-    /*!*iphonex*!*/
-    /*@media all and(min-height: 812px) and (max-height: 812px) {*/
-        /*.banner-content {*/
-            /*margin-top: 55vh !important;*/
-        /*}*/
-    /*}*/
-    /*ihone5*/
     @media screen and(max-width: 320px) {
         .banner-content {
             ul  li {
@@ -956,6 +940,8 @@
             }
         }
     }
+
+
 
 
 </style>
