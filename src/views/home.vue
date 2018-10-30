@@ -436,7 +436,8 @@
                 endy:'',
                 nx:'',
                 ny:'',
-                angle:''
+                angle:'',
+                startTime:'',
             }
         },
         created() {
@@ -445,51 +446,70 @@
             }
         },
         mounted(){
+
+            this.$refs.containerFull.addEventListener('scroll', (event)=>{
+                 console.log('lalala')
+            })
+
+
             this.$refs.containerFull.addEventListener('touchstart', (event)=>{
-                console.log('touchstart')
-                console.log(event)
-                var touch = event.touches[0];
+                // console.log('touchstart')
+                // console.log(event)
+                this.startTime = new Date().getTime();
+                let touch = event.touches[0];
                 this.startx = Math.floor(touch.pageX);
                 this.starty = Math.floor(touch.pageY);
-                // if (event.target.scrollTop > 0 && event.target.scrollTop< 700) {
-                //         console.log('超过啦')
-                //         this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
-                //     }
+                // if (this.starty < this.$refs.bannerTop.offsetHeight) {
+                //     // console.log('kkk')
+                //     event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
+                // }
+             
             })
             this.$refs.containerFull.addEventListener('touchmove', (event)=>{
-                console.log('touchmove')
-                console.log(event)
+               
 
             })
 
             this.$refs.containerFull.addEventListener('touchend', (event)=>{
-                console.log('touchend')
-                console.log(event)
+           
                 //获取最后的坐标位置
                 this.endx = Math.floor(event.changedTouches[0].pageX);
                 this.endy = Math.floor(event.changedTouches[0].pageY);
-                console.log('结束');
-
                 //获取开始位置和离开位置的距离
                 this.nx = this.endx-this.startx;
                 this.ny = this.endy-this.starty;
-
-                console.log(this.nx)
-                console.log(this.ny)
-
                 //通过坐标计算角度公式 Math.atan2(y,x)*180/Math.PI
                 this.angle = Math.atan2(this.ny, this.nx) * 180 / Math.PI;
-                if(Math.abs(this.nx) <= 1 ||Math.abs(this.ny) <= 1){
-                    console.log('滑动距离太小');
+                // if(Math.abs(this.nx) <= 1 ||Math.abs(this.ny) <= 1){
+                //     console.log('滑动距离太小');
+                //     return false;
+                // }
+                // 这边就是垂直滑动
+                if(Math.abs(this.ny) <= 20){
+                    // console.log('滑动距离太小');
+                    alert('滑动距离太小')
                     return false;
                 }
+
+
                 //通过滑动的角度判断触摸的方向
                 if(this.angle <= -45 && this.angle >= -135){
-                    alert('上滑动');
-                    return false;
+            
+                    // 说明在第一屏 这边手机端的pageX和pc段不一样哎
+                    if (this.starty < this.$refs.bannerTop.offsetHeight) {
+                        // 时间大于500ms才可以拖动
+                        if ( (new Date().getTime() - this.startTime ) > 500 )  {
+                            console.log('进来啦')
+                             this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
+                        }
+
+                    }
+                    
+                    
+                   
                 }else if(this.angle < 135 && this.angle >= 45){
-                    alert('下滑动');
-                    return false;
+                
+                    
                 }
 
 
