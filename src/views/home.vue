@@ -86,24 +86,41 @@
                         <div class="banner banner-case">
                             <div class="title"></div>
                             <div class="text">
-                                <span v-for="case1 in success_title">{{case1.name}}</span>
+                                <span v-for="case1 in success_title" @click="change_success(case1)">{{case1.name}}</span>
                             </div>
                             <div class="banner-content">
 
                                 <div class="top">
                                     <div class="left">
                                         <div class="top_title">
-                                            <span>icon:</span>
-                                            <span>uc浏览器</span>
+                                            <div :style="{'background':'url('+success_obj.icon+') 0 -0.46rem no-repeat'}" style="width:0.46rem; height: 0.46rem;display:inline-block;vertical-align: middle"></div>
+                                            <span style="vertical-align: middle; color: #fff; font-size: 0.26rem; margin-left: 0.2rem;">{{success_obj.name}}</span>
                                         </div>
                                         <!-- 这边的背景建议单独给一个div -->
-                                        <div class="top_bg"></div>
+                                        <div class="top_bg">
+                                            <ul>
+                                                <li>{{success_obj.text.type}}</li>
+                                                <li>{{success_obj.text.platform}}</li>
+                                                <li v-if="success_obj.text.cpc">{{success_obj.text.cpc}}</li>
+                                                <li v-if="success_obj.text.act">{{success_obj.text.act}}</li>
+                                                <li v-if="success_obj.text.cpr">{{success_obj.text.cpr}}</li>
+                                            </ul>
+
+                                        </div>
                                     </div>
-                                    <div class="right"></div>
+                                    <div class="right">
+
+                                        <div class="parent">
+                                            <div ref="imgParentRef" style="transition: all 1s">
+                                                <img :src="y.bg"  v-for=" y in success_arr" >
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                                 <div class="bottom">
-                                    <img src="../assets/home/uc-light.png">
+                                    <div  v-for="x in success_arr"  :style="{'background':'url('+x.icon+') 0 0 no-repeat'}"  :class="{'active': isTrueChild=== x.type}"></div>
                                 </div>
 
                             </div>
@@ -269,19 +286,39 @@
                 /* 成功方案 */
                 success_title: [
                     {
-                        'name': '工具类'
+                        'name': '工具类',
+                        'type': 'tool',
+                        'type_child': 'tool0',
+                        'arr_1': 0,
+                        'arr_2': 0
                     },
                     {
-                        'name': '游戏类'
+                        'name': '游戏类',
+                        'type': 'game',
+                        'type_child': 'game0',
+                        'arr_1': 1,
+                        'arr_2': 0
                     },
                     {
-                        'name': '网服类'
+                        'name': '网服类',
+                        'type': 'network',
+                        'type_child': 'network0',
+                        'arr_1': 2,
+                        'arr_2': 0
                     },
                     {
-                        'name': '电商类'
+                        'name': '电商类',
+                        'type': 'electric',
+                        'type_child': 'electric0',
+                        'arr_1': 3,
+                        'arr_2': 0
                     },
                     {
-                        'name': '金融类'
+                        'name': '金融类',
+                        'type': 'money',
+                        'type_child': 'money0',
+                        'arr_1': 4,
+                        'arr_2': 0
                     },
 
                 ],
@@ -289,7 +326,7 @@
                     [
                         {
                             'name': 'UC浏览器',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_uc.png',
+                            'icon': 'img/uc.png',
                             'bg': 'http://img.zcdsp.com/common/1f809a7a9ac7e8f2a0c6ab1e9466a32b.jpg',
                             'type': 'tool0',
                             'index': '0',
@@ -303,7 +340,7 @@
                         },
                         {
                             'name': '快手',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_kuai.png',
+                            'icon': 'img/kuaishou.png',
                             'bg': 'http://img.zcdsp.com/common/9ddefeff524898acd2a6992df9a0ee0c.jpg',
                             'type': 'tool1',
                             'index': '1',
@@ -318,7 +355,7 @@
                     [
                         {
                             'name': '魔域',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_moyu.png',
+                            'icon': 'img/moyu.png',
                             'bg': 'http://img.zcdsp.com/common/fdea634cdac8fa30ce468cf34b590829.jpg',
                             'type': 'game0',
                             'index': '0',
@@ -334,7 +371,7 @@
                     [
                         {
                             'name': '饿了么',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_e.png',
+                            'icon': 'img/e.png',
                             'bg': 'http://img.zcdsp.com/common/af7d5d135a5f7f70f7123214686066bb.jpg',
                             'type': 'network0',
                             'index': '0',
@@ -365,7 +402,7 @@
                     [
                         {
                             'name': '拼多多',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_ping.png',
+                            'icon': 'img/duo.png',
                             'bg': 'http://img.zcdsp.com/common/8a978bbc9e41d2b897c4c7982aa1b50d.jpg',
                             'type':'electric0',
                             'index': '0',
@@ -379,7 +416,7 @@
                         },
                         {
                             'name': '网易考拉',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_bear.png',
+                            'icon': 'img/bear.png',
                             'bg': 'http://img.zcdsp.com/common/43f3410b2a17eedd8d6201ed059047d9.jpg',
                             'type':'electric1',
                             'index': '1',
@@ -394,7 +431,7 @@
                     [
                         {
                             'name': '拍拍贷',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_pai.png',
+                            'icon': 'img/paipaidai.png',
                             'bg': 'http://img.zcdsp.com/common/d57540d58befc5c680f82f3717734a25.jpg',
                             'type':'money0',
                             'index': '0',
@@ -407,7 +444,7 @@
                         },
                         {
                             'name': '你我贷',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_dai.png',
+                            'icon': 'img/niwodai.png',
                             'bg': 'http://img.zcdsp.com/common/4899ea625a7a279f6d5f8d8bedb25581.jpg',
                             'type':'money1',
                             'index': '1',
@@ -421,6 +458,13 @@
                         }
                     ],
                 ],
+                success_obj : {},
+                success_arr : [],
+                scroll_index : 0,
+                isTrue: 'tool',
+                isTrueChild: 'tool0',
+                time:'',
+                timeFlag: true,
                 /* 媒体资源 */
                 mediaArr: [],
                 form: {
@@ -440,11 +484,17 @@
             }
         },
         created() {
+            /*   这边虽然el没有找到 */
             for (let i = 0; i < 24; i ++) {
                 this.mediaArr.push( {'img': `img/2-${1+i}.png`})
             }
+            this.success_obj = this.success_program[0][0]
+            this.success_arr = this.success_program[0]
+
         },
         mounted(){
+            this.scrollSetInterval();
+
             this.$refs.containerFull.addEventListener('touchstart', (event)=>{
                 console.log('touchstart')
                 console.log(event)
@@ -494,7 +544,56 @@
 
 
             })
-        }
+        },
+        methods: {
+            change_success: function(obj){
+                this.isTrue = obj.type;
+                this.isTrueChild = obj.type_child;
+                this.success_obj = this.success_program[obj.arr_1][obj.arr_2];
+                this.success_arr = this.success_program[obj.arr_1];
+                this.scroll_index = 0;
+                this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * 0}rem)`;
+            },
+            scrollAdd: function() {
+                clearInterval(this.time);
+                this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * this.scroll_index}rem)`;
+
+            },
+            scrollMunus:function() {
+                this.time = setInterval( ()=> {
+                    this.setIntervalFun();
+                }, 1000)
+            },
+
+            setIntervalFun: function() {
+                // 2张或者以上图片才滑动
+                if(this.success_arr.length > 1) {
+                    if (this.timeFlag) {
+                        if(this.scroll_index < this.success_arr.length - 1) {
+                            this.scroll_index ++;
+                            this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * this.scroll_index}rem)`;
+                        } else {
+                            this.timeFlag = false;
+                        }
+                    } else {
+                        if (this.scroll_index > 0) {
+                            this.scroll_index --;
+                             this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * this.scroll_index}rem)`;
+                        } else {
+                            this.timeFlag = true;
+                        }
+                    }
+                    this.success_obj = this.success_arr[this.scroll_index];
+                    this.isTrueChild = this.success_obj.type;
+                }
+            },
+            scrollSetInterval: function(){
+                this.time = setInterval( ()=> {
+                    this.setIntervalFun();
+                }, 1000)
+            }
+
+    }
     }
 </script>
 
@@ -738,13 +837,30 @@
                             width: 2.49rem;
                             height: 4.74rem;
                             background-size: 2.49rem  4.74rem;
+                            padding-left: 0.12rem;
+                            padding-top: 0.57rem;
+                            .parent {
+                                overflow: hidden;
+                                height: 3.70rem;
+                                img {
+                                    width: 2.20rem;
+                                    height: 3.70rem;
+                                }
+                            }
                         }
                     }
                     .bottom {
                         margin-top: 0.5rem;
-                        img {
-                            width: 0.44rem;
-                            height:0.44rem;
+                        div {
+                            display:inline-block;
+                            width: 0.84rem;
+                            height:0.84rem;
+                            margin-right: 0.2rem;
+                            &.active {
+                                &.active {
+                                    background-position: 0  -0.46rem !important;
+                                }
+                            }
                         }
                     }
                 }
