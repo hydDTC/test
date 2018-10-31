@@ -206,13 +206,13 @@ template {
 
 /* 官网的 这个写在style里面没有效果  */
 @media screen and (max-aspect-ratio: 3/4){
-    .banner-content {
+    .banner-bg {
         margin-top:10vh !important;
     }
 
 }
 @media screen and (min-aspect-ratio: 9/16){
-    .banner-content {
+    .banner-bg {
         margin-top:5vh !important;
     }
 }
