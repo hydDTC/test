@@ -10,6 +10,7 @@ html {
 
 body {
     font-size: 0.12rem;
+    font-family: "Arial MT";
     margin: 0;
     padding: 0;
     position: fixed;
@@ -81,7 +82,6 @@ body {
     display: block;
     overflow-x: hidden;
     overflow-y: scroll;
-    /* 谷歌*/
     -webkit-overflow-scrolling: touch;
     will-change: scroll-position;
     contain: size style layout;
@@ -89,9 +89,51 @@ body {
 }
 
 [margin-header]{
-    margin-top: 0.44rem;
+    margin-top: 0.88rem;
 }
 
 [margin-tabbar]{
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+a{
+  text-decoration: none
+}
+
+.flex {
+  display: flex;
+}
+
+.btn{
+  border-radius: 0.05rem;
+  padding: 0.15rem 0.35rem;
+  color: #000000;
+  font-size: 0.28rem;
+  font-weight: 400;
+  border: 1px solid transparent;
+  &.btn-primary{
+    background-color: #3090e6;
+    color: #fff;
+    border-color: #3090e6;
+  }
+  &.btn-success{
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  &.btn-danger{
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  &.btn-warning{
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+  &.btn-info{
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+  }
 }

@@ -3,20 +3,19 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+const home = () => import(/* webpackChunkName: "home" */ './views/home');
 
+const footer = () => import(/* webpackChunkName: "tabs" */ './components/footer');
 const index = () => import(/* webpackChunkName: "tabs" */ './views/index');
 const info = () => import(/* webpackChunkName: "tabs" */ './views/info');
 const campaign = () => import(/* webpackChunkName: "tabs" */ './views/campaign');
-const campaignDetail = () => import(/* webpackChunkName: "tabs" */ './views/campaignDetail');
 const creative = () => import(/* webpackChunkName: "tabs" */ './views/creative');
-const creativeDetail = () => import(/* webpackChunkName: "tabs" */ './views/creativeDetail');
-const user = () => import(/* webpackChunkName: "tabs" */ './views/user');
 
+const user = () => import(/* webpackChunkName: "user" */ './views/user');
+const campaignDetail = () => import(/* webpackChunkName: "campaign" */ './views/campaignDetail');
+const creativeDetail = () => import(/* webpackChunkName: "creative" */ './views/creativeDetail');
 
-const home = () => import(/* webpackChunkName: "tabs" */ './views/home');
-
-const footer = () => import(/* webpackChunkName: "tabs" */ './components/footer');
-const login = () => import(/* webpackChunkName: "user" */ './views/login');
+const login = () => import(/* webpackChunkName: "login" */ './views/login');
 
 let routes = [{
     path: '*',

@@ -37,7 +37,7 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   .header {
     left: 0;
     top: 0;
@@ -71,10 +71,10 @@
   }
 
   .toolbar-ios {
-    padding: 0.04rem;
-    padding-left: 0.04rem;
-    padding-right: 0.04rem;
-    min-height: 0.44rem;
+    padding: 0.04rem * 2;
+    padding-left: 0.04rem * 2;
+    padding-right: 0.04rem * 2;
+    min-height: 0.44rem * 2;
   }
 
   .bar-button {
@@ -128,7 +128,7 @@
   .title{
     left: 0;
     top: 0;
-    padding: 0 0.9rem 1px;
+    padding: 0 0.9rem * 2 1px;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -159,7 +159,7 @@
 
   .toolbar-title-ios {
     text-align: center;
-    font-size: 0.17rem;
+    font-size: 0.17rem * 2;
     font-weight: 600;
     color: #000;
     pointer-events: auto;

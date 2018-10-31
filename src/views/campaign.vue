@@ -1,49 +1,24 @@
 <template>
   <div class="push">
     <div class="tab-content">
-    <y-header title="活动"></y-header>
-    <div class="content">
-      <div class="scroll-content" margin-tabbar margin-header>
-        campaign11111
-        <ul>
-          <li>
+    <!-- <y-header title="活动"></y-header> margin-header -->
+      <div class="content">
+        <div class="scroll-content" margin-tabbar>
 
-            <router-link :to="{name:'campaignDetail'}"> <h1>咪咕</h1> </router-link>
-
-            <router-link to="/campaign/campaignDetail">咪咕</router-link>
-
-          </li>
-
-          <li v-for=" item in items">{{item.id}}22</li>
-
-        </ul>
+        </div>
       </div>
     </div>
   </div>
-
-    <!--处理子类的页面跳转-->
-    <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
-      <router-view></router-view>
-    </transition>
-
-  </div>
 </template>
 <script>
-    export default {
-        data() {
-            return {
-                items: [
-                    {'id':111},
-                    {'id':111},
-                    {'id':111},
-                    {'id':111},
-                ]
-            }
-        }
-    }
+export default {
+  data() {
+    return {
+
+    };
+  }
+};
 </script>
 <style>
-  .scroll-content, ul>li {
-    font-size: 0.19rem;
-  }
+
 </style>

@@ -5,6 +5,7 @@
     <div class="content">
       <div class="scroll-content" margin-tabbar margin-header>
         info
+        <router-link to="/login"> <h1>login</h1> </router-link>
         <div class="test"></div>
       </div>
     </div>
