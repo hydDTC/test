@@ -214,6 +214,7 @@
             return {
               login_show: false,
                 /* 第一屏的背景图片的宽高 */
+                topTwo:0,
                 path:true,
                 topHeight: '',
                 topWidth: '',
@@ -512,8 +513,6 @@
             this.$refs.bannerTop.style.height = (window.document.body.offsetHeight - this.$refs.header.offsetHeight) + 'px'
             this.scrollSetInterval();
             this.$refs.containerFull.addEventListener('scroll', (event)=>{
-                 console.log('lalala')
-                 console.log(this.$refs.containerFull.scrollTop)
                  if (this.$refs.containerFull.scrollTop + window.document.body.offsetHeight >= this.$refs.containerFull.scrollHeight - 100 -  this.$refs.footer.offsetHeight) {
                       this.$refs.login.style.opacity = 1;
                       this.$refs.login.style.bottom = - this.$refs.containerFull.scrollTop + this.$refs.footer.offsetHeight * 1.5 + 'px';
@@ -529,19 +528,18 @@
 
 
             this.$refs.containerFull.addEventListener('touchmove', (event)=>{
+              let touch = event.touches[0];   // 距离窗口的距离改变了
               if (this.path) {
                 event.preventDefault();  // 阻止滑动事件
-                let touch = event.touches[0];   // 距离窗口的距离改变了
                 this.$refs.containerCon.style.top = (touch.pageY - this.starty)  + 'px'
               }
 
               /*  第二屏幕的时候 */
-              // if (this.$refs.containerFull.scrollTop === 0 && !this.path){
-              //   event.preventDefault();
-              //   let touch = event.touches[0];   // 距离窗口的距离改变了
-              //   this.$refs.containerCon.style.top = (touch.pageY - this.starty) - this.$refs.bannerTop.offsetHeight + 'px'
-              //   console.log(this.$refs.containerCon.style.top)
-              // }
+              if (this.$refs.containerFull.scrollTop === 0 && !this.path && (touch.pageY - this.starty > 0)){  //往上哦
+                event.preventDefault();
+                this.topTwo = (touch.pageY - this.starty) - this.$refs.bannerTop.offsetHeight;
+                this.$refs.containerCon.style.top = (touch.pageY - this.starty) - this.$refs.bannerTop.offsetHeight + 'px'
+              }
 
             })
 
@@ -550,7 +548,9 @@
               console.log('哈哈哈哈')
               console.log(this.$refs.containerFull.scrollTop)
               this.endy = event.changedTouches[0].pageY;
+              this.endx = event.changedTouches[0].pageX;
               this.ny = this.endy-this.starty;
+              this.nx = this.endx-this.startx;
               this.$refs.containerCon.classList.add('transition')
 
               if (this.path) {
@@ -576,7 +576,6 @@
                   })
                 }
               }
-
                //通过滑动的角度判断触摸的方向  向下滑动
                 this.angle = Math.atan2(this.ny, this.nx) * 180 / Math.PI;
                 if(this.angle <= -45 && this.angle >= -135){
@@ -584,11 +583,15 @@
                 }else if(this.angle < 135 && this.angle >= 45){
                    //  console.log('下滑动')
                    if (!this.path && this.$refs.containerFull.scrollTop === 0) {
-                     this.$refs.containerCon.style.top = 0;
-                     this.$refs.slipping.style.opacity = 1;
-                     this.$refs.login.style.opacity = 1;
-                     this.$refs.login.style.bottom = '10%';
-                     this.path = true;
+                     if ( -this.topTwo < this.$refs.bannerTop.offsetHeight / 2 ) {
+                       this.$refs.containerCon.style.top = 0;
+                       this.$refs.slipping.style.opacity = 1;
+                       this.$refs.login.style.opacity = 1;
+                       this.$refs.login.style.bottom = '10%';
+                       this.path = true;
+                     } else {
+                       this.$refs.containerCon.style.top =  -this.$refs.bannerTop.offsetHeight + 'px';
+                     }
                    }
                 }
             })
