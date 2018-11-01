@@ -9,7 +9,7 @@
           <input type="search" placeholder="请输入创意的名称、ID ……" @change="change()">
         </div>
         <div class="flex search-screen">
-          <span>筛选</span>
+          <span @click="show = !show">筛选</span>
           <!-- <i> -->
             <svg id="SVGDoc" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12"><defs><path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/></defs><desc>Generated with Avocode.</desc><g transform="matrix(1,0,0,1,-697,-172)"><g><title>多边形 1</title><use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/></g></g></svg>
           <!-- </i> -->
@@ -112,6 +112,10 @@
       </div>
     </div>
 
+    <modal v-model="show">
+      123
+    </modal>
+
     <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
       <router-view></router-view>
     </transition>
@@ -121,7 +125,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      show:false
+    };
   },
   methods:{
     go(){
