@@ -4,7 +4,7 @@ git add .
 date=$(date '+%Y-%m-%d %H:%M:%S → moka')
 commit="git commit -am '"$date"'"
 echo $commit
-$commit
+eval $commit
 git pull origin master
 git push origin master
 echo "Success";
