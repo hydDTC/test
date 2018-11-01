@@ -3,22 +3,22 @@
 
     <div class="tab-content">
       <!-- <y-header title="首页"></y-header> margin-header -->
+
+      <router-link :to="{name:'user'}">
+        <div class="user-header">
+          <div class="user-head">
+            <img src="img/index-default-head.png">
+          </div>
+          <div class="user-info">
+            <p>银橙（上海）信息技术有限公司</p>
+            <p>用户名：541874126@ycmedia.cn</p>
+          </div>
+          <i class="user-right-go"></i>
+        </div>
+      </router-link>
+
       <div class="content">
-        <div class="scroll-content" margin-tabbar>
-
-          <router-link :to="{name:'user'}">
-            <div class="user-header">
-              <div class="user-head">
-                <img src="img/index-default-head.png">
-              </div>
-              <div class="user-info">
-                <p>银橙（上海）信息技术有限公司</p>
-                <p>用户名：541874126@ycmedia.cn</p>
-              </div>
-              <i class="user-right-go"></i>
-            </div>
-          </router-link>
-
+        <div class="scroll-content" margin-tabbar style="margin-top: 1.8rem;">
 
           <div>
             <div class="data-card">
@@ -107,10 +107,6 @@
               </div>
           </div>
 
-
-
-
-
         </div>
       </div>
     </div>
@@ -154,6 +150,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .user-header {
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  box-shadow: 0 1px 0 rgba(204, 204, 204, 0.35);
   height: 1.8rem;
   background: url("../assets/img/index-header.png") no-repeat center;
   background-size: auto 100%;
@@ -232,7 +234,7 @@ export default {
   }
   .info-icon {
     width: 0.6rem;
-    height: 0.58rem;
+    height: 0.6rem;
     img {
       max-width: 100%;
       max-height: 100%;

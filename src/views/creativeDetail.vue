@@ -1,8 +1,5 @@
 <template>
-
-
     <div class="content-modal">
-
         <y-header title="创意详情"></y-header>
         <div class="content">
             <div class="scroll-content" margin-tabbar margin-header>
@@ -10,22 +7,16 @@
                 <span>创意详情</span>
             </div>
         </div>
-
-
     </div>
-
-
-
 </template>
 
 <script>
-    export default {
-        name: "creativeDetail"
-    }
+export default {
+  data() {
+    return {};
+  }
+};
 </script>
 
-<style scoped>
-   span {
-       font-size: 0.19rem;
-   }
+<style scoped lang="less">
 </style>

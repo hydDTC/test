@@ -19,7 +19,6 @@
         (function(_window){
             var docEl = _window.document.documentElement,
                 resizeEvt = 'orientationchange' in _window ? 'orientationchange' : 'resize';
-            console.log(docEl)
             function s() {
                 var clientWidth = docEl.clientWidth;
                 // 这边是 docEl.style.fontSize = 100 * (clientWidth / 375) + 'px';
