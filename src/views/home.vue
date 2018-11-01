@@ -1,7 +1,7 @@
 <template>
     <div class="container-main">
-        <div class="scroll-content">
-        <div class="header">
+        <div class="scroll-content" ref="containerFull">
+        <div class="header" ref="header">
             <div class="left">
                 <img src="../assets/home/quick-menu.png" />
             </div>
@@ -12,7 +12,9 @@
         </div>
 
 
-        <div class="containerFull" ref="containerFull">
+        <div class="containerFull" >
+
+          <div class="container-content"  ref="containerCon">
 
                         <!--首屏-->
                         <div class="banner banner-top" ref="bannerTop" id="one">
@@ -183,12 +185,12 @@
                         </div>
 
                         <!-- footer -->
-                        <div class="footer">
+                        <div class="footer" ref="footer">
                             <p>Copyright (C) 2015~ 2019<a href="/">zcmobi.com</a>All Rights Reserved. </p>
                             <p>沪ICP备09044414号</p>
                             <!--Copyright (C) 2015~ {{year}}   <a href="/">{{domain}}</a>   All Rights Reserved. 沪ICP备09044414号-->
                         </div>
-
+          </div>
 
         </div>
 
@@ -506,94 +508,92 @@
             this.success_arr = this.success_program[0]
         },
         mounted(){
+          //  动态计算高度
+            this.$refs.bannerTop.style.height = (window.document.body.offsetHeight - this.$refs.header.offsetHeight) + 'px'
             this.scrollSetInterval();
             this.$refs.containerFull.addEventListener('scroll', (event)=>{
-                 // console.log('lalala')
+                 console.log('lalala')
+                 console.log(this.$refs.containerFull.scrollTop)
+                 if (this.$refs.containerFull.scrollTop + window.document.body.offsetHeight >= this.$refs.containerFull.scrollHeight - 100 -  this.$refs.footer.offsetHeight) {
+                      this.$refs.login.style.opacity = 1;
+                      this.$refs.login.style.bottom = - this.$refs.containerFull.scrollTop + this.$refs.footer.offsetHeight * 1.5 + 'px';
+                 }
             })
 
             this.$refs.containerFull.addEventListener('touchstart', (event)=>{
-                // console.log('touchstart')
-                // console.log(event)
-                // this.path = event.path.some((item)=> {
-                //    return item.id === 'one'
-                // })
-                this.startTime = new Date().getTime();
                 let touch = event.touches[0];
                 this.startx = touch.pageX;
                 this.starty = touch.pageY;
                 this.scrollTop = this.$refs.containerFull.scrollTop;
+            })
+
+
+            this.$refs.containerFull.addEventListener('touchmove', (event)=>{
+              if (this.path) {
+                event.preventDefault();  // 阻止滑动事件
+                let touch = event.touches[0];   // 距离窗口的距离改变了
+                this.$refs.containerCon.style.top = (touch.pageY - this.starty)  + 'px'
+              }
+
+              /*  第二屏幕的时候 */
+              // if (this.$refs.containerFull.scrollTop === 0 && !this.path){
+              //   event.preventDefault();
+              //   let touch = event.touches[0];   // 距离窗口的距离改变了
+              //   this.$refs.containerCon.style.top = (touch.pageY - this.starty) - this.$refs.bannerTop.offsetHeight + 'px'
+              //   console.log(this.$refs.containerCon.style.top)
+              // }
 
             })
-            this.$refs.containerFull.addEventListener('touchmove', (event)=>{
-              event.preventDefault();  // 阻止滚动事件
-              let touch = event.touches[0];   // 距离窗口的距离改变了
-              this.$refs.containerFull.style.top = (touch.pageY - this.starty) + this.scrollTop + 'px'
-            })
+
 
             this.$refs.containerFull.addEventListener('touchend', (event)=>{
+              console.log('哈哈哈哈')
+              console.log(this.$refs.containerFull.scrollTop)
+              this.endy = event.changedTouches[0].pageY;
+              this.ny = this.endy-this.starty;
+              this.$refs.containerCon.classList.add('transition')
 
-
-              let scrollTop = this.$refs.containerFull.scrollTop
-              this.$refs.containerFull.classList.add('transition')
-              setTimeout(()=>{
-                this.$refs.containerFull.style.top = 0 + 'px'
-                setTimeout(()=> {
-                  this.$refs.containerFull.classList.remove('transition')
-                }, 200)
-              })
-              //transition: all 1s; */
-
-              console.info(scrollTop)
-              return
-                //获取最后的坐标位置
-                this.endx = Math.floor(event.changedTouches[0].pageX);
-                this.endy = Math.floor(event.changedTouches[0].pageY);
-                //获取开始位置和离开位置的距离
-                this.nx = this.endx-this.startx;
-                this.ny = this.endy-this.starty;
-                //通过坐标计算角度公式 Math.atan2(y,x)*180/Math.PI
-                this.angle = Math.atan2(this.ny, this.nx) * 180 / Math.PI;
-
-                // if(Math.abs(this.nx) <= 1 ||Math.abs(this.ny) <= 1){
-                //     console.log('滑动距离太小');
-                //     return false;
-                // }
-                // 这边就是垂直滑动
-
-                // if(Math.abs(this.ny) <= 20){
-                //     // console.log('滑动距离太小');
-                //     return false;
-                // }
-
-                //通过滑动的角度判断触摸的方向  向下滑动
-                if(this.angle <= -45 && this.angle >= -135){
-                    // 说明在第一屏 这边手机端的pageX和pc段不一样哎
-                    if (this.path) {   // 第一屏
-                        // 时间大于500ms才可以拖动
-                        // if ( (new Date().getTime() - this.startTime ) > 500 )  {
-                        //      this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
-                        //      this.$refs.slipping.style.opacity = '0';
-                        //      this.$refs.login.style.bottom = '1%'
-                        // } else {
-                        //   this.$refs.containerFull.scrollTop = 0;
-                        //   console.log('时间太短')
-                        // }
-
-                      if(Math.abs(this.ny) < this.$refs.bannerTop.offsetHeight / 3){
-                        console.log('滑动距离太小');
-                        this.$refs.containerFull.scrollTop = 0;
-                      } else {
-                        this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
-                      }
-
-                    }
-                }else if(this.angle < 135 && this.angle >= 45){
-
-
+              if (this.path) {
+                if (-this.ny >= this.$refs.bannerTop.offsetHeight / 3) {
+                  this.path = false;
+                  setTimeout(()=>{
+                    this.$refs.containerCon.style.top =  -this.$refs.bannerTop.offsetHeight + 'px';
+                    /* 对于login和箭头的控制  */
+                    this.$refs.slipping.style.opacity = 0;
+                    this.$refs.login.style.opacity = 0
+                    setTimeout(()=> {
+                      this.$refs.containerCon.classList.remove('transition')
+                    }, 200)
+                  })
                 }
+                else {
+                  this.path = true;
+                  setTimeout(()=>{
+                    this.$refs.containerCon.style.top = 0 + 'px'
+                    setTimeout(()=> {
+                      this.$refs.containerCon.classList.remove('transition')
+                    }, 200)
+                  })
+                }
+              }
 
-
+               //通过滑动的角度判断触摸的方向  向下滑动
+                this.angle = Math.atan2(this.ny, this.nx) * 180 / Math.PI;
+                if(this.angle <= -45 && this.angle >= -135){
+                    console.log('上滑动')
+                }else if(this.angle < 135 && this.angle >= 45){
+                   //  console.log('下滑动')
+                   if (!this.path && this.$refs.containerFull.scrollTop === 0) {
+                     this.$refs.containerCon.style.top = 0;
+                     this.$refs.slipping.style.opacity = 1;
+                     this.$refs.login.style.opacity = 1;
+                     this.$refs.login.style.bottom = '10%';
+                     this.path = true;
+                   }
+                }
             })
+
+
         },
         methods: {
             change_success: function(obj){
@@ -680,8 +680,6 @@
         background-color: #02030c;
     }
     .containerFull {
-
-        overflow: auto;
         position: absolute;
         top:0;
         bottom:0;
@@ -689,398 +687,401 @@
         right:0;
         margin-top: 0.64rem;
         color: white;
-      &.transition{
-        transition: all 200ms ease;
-      }
+      .container-content {
+        width: 100%;
+        position: relative;
+        &.transition{
+          transition: all 200ms ease;
+        }
         .banner {
-            width: 100%;
-            /* 处理margin-top有问题 */
-            padding-top:0.01rem;
-            &.banner-top{
-                height:100%;
-                .title {
-                    height: 53vh;
-                    background: url('../assets/home/first-screen_02.png') no-repeat top center;
-                    /*background-size: contain; 要写再下方哦  auto是不会让图片变形 会自动调整*/
-                    background-size: auto 100%;
-                }
-                .banner-content {
-                    margin-top: 10vh;
-                    ul {
-                        text-align: center;
-                        li {
-                            display: inline-block;
-                            width: 20%;
-                            line-height: 0.45rem;
-                            height: 1.42rem;
-                            img {
-                                width: 0.52rem;
-                                height:0.53rem;
-                            }
-                            p:nth-child(2){
-                                font-size: 0.2rem;
-                            }
-                            p:nth-child(3){
-                                font-size: 0.16rem;
-                            }
-                        }
-                    }
-                }
+          width: 100%;
+          /* 处理margin-top有问题 */
+          padding-top:0.01rem;
+          &.banner-top{
+            height:100%;
+            .title {
+              height: 53vh;
+              background: url('../assets/home/first-screen_02.png') no-repeat top center;
+              /*background-size: contain; 要写再下方哦  auto是不会让图片变形 会自动调整*/
+              background-size: auto 100%;
             }
-            &.banner-engine {
-                padding-bottom: 1rem;
-                background-color: #161734;
-                .title {
-                    margin-top: 1rem;
-                    background: url('../assets/home/engine.png') no-repeat center center;
-                    background-size: auto 100%;
-                    height: 0.48rem;
-                    /* 这块的背景图貌似不太清晰 */
-                }
-                .text {
-                    /*transform: scale(0.95);*/
-                    padding:0.09rem;
+            .banner-content {
+              margin-top: 10vh;
+              ul {
+                text-align: center;
+                li {
+                  display: inline-block;
+                  width: 20%;
+                  line-height: 0.45rem;
+                  height: 1.42rem;
+                  img {
+                    width: 0.52rem;
+                    height:0.53rem;
+                  }
+                  p:nth-child(2){
+                    font-size: 0.2rem;
+                  }
+                  p:nth-child(3){
                     font-size: 0.16rem;
-                    text-indent: 0.6rem;
-                    margin-top: 0.3rem;
+                  }
                 }
-                .banner-content {
-                    padding: 0 0.4rem;
-                   > ul {
-                       margin-left:0.3rem;
-                        > li {
-                            align-items: center;
-                            display: flex;
-                            justify-content: space-between;
-                            margin-top: 0.8rem;
-                            line-height: 0.5rem;
-                            .left {
-                                margin-right:0.3rem;
-                                font-size: 0.2rem;
-                                text-align: center;
-                                width: 2.98rem;
-                                height:1.46rem;
-                                background-color: #0f1d47;
-                                display:table;
-                                >.img {
-                                    display:table-cell;
-                                    vertical-align: middle;
-                                    width:0.69rem;
-                                    height:0.66rem;
-                                    img {
-                                        width:100%;
-                                        height:100%;
-                                    }
-                                }
-                                div {
-                                    vertical-align: middle;
-                                    display:table-cell;
-                                }
-                            }
-                            .right {
-                                font-size:0.16rem;
-                                width:3.4rem;
-                                height:1.10rem;
-                                display: flex;
-                                flex-direction: column;
-                                justify-content: center;
-
-                                div {
-                                    .icon {
-                                        margin-right:0.24rem;
-                                        width: 0.18rem;
-                                        height: 0.18rem;
-                                    }
-                                }
-                                /*> ul {*/
-                                    /*li {*/
-                                        /*list-style: circle outside url('../assets/home/engine-4.png')*/
-                                    /*}*/
-                                /*}*/
-                            }
-                        }
-                    }
-                }
-
+              }
             }
-            &.banner-scheme {
-                padding-bottom: 1rem;
-                color: black;
-                background-color: #e7effe;
-                .title {
-                    margin-top: 1rem;
-                    background: url('../assets/home/scheme.png') no-repeat center center;
-                    background-size: auto 100%;
-                    height: 0.48rem;
-                    /* 这块的背景图貌似不太清晰 */
-                }
-                .text {
-                    padding:0.09rem;
-                    font-size: 0.16rem;
-                    text-indent: 0.6rem;
-                    margin-top: 0.3rem;
-                }
-                .banner-content {
-                    margin-top: 0.6rem;
-                   .top {
-                       display: flex;
-                       justify-content: space-around;
-                       .left {
-                           img {
-                               width: 2.47rem;
-                               height: 4.67rem;
-                           }
-                       }
-                       .right {
-                           width: 2.47rem;
-                           height: 4.67rem;
-                       }
-                   }
-                    ul {
-                        margin-left:0.3rem;
-                        margin-top: 0.8rem;
-                        li {
-                            font-size: 0.19rem;
-                            line-height: 0.54rem;
-                            margin-left:0.5rem;
-                            .icon {
-                                display: inline-block;
-                                width:0.26rem;
-                                text-align: center;
-                                height:0.26rem;
-                                line-height: 0.26rem;
-                                border-radius: 50%;
-                                background-color: #128bf8;
-                                margin-right: 0.2rem;
-                            }
-                            span {
-                                vertical-align: middle;
-                            }
-                        }
-                    }
-                }
-
+          }
+          &.banner-engine {
+            padding-bottom: 1rem;
+            background-color: #161734;
+            .title {
+              margin-top: 1rem;
+              background: url('../assets/home/engine.png') no-repeat center center;
+              background-size: auto 100%;
+              height: 0.48rem;
+              /* 这块的背景图貌似不太清晰 */
             }
-            &.banner-case {
-                padding: 1rem 0.4rem;
-                color: white;
-                background-color: #161734;
-                .title {
-                    background: url('../assets/home/case.png') no-repeat center center;
-                    width: 100%;
-                    background-size: auto 100%;
-                    height: 0.48rem;
-                    /* 这块的背景图貌似不太清晰 */
-                }
-                .text {
+            .text {
+              /*transform: scale(0.95);*/
+              padding:0.09rem;
+              font-size: 0.16rem;
+              text-indent: 0.6rem;
+              margin-top: 0.3rem;
+            }
+            .banner-content {
+              padding: 0 0.4rem;
+              > ul {
+                margin-left:0.3rem;
+                > li {
+                  align-items: center;
+                  display: flex;
+                  justify-content: space-between;
+                  margin-top: 0.8rem;
+                  line-height: 0.5rem;
+                  .left {
+                    margin-right:0.3rem;
+                    font-size: 0.2rem;
                     text-align: center;
-                    margin-top: 0.28rem;
-                    font-size: 0.16rem;
-                    span {
-                        border: 1px solid #3f4051;
-                        display: inline-block;
-                        width:1.06rem;
-                        height:0.39rem;
-                        margin-right:0.23rem;
-                      &.active {
-                        background-color: #133379;
+                    width: 2.98rem;
+                    height:1.46rem;
+                    background-color: #0f1d47;
+                    display:table;
+                    >.img {
+                      display:table-cell;
+                      vertical-align: middle;
+                      width:0.69rem;
+                      height:0.66rem;
+                      img {
+                        width:100%;
+                        height:100%;
                       }
                     }
-                }
-                .banner-content {
-                    margin-top: 0.55rem;
-                    .top {
-                        .left {
-                            vertical-align: bottom;
-                             display: inline-block;
-                            .top_title {
-                                height: 0.9rem;
-                                >div {
-                                  width:0.49rem;
-                                  height: 0.49rem;
-                                  display:inline-block;
-                                  vertical-align: middle;
-                                  background-size: 100% !important;
-                                }
-                            }
-                            .top_bg {
-                                background: url('../assets/home/case-bg.png') no-repeat center center;
-                                width: 4.19rem;
-                                height: 3.84rem;
-                                background-size: 4.19rem 3.84rem;
-                                font-size: 0.24rem;
-                              line-height: 0.1rem;
-                               ul > li {
-                                 padding: 0.5rem 0 0 0.1rem;
-                                 .icon {
-                                   display:inline-block;
-                                   width: 0.1rem;
-                                   height:0.1rem;
-                                   border-radius: 50%;
-                                   background-color: #0d83ed;
-                                   margin-right:0.2rem;
-                                 }
-                               }
-                            }
-                        }
-                        .right {
-                            margin-left:-0.3rem;
-                            display: inline-block;
-                            background: url('../assets/home/case-iphone.png') no-repeat center center;
-                            width: 2.49rem;
-                            height: 4.74rem;
-                            background-size: 2.49rem  4.74rem;
-                            padding-left: 0.12rem;
-                            padding-top: 0.57rem;
-                            .parent {
-                                overflow: hidden;
-                                height: 3.70rem;
-                                img {
-                                    width: 2.20rem;
-                                    height: 3.70rem;
-                                }
-                            }
-                        }
+                    div {
+                      vertical-align: middle;
+                      display:table-cell;
                     }
-                    .bottom {
-                        margin-top: 0.5rem;
-                        > div {
-                            display:inline-block;
-                            width: 0.49rem;
-                            height:0.49rem;
-                            margin-right: 0.2rem;
-                            background-size: 100% !important;
-                            &.active {
-                                   background-position: 0  0 !important;
-                            }
-                        }
-                    }
-                }
+                  }
+                  .right {
+                    font-size:0.16rem;
+                    width:3.4rem;
+                    height:1.10rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
 
-            }
-            &.banner-media{
-                padding: 1rem 0.4rem;
-                color: black;
-                background-color: #e7effe;
-                .title {
-                    background: url('../assets/home/media.png') no-repeat center center;
-                    background-size: auto 100%;
-                    height: 0.48rem;
+                    div {
+                      .icon {
+                        margin-right:0.24rem;
+                        width: 0.18rem;
+                        height: 0.18rem;
+                      }
+                    }
+                    /*> ul {*/
+                    /*li {*/
+                    /*list-style: circle outside url('../assets/home/engine-4.png')*/
+                    /*}*/
+                    /*}*/
+                  }
                 }
-                .banner-content {
-                    margin-top: 0.42rem;
+              }
+            }
+
+          }
+          &.banner-scheme {
+            padding-bottom: 1rem;
+            color: black;
+            background-color: #e7effe;
+            .title {
+              margin-top: 1rem;
+              background: url('../assets/home/scheme.png') no-repeat center center;
+              background-size: auto 100%;
+              height: 0.48rem;
+              /* 这块的背景图貌似不太清晰 */
+            }
+            .text {
+              padding:0.09rem;
+              font-size: 0.16rem;
+              text-indent: 0.6rem;
+              margin-top: 0.3rem;
+            }
+            .banner-content {
+              margin-top: 0.6rem;
+              .top {
+                display: flex;
+                justify-content: space-around;
+                .left {
+                  img {
+                    width: 2.47rem;
+                    height: 4.67rem;
+                  }
+                }
+                .right {
+                  width: 2.47rem;
+                  height: 4.67rem;
+                }
+              }
+              ul {
+                margin-left:0.3rem;
+                margin-top: 0.8rem;
+                li {
+                  font-size: 0.19rem;
+                  line-height: 0.54rem;
+                  margin-left:0.5rem;
+                  .icon {
+                    display: inline-block;
+                    width:0.26rem;
                     text-align: center;
-                    line-height: 0.5rem;
-                    > div {
-                        margin-left: 0.2rem;
-                        display: inline-block;
-                        img {
-                            width: 1.44rem;
-                            height: 0.6rem;
-                        }
-                    }
+                    height:0.26rem;
+                    line-height: 0.26rem;
+                    border-radius: 50%;
+                    background-color: #128bf8;
+                    margin-right: 0.2rem;
+                  }
+                  span {
+                    vertical-align: middle;
+                  }
                 }
-
+              }
             }
-            &.banner-link{
-                margin-bottom: 1.5rem;
-                padding: 1rem 0.4rem;
-                color: white;
-                background-color: #0a0b26;
-                .title {
-                    background: url('../assets/home/link.png') no-repeat center center;
-                    background-size: auto 100%;
-                    height: 0.48rem;
+
+          }
+          &.banner-case {
+            padding: 1rem 0.4rem;
+            color: white;
+            background-color: #161734;
+            .title {
+              background: url('../assets/home/case.png') no-repeat center center;
+              width: 100%;
+              background-size: auto 100%;
+              height: 0.48rem;
+              /* 这块的背景图貌似不太清晰 */
+            }
+            .text {
+              text-align: center;
+              margin-top: 0.28rem;
+              font-size: 0.16rem;
+              span {
+                border: 1px solid #3f4051;
+                display: inline-block;
+                width:1.06rem;
+                height:0.39rem;
+                margin-right:0.23rem;
+                &.active {
+                  background-color: #133379;
                 }
-                .text {
+              }
+            }
+            .banner-content {
+              margin-top: 0.55rem;
+              .top {
+                .left {
+                  vertical-align: bottom;
+                  display: inline-block;
+                  .top_title {
+                    height: 0.9rem;
+                    >div {
+                      width:0.49rem;
+                      height: 0.49rem;
+                      display:inline-block;
+                      vertical-align: middle;
+                      background-size: 100% !important;
+                    }
+                  }
+                  .top_bg {
+                    background: url('../assets/home/case-bg.png') no-repeat center center;
+                    width: 4.19rem;
+                    height: 3.84rem;
+                    background-size: 4.19rem 3.84rem;
                     font-size: 0.24rem;
-                    color: white;
-                    margin-top: 0.3rem;
-                    text-indent: 0.6rem;
-                }
-                .banner-content {
-                    margin-top: 0.42rem;
-                   .form {
-                       .connect {
-                           position:relative;
-                           width:92%;
-                           margin-left: 0.2rem;
-                           margin-top: 0.32rem;
-                           height: 0.6rem;
-                           .input {
-                             height: 100%;
-                             border: 1px solid #e1e3e5;
-                             /* input默认的背景图是白色的 */
-                             background-color: white;
-                             input {
-                               text-indent: 0.5rem;
-                               width:100%;
-                               height: 100%;
-                               border: none;
-                             }
-                           }
-
-                           img {
-                               width:0.27rem;
-                               height:0.28rem;
-                               position: absolute;
-                               left: 0.1rem;
-                               top: 0.15rem;
-                           }
-                       }
-
-                   }
-                    .center {
-                        text-align: center;
-                        margin: 0.5rem auto;
-                        display: table;
-                        .left {
-                            padding-right: 0.5rem;
-                            vertical-align: middle;
-                            display: table-cell;
-                            img {
-                                width: 1rem;
-                                height: 1rem;
-                            }
-                        }
-                        .right {
-                            text-align: left;
-                            display: table-cell;
-                            vertical-align: bottom;
-                            line-height: 0.5rem;
-                            img {
-                                width:0.34rem;
-                                height: 0.35rem;
-                                vertical-align: middle;
-                                margin-right: 0.1rem;
-                            }
-
-                        }
+                    line-height: 0.1rem;
+                    ul > li {
+                      padding: 0.5rem 0 0 0.1rem;
+                      .icon {
+                        display:inline-block;
+                        width: 0.1rem;
+                        height:0.1rem;
+                        border-radius: 50%;
+                        background-color: #0d83ed;
+                        margin-right:0.2rem;
+                      }
                     }
-                    button {
-                        background: transparent;
-                        width:92%;
-                        font-size: 0.18rem;
-                        height: 0.65rem;
-                        margin-left: 0.2rem;
-                        margin-top: 0.37rem;
-                        border: 2px solid #9d9eaa;
-                        color: white;
-                        &.zhanghu {
-                            background-color: #0371d7;
-                            border: none;
-                        }
-                    }
+                  }
                 }
-
+                .right {
+                  margin-left:-0.3rem;
+                  display: inline-block;
+                  background: url('../assets/home/case-iphone.png') no-repeat center center;
+                  width: 2.49rem;
+                  height: 4.74rem;
+                  background-size: 2.49rem  4.74rem;
+                  padding-left: 0.12rem;
+                  padding-top: 0.57rem;
+                  .parent {
+                    overflow: hidden;
+                    height: 3.70rem;
+                    img {
+                      width: 2.20rem;
+                      height: 3.70rem;
+                    }
+                  }
+                }
+              }
+              .bottom {
+                margin-top: 0.5rem;
+                > div {
+                  display:inline-block;
+                  width: 0.49rem;
+                  height:0.49rem;
+                  margin-right: 0.2rem;
+                  background-size: 100% !important;
+                  &.active {
+                    background-position: 0  0 !important;
+                  }
+                }
+              }
             }
+
+          }
+          &.banner-media{
+            padding: 1rem 0.4rem;
+            color: black;
+            background-color: #e7effe;
+            .title {
+              background: url('../assets/home/media.png') no-repeat center center;
+              background-size: auto 100%;
+              height: 0.48rem;
+            }
+            .banner-content {
+              margin-top: 0.42rem;
+              text-align: center;
+              line-height: 0.5rem;
+              > div {
+                margin-left: 0.2rem;
+                display: inline-block;
+                img {
+                  width: 1.44rem;
+                  height: 0.6rem;
+                }
+              }
+            }
+
+          }
+          &.banner-link{
+            margin-bottom: 1.5rem;
+            padding: 1rem 0.4rem;
+            color: white;
+            background-color: #0a0b26;
+            .title {
+              background: url('../assets/home/link.png') no-repeat center center;
+              background-size: auto 100%;
+              height: 0.48rem;
+            }
+            .text {
+              font-size: 0.24rem;
+              color: white;
+              margin-top: 0.3rem;
+              text-indent: 0.6rem;
+            }
+            .banner-content {
+              margin-top: 0.42rem;
+              .form {
+                .connect {
+                  position:relative;
+                  width:92%;
+                  margin-left: 0.2rem;
+                  margin-top: 0.32rem;
+                  height: 0.6rem;
+                  .input {
+                    height: 100%;
+                    border: 1px solid #e1e3e5;
+                    /* input默认的背景图是白色的 */
+                    background-color: white;
+                    input {
+                      text-indent: 0.5rem;
+                      width:100%;
+                      height: 100%;
+                      border: none;
+                    }
+                  }
+
+                  img {
+                    width:0.27rem;
+                    height:0.28rem;
+                    position: absolute;
+                    left: 0.1rem;
+                    top: 0.15rem;
+                  }
+                }
+
+              }
+              .center {
+                text-align: center;
+                margin: 0.5rem auto;
+                display: table;
+                .left {
+                  padding-right: 0.5rem;
+                  vertical-align: middle;
+                  display: table-cell;
+                  img {
+                    width: 1rem;
+                    height: 1rem;
+                  }
+                }
+                .right {
+                  text-align: left;
+                  display: table-cell;
+                  vertical-align: bottom;
+                  line-height: 0.5rem;
+                  img {
+                    width:0.34rem;
+                    height: 0.35rem;
+                    vertical-align: middle;
+                    margin-right: 0.1rem;
+                  }
+
+                }
+              }
+              button {
+                background: transparent;
+                width:92%;
+                font-size: 0.18rem;
+                height: 0.65rem;
+                margin-left: 0.2rem;
+                margin-top: 0.37rem;
+                border: 2px solid #9d9eaa;
+                color: white;
+                &.zhanghu {
+                  background-color: #0371d7;
+                  border: none;
+                }
+              }
+            }
+
+          }
         }
         .footer {
-            background-color: #06081f;
-            height: 0.35rem;
-            font-size: 0.12rem;
-            text-align: center;
+          background-color: #06081f;
+          font-size: 0.12rem;
+          text-align: center;
         }
+      }
     }
 
     /* absolute和flex可以同时使用，但是记得absolute的块级要加width */
@@ -1120,8 +1121,8 @@
     }
 
     .login {
-        /*position: absolute;*/
-        position: fixed;
+        position: absolute;
+        /*position: fixed;*/
         bottom:10%;
         left:0;
         width: 100%;
