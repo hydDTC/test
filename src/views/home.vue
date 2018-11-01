@@ -15,10 +15,10 @@
         <div class="containerFull" ref="containerFull">
 
                         <!--首屏-->
-                        <div class="banner banner-top" ref="bannerTop">
+                        <div class="banner banner-top" ref="bannerTop" id="one">
                             <!--<img src="../assets/home/first-screen_02.png">-->
                             <div class="title"></div>
-                            <div class="banner-content" ref="bannerMargin">
+                            <div class="banner-content banner-bg" ref="bannerMargin">
                                 <ul>
                                     <li v-for="arr in bannerTopArr">
                                         <img :src="arr.img">
@@ -86,24 +86,41 @@
                         <div class="banner banner-case">
                             <div class="title"></div>
                             <div class="text">
-                                <span v-for="case1 in success_title">{{case1.name}}</span>
+                                <span v-for="case1 in success_title" @click="change_success(case1)" :class="{'active': isTrue=== case1.type}">{{case1.name}}</span>
                             </div>
                             <div class="banner-content">
 
                                 <div class="top">
                                     <div class="left">
                                         <div class="top_title">
-                                            <span>icon:</span>
-                                            <span>uc浏览器</span>
+                                            <div :style="{'background':'url('+success_obj.icon+') 0 0 no-repeat'}"></div>
+                                            <span style="vertical-align: middle; color: #fff; font-size: 0.26rem; margin-left: 0.2rem;">{{success_obj.name}}</span>
                                         </div>
                                         <!-- 这边的背景建议单独给一个div -->
-                                        <div class="top_bg"></div>
+                                        <div class="top_bg">
+                                            <ul>
+                                                <li><span class="icon"></span>   <span>{{success_obj.text.type}}</span> </li>
+                                                <li><span class="icon"></span>   <span>{{success_obj.text.platform}}</span></li>
+                                                <li v-if="success_obj.text.cpc"> <span class="icon"></span>  <span>{{success_obj.text.cpc}}</span></li>
+                                                <li v-if="success_obj.text.act"> <span class="icon"></span>  <span>{{success_obj.text.act}}</span>></li>
+                                                <li v-if="success_obj.text.cpr"> <span class="icon"></span>   <span>{{success_obj.text.cpr}} </span>></li>
+                                            </ul>
+
+                                        </div>
                                     </div>
-                                    <div class="right"></div>
+                                    <div class="right">
+
+                                        <div class="parent">
+                                            <div ref="imgParentRef" style="transition: all 1s">
+                                                <img :src="y.bg"  v-for=" y in success_arr" >
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                                 <div class="bottom">
-                                    <img src="../assets/home/uc-light.png">
+                                    <div  v-for="x in success_arr"  :style="{'background':'url('+x.icon+') 0 -0.50rem no-repeat'}"  :class="{'active': isTrueChild=== x.type}"></div>
                                 </div>
 
                             </div>
@@ -128,18 +145,25 @@
                             <div class="banner-content">
                                 <div class="form">
                                     <div class="connect">
-                                        <input v-model="form.company_name" placeholder="企业名称(必填)" type="text">
                                         <img src="../assets/home/company-icon.png" />
+                                        <div class="input">
+                                          <input v-model="form.company_name" placeholder="企业名称(必填)" type="text">
+                                        </div>
                                     </div>
 
                                     <div class="connect">
-                                        <input v-model="form.userName" type="customer_name" placeholder="姓名(必填)">
                                         <img src="../assets/home/name-icon.png" />
+                                        <div class="input">
+                                          <input v-model="form.userName" type="customer_name" placeholder="姓名(必填)">
+                                        </div>
+
                                     </div>
 
                                     <div class="connect">
-                                        <input v-model="form.phone" type="text" placeholder="以1开头的11位手机号码(必填)">
                                         <img src="../assets/home/phone-icon.png" />
+                                        <div class="input">
+                                          <input v-model="form.phone" type="text" placeholder="以1开头的11位手机号码(必填)">
+                                        </div>
                                     </div>
                                     <button>预约顾客咨询</button>
                                 </div>
@@ -169,13 +193,15 @@
         </div>
 
         <div class="login" ref="login">
-            <button>登陆平台</button>
+            <button @click="login" >登陆平台</button>
             <button>注册账号</button>
         </div>
+
         <div class="slipping" ref="slipping">
             <!-- 这边要用相对路径-->
             <img src="../assets/home/slipping.png" />
         </div>
+          <y-login v-if="login_show" @login_cancel="login_cancel"></y-login>
     </div>
     </div>
 </template>
@@ -184,7 +210,9 @@
     export default {
         data() {
             return {
+              login_show: false,
                 /* 第一屏的背景图片的宽高 */
+                path:true,
                 topHeight: '',
                 topWidth: '',
                 /* 第一屏 */
@@ -269,19 +297,39 @@
                 /* 成功方案 */
                 success_title: [
                     {
-                        'name': '工具类'
+                        'name': '工具类',
+                        'type': 'tool',
+                        'type_child': 'tool0',
+                        'arr_1': 0,
+                        'arr_2': 0
                     },
                     {
-                        'name': '游戏类'
+                        'name': '游戏类',
+                        'type': 'game',
+                        'type_child': 'game0',
+                        'arr_1': 1,
+                        'arr_2': 0
                     },
                     {
-                        'name': '网服类'
+                        'name': '网服类',
+                        'type': 'network',
+                        'type_child': 'network0',
+                        'arr_1': 2,
+                        'arr_2': 0
                     },
                     {
-                        'name': '电商类'
+                        'name': '电商类',
+                        'type': 'electric',
+                        'type_child': 'electric0',
+                        'arr_1': 3,
+                        'arr_2': 0
                     },
                     {
-                        'name': '金融类'
+                        'name': '金融类',
+                        'type': 'money',
+                        'type_child': 'money0',
+                        'arr_1': 4,
+                        'arr_2': 0
                     },
 
                 ],
@@ -289,7 +337,7 @@
                     [
                         {
                             'name': 'UC浏览器',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_uc.png',
+                            'icon': 'img/uc.png',
                             'bg': 'http://img.zcdsp.com/common/1f809a7a9ac7e8f2a0c6ab1e9466a32b.jpg',
                             'type': 'tool0',
                             'index': '0',
@@ -303,7 +351,7 @@
                         },
                         {
                             'name': '快手',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_kuai.png',
+                            'icon': 'img/kuaishou.png',
                             'bg': 'http://img.zcdsp.com/common/9ddefeff524898acd2a6992df9a0ee0c.jpg',
                             'type': 'tool1',
                             'index': '1',
@@ -318,7 +366,7 @@
                     [
                         {
                             'name': '魔域',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_moyu.png',
+                            'icon': 'img/moyu.png',
                             'bg': 'http://img.zcdsp.com/common/fdea634cdac8fa30ce468cf34b590829.jpg',
                             'type': 'game0',
                             'index': '0',
@@ -334,7 +382,7 @@
                     [
                         {
                             'name': '饿了么',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_e.png',
+                            'icon': 'img/e.png',
                             'bg': 'http://img.zcdsp.com/common/af7d5d135a5f7f70f7123214686066bb.jpg',
                             'type': 'network0',
                             'index': '0',
@@ -349,7 +397,7 @@
                         },
                         {
                             'name': '每日优鲜',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_xian.png',
+                            'icon': 'img/xian.png',
                             'bg': 'http://img.zcdsp.com/common/eb3de8e877a9119e92b7ec9d2b131e13.jpg',
                             'type': 'network1',
                             'index': '1',
@@ -365,7 +413,7 @@
                     [
                         {
                             'name': '拼多多',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_ping.png',
+                            'icon': 'img/duo.png',
                             'bg': 'http://img.zcdsp.com/common/8a978bbc9e41d2b897c4c7982aa1b50d.jpg',
                             'type':'electric0',
                             'index': '0',
@@ -379,7 +427,7 @@
                         },
                         {
                             'name': '网易考拉',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_bear.png',
+                            'icon': 'img/bear.png',
                             'bg': 'http://img.zcdsp.com/common/43f3410b2a17eedd8d6201ed059047d9.jpg',
                             'type':'electric1',
                             'index': '1',
@@ -394,7 +442,7 @@
                     [
                         {
                             'name': '拍拍贷',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_pai.png',
+                            'icon': 'img/paipaidai.png',
                             'bg': 'http://img.zcdsp.com/common/d57540d58befc5c680f82f3717734a25.jpg',
                             'type':'money0',
                             'index': '0',
@@ -407,7 +455,7 @@
                         },
                         {
                             'name': '你我贷',
-                            'icon': 'https://img.zcdsp.com/zcmobi-assets/index/cont3_logo_dai.png',
+                            'icon': 'img/niwodai.png',
                             'bg': 'http://img.zcdsp.com/common/4899ea625a7a279f6d5f8d8bedb25581.jpg',
                             'type':'money1',
                             'index': '1',
@@ -421,6 +469,13 @@
                         }
                     ],
                 ],
+                success_obj : {},
+                success_arr : [],
+                scroll_index : 0,
+                isTrue: 'tool',
+                isTrueChild: 'tool0',
+                time:'',
+                timeFlag: true,
                 /* 媒体资源 */
                 mediaArr: [],
                 form: {
@@ -430,71 +485,182 @@
 
                 },
                 /*   */
-                startx:'',
-                starty:'',
+                startx:0,
+                starty:0,
+              scrollTop:0,
                 endx:'',
                 endy:'',
                 nx:'',
                 ny:'',
-                angle:''
+                angle:'',
+                startTime:'',
             }
         },
+
         created() {
+            /*   这边虽然el没有找到 */
             for (let i = 0; i < 24; i ++) {
                 this.mediaArr.push( {'img': `img/2-${1+i}.png`})
             }
+            this.success_obj = this.success_program[0][0]
+            this.success_arr = this.success_program[0]
         },
         mounted(){
+            this.scrollSetInterval();
+            this.$refs.containerFull.addEventListener('scroll', (event)=>{
+                 // console.log('lalala')
+            })
+
             this.$refs.containerFull.addEventListener('touchstart', (event)=>{
-                console.log('touchstart')
-                console.log(event)
-                var touch = event.touches[0];
-                this.startx = Math.floor(touch.pageX);
-                this.starty = Math.floor(touch.pageY);
-                // if (event.target.scrollTop > 0 && event.target.scrollTop< 700) {
-                //         console.log('超过啦')
-                //         this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
-                //     }
+                // console.log('touchstart')
+                // console.log(event)
+                // this.path = event.path.some((item)=> {
+                //    return item.id === 'one'
+                // })
+                this.startTime = new Date().getTime();
+                let touch = event.touches[0];
+                this.startx = touch.pageX;
+                this.starty = touch.pageY;
+                this.scrollTop = this.$refs.containerFull.scrollTop;
+
             })
             this.$refs.containerFull.addEventListener('touchmove', (event)=>{
-                console.log('touchmove')
-                console.log(event)
-
+              event.preventDefault();  // 阻止滚动事件
+              let touch = event.touches[0];   // 距离窗口的距离改变了
+              this.$refs.containerFull.style.top = (touch.pageY - this.starty) + this.scrollTop + 'px'
             })
 
             this.$refs.containerFull.addEventListener('touchend', (event)=>{
-                console.log('touchend')
-                console.log(event)
+
+
+              let scrollTop = this.$refs.containerFull.scrollTop
+              this.$refs.containerFull.classList.add('transition')
+              setTimeout(()=>{
+                this.$refs.containerFull.style.top = 0 + 'px'
+                setTimeout(()=> {
+                  this.$refs.containerFull.classList.remove('transition')
+                }, 200)
+              })
+              //transition: all 1s; */
+
+              console.info(scrollTop)
+              return
                 //获取最后的坐标位置
                 this.endx = Math.floor(event.changedTouches[0].pageX);
                 this.endy = Math.floor(event.changedTouches[0].pageY);
-                console.log('结束');
-
                 //获取开始位置和离开位置的距离
                 this.nx = this.endx-this.startx;
                 this.ny = this.endy-this.starty;
-
-                console.log(this.nx)
-                console.log(this.ny)
-
                 //通过坐标计算角度公式 Math.atan2(y,x)*180/Math.PI
                 this.angle = Math.atan2(this.ny, this.nx) * 180 / Math.PI;
-                if(Math.abs(this.nx) <= 1 ||Math.abs(this.ny) <= 1){
-                    console.log('滑动距离太小');
-                    return false;
-                }
-                //通过滑动的角度判断触摸的方向
+
+                // if(Math.abs(this.nx) <= 1 ||Math.abs(this.ny) <= 1){
+                //     console.log('滑动距离太小');
+                //     return false;
+                // }
+                // 这边就是垂直滑动
+
+                // if(Math.abs(this.ny) <= 20){
+                //     // console.log('滑动距离太小');
+                //     return false;
+                // }
+
+                //通过滑动的角度判断触摸的方向  向下滑动
                 if(this.angle <= -45 && this.angle >= -135){
-                    alert('上滑动');
-                    return false;
+                    // 说明在第一屏 这边手机端的pageX和pc段不一样哎
+                    if (this.path) {   // 第一屏
+                        // 时间大于500ms才可以拖动
+                        // if ( (new Date().getTime() - this.startTime ) > 500 )  {
+                        //      this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
+                        //      this.$refs.slipping.style.opacity = '0';
+                        //      this.$refs.login.style.bottom = '1%'
+                        // } else {
+                        //   this.$refs.containerFull.scrollTop = 0;
+                        //   console.log('时间太短')
+                        // }
+
+                      if(Math.abs(this.ny) < this.$refs.bannerTop.offsetHeight / 3){
+                        console.log('滑动距离太小');
+                        this.$refs.containerFull.scrollTop = 0;
+                      } else {
+                        this.$refs.containerFull.scrollTop = this.$refs.bannerTop.offsetHeight;
+                      }
+
+                    }
                 }else if(this.angle < 135 && this.angle >= 45){
-                    alert('下滑动');
-                    return false;
+
+
                 }
 
 
             })
-        }
+        },
+        methods: {
+            change_success: function(obj){
+                this.isTrue = obj.type;
+                this.isTrueChild = obj.type_child;
+                this.success_obj = this.success_program[obj.arr_1][obj.arr_2];
+                this.success_arr = this.success_program[obj.arr_1];
+                this.scroll_index = 0;
+                this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * 0}rem)`;
+            },
+            /*  动画  */
+            scrollAdd: function() {
+                clearInterval(this.time);
+                this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * this.scroll_index}rem)`;
+
+            },
+            scrollMunus:function() {
+                this.time = setInterval( ()=> {
+                    this.setIntervalFun();
+                }, 1000)
+            },
+
+            setIntervalFun: function() {
+                // 2张或者以上图片才滑动
+                if(this.success_arr.length > 1) {
+                    if (this.timeFlag) {
+                        if(this.scroll_index < this.success_arr.length - 1) {
+                            this.scroll_index ++;
+                            if (this.$refs.imgParentRef) {
+                              this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * this.scroll_index}rem)`;
+                            }
+                        } else {
+                            this.timeFlag = false;
+                        }
+                    } else {
+                        if (this.scroll_index > 0) {
+                            this.scroll_index --;
+                          if (this.$refs.imgParentRef) {
+                            this.$refs.imgParentRef.style.transform = `translate(0, ${-3.7 * this.scroll_index}rem)`;
+                          }
+                        } else {
+                            this.timeFlag = true;
+                        }
+                    }
+                    this.success_obj = this.success_arr[this.scroll_index];
+                    this.isTrueChild = this.success_obj.type;
+                }
+            },
+
+            scrollSetInterval: function(){
+                this.time = setInterval( ()=> {
+                    this.setIntervalFun();
+                }, 1000)
+            },
+            /* 动画  */
+
+           /*login */
+          login() {
+            this.login_show = true;
+          },
+          login_cancel() {
+            this.login_show = false;
+          }
+
+          /*login */
+
+    }
     }
 </script>
 
@@ -508,13 +674,13 @@
         bottom:0;
         left:0;
         right:0;
-        background-color: #08061a;
+        background-color: #02030c;
     }
     .scroll-content {
-        background-color: #08061a;
+        background-color: #02030c;
     }
     .containerFull {
-        /*transition: all 1s;*/
+
         overflow: auto;
         position: absolute;
         top:0;
@@ -523,6 +689,9 @@
         right:0;
         margin-top: 0.64rem;
         color: white;
+      &.transition{
+        transition: all 200ms ease;
+      }
         .banner {
             width: 100%;
             /* 处理margin-top有问题 */
@@ -713,6 +882,9 @@
                         width:1.06rem;
                         height:0.39rem;
                         margin-right:0.23rem;
+                      &.active {
+                        background-color: #133379;
+                      }
                     }
                 }
                 .banner-content {
@@ -723,12 +895,32 @@
                              display: inline-block;
                             .top_title {
                                 height: 0.9rem;
+                                >div {
+                                  width:0.49rem;
+                                  height: 0.49rem;
+                                  display:inline-block;
+                                  vertical-align: middle;
+                                  background-size: 100% !important;
+                                }
                             }
                             .top_bg {
                                 background: url('../assets/home/case-bg.png') no-repeat center center;
                                 width: 4.19rem;
                                 height: 3.84rem;
                                 background-size: 4.19rem 3.84rem;
+                                font-size: 0.24rem;
+                              line-height: 0.1rem;
+                               ul > li {
+                                 padding: 0.5rem 0 0 0.1rem;
+                                 .icon {
+                                   display:inline-block;
+                                   width: 0.1rem;
+                                   height:0.1rem;
+                                   border-radius: 50%;
+                                   background-color: #0d83ed;
+                                   margin-right:0.2rem;
+                                 }
+                               }
                             }
                         }
                         .right {
@@ -738,13 +930,29 @@
                             width: 2.49rem;
                             height: 4.74rem;
                             background-size: 2.49rem  4.74rem;
+                            padding-left: 0.12rem;
+                            padding-top: 0.57rem;
+                            .parent {
+                                overflow: hidden;
+                                height: 3.70rem;
+                                img {
+                                    width: 2.20rem;
+                                    height: 3.70rem;
+                                }
+                            }
                         }
                     }
                     .bottom {
                         margin-top: 0.5rem;
-                        img {
-                            width: 0.44rem;
-                            height:0.44rem;
+                        > div {
+                            display:inline-block;
+                            width: 0.49rem;
+                            height:0.49rem;
+                            margin-right: 0.2rem;
+                            background-size: 100% !important;
+                            &.active {
+                                   background-position: 0  0 !important;
+                            }
                         }
                     }
                 }
@@ -775,16 +983,17 @@
 
             }
             &.banner-link{
+                margin-bottom: 1.5rem;
                 padding: 1rem 0.4rem;
                 color: white;
-                background-color: #0a0c2b;
+                background-color: #0a0b26;
                 .title {
                     background: url('../assets/home/link.png') no-repeat center center;
                     background-size: auto 100%;
                     height: 0.48rem;
                 }
                 .text {
-                    font-size: 0.16rem;
+                    font-size: 0.24rem;
                     color: white;
                     margin-top: 0.3rem;
                     text-indent: 0.6rem;
@@ -797,11 +1006,20 @@
                            width:92%;
                            margin-left: 0.2rem;
                            margin-top: 0.32rem;
-                           input {
+                           height: 0.6rem;
+                           .input {
+                             height: 100%;
+                             border: 1px solid #e1e3e5;
+                             /* input默认的背景图是白色的 */
+                             background-color: white;
+                             input {
                                text-indent: 0.5rem;
                                width:100%;
-                               height: 0.6rem;
+                               height: 100%;
+                               border: none;
+                             }
                            }
+
                            img {
                                width:0.27rem;
                                height:0.28rem;
@@ -902,7 +1120,8 @@
     }
 
     .login {
-        position: absolute;
+        /*position: absolute;*/
+        position: fixed;
         bottom:10%;
         left:0;
         width: 100%;
