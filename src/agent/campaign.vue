@@ -115,8 +115,6 @@
       <router-view></router-view>
     </transition>
 
-
-
     <action-sheet v-model="show">
       <div>
         <div class="operating">

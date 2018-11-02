@@ -560,7 +560,7 @@
                     this.$refs.containerCon.style.top =  -this.$refs.bannerTop.offsetHeight + 'px';
                     /* 对于login和箭头的控制  */
                     this.$refs.slipping.style.opacity = 0;
-                    this.$refs.login.style.opacity = 0
+                    this.$refs.login.style.opacity = 0;
                     setTimeout(()=> {
                       this.$refs.containerCon.classList.remove('transition')
                     }, 200)
@@ -569,7 +569,7 @@
                 else {
                   this.path = true;
                   setTimeout(()=>{
-                    this.$refs.containerCon.style.top = 0 + 'px'
+                    this.$refs.containerCon.style.top = 0 + 'px';
                     setTimeout(()=> {
                       this.$refs.containerCon.classList.remove('transition')
                     }, 200)
@@ -583,7 +583,7 @@
                 }else if(this.angle < 135 && this.angle >= 45){
                    //  console.log('下滑动')
                    if (!this.path && this.$refs.containerFull.scrollTop === 0) {
-                     if ( -this.topTwo < this.$refs.bannerTop.offsetHeight / 2 ) {
+                     if ( -this.topTwo < this.$refs.bannerTop.offsetHeight / 1.5 ) {
                        this.$refs.containerCon.style.top = 0;
                        this.$refs.slipping.style.opacity = 1;
                        this.$refs.login.style.opacity = 1;

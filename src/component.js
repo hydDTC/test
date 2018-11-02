@@ -9,7 +9,6 @@ export default function (Vue) {
     Vue.component(header.name, header);
     Vue.component(footer.name, footer);
     Vue.component(budget.name, budget);
-    Vue.component(budget.name, budget);
     Vue.component(login.name, login);
     Vue.component(actionSheet.name, actionSheet);
     Vue.component(modal.name, modal);

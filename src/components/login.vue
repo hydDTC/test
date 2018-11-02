@@ -210,10 +210,10 @@
      .input {
        border: 1px solid #e1e3e5;
        height: 100%;
+       border-radius: 0.03rem;
        input {
          width : 100%;
          height: 100%;
-         border-radius: 0.03rem;
          text-indent: 0.9rem;
          border: none;
        }

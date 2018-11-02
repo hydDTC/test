@@ -56,7 +56,7 @@ export default {
   background: url("../assets/img/data.png") no-repeat center;
   background-size: 100%;
   &.active {
-    // background: url("../assets/img/data_active.png") no-repeat center;
+    background: url("../assets/img/data_active.png") no-repeat center;
     background-size: 100%;
   }
 }
@@ -74,7 +74,7 @@ export default {
   background: url("../assets/img/creative.png") no-repeat center;
   background-size: 100%;
   &.active {
-    // background: url("../assets/img/creative_active.png") no-repeat center;
+    background: url("../assets/img/creative_active.png") no-repeat center;
     background-size: 100%;
   }
 }

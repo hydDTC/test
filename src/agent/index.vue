@@ -80,7 +80,7 @@
               </div>
               <div class="flex">
                 <p class="info-number">￥3,500</p>
-                <button class="budget-edit btn btn-primary" @click="budget_show = !budget_show">修改</button>
+                <button class="budget-edit btn btn-primary" @click="change_budget">修改</button>
               </div>
           </div>
 
@@ -117,27 +117,8 @@
     </transition>
 
 
-    <!-- 修改预算 -->
-    <!--  :value="show" @input="handleInput"  v-modal的缩写-->
-    <modal v-model="budget_show">
-      <div class="budget_show">
-        <h2>修改每日预算</h2>
-        <div class="tips">
-          <p>当前账户每日预算 3,500/天</p>
-          <p>每次修改幅度≥50元</p>
-        </div>
-        <form class="form">
-          <div class="connect">
-            <div class="input">
-              <input v-model="money" placeholder="邮箱" type="text">
-            </div>
-          </div>
-          <div class="btn">
-            <button>取消</button>
-            <button>确定</button>
-          </div>
-        </form>
-      </div>
+    <modal v-if="budget_show">
+
     </modal>
 
   </div>
@@ -148,7 +129,7 @@ export default {
     return {
       message: "hyd",
       budget_show: false,
-      money: ''
+      money: 100
     };
   },
   beforeCreate() {},
@@ -158,12 +139,12 @@ export default {
     open() {
       this.budget_show = true;
     },
-    // change_budget(e) {
-    //   console.log("接收到了");
-    //   console.log(e);
-    //   this.budget_show = false;
-    //   this.money = e;
-    // }
+    change_budget(e) {
+      console.log("接收到了");
+      console.log(e);
+      this.budget_show = false;
+      this.money = e;
+    }
   },
   beforeRouteLeave(to, from, next) {
     // console.log(to)
@@ -232,14 +213,9 @@ export default {
   .card-border {
     padding: 0.3rem 0;
     border-bottom: 1px solid #efefef;
-    display: flex;
-    justify-content: space-around;
   }
   .item {
-    width: 46%;
-    &:nth-child(1){
-      border-right : 1px solid #ccc;
-    }
+    width: 50%;
     p:nth-child(1) {
       color: #333333;
       font-size: 0.52rem;
@@ -303,69 +279,6 @@ export default {
   }
 }
 
-.budget_show {
-  text-align: center;
-  h2{
-    color: #333333;
-    font-family: "Microsoft Ya Hei";
-    font-size: 0.36rem;
-    font-weight: 400;
-    margin: 0.34rem auto;
-  }
-  .tips {
-    p {
-      margin-bottom: 0.23rem;
-      color: #999999;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.32rem;
-      font-weight: 400;
-    }
-  }
-
-  .form {
-    .connect {
-      margin: 0.44rem auto 0.80rem auto;
-      width: 6.7rem;
-      height: 0.82rem;
-      .input {
-        width: 100%;
-        height:100%;
-        border-radius: 0.055rem;
-        border: 0.02rem solid #cccccc;
-        input {
-          width: 100%;
-          height:100%;
-          border: none;
-          color: #999999;
-          font-family: "Microsoft Ya Hei";
-          font-size: 0.32rem;
-          font-weight: 400;
-          text-indent: 0.32rem;
-        }
-      }
-    }
-    .btn {
-      display: flex;
-      justify-content: space-around;
-      color: #666666;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.36rem;
-      font-weight: 400;
-      margin-bottom: 0.3rem;
-      padding: 0;
-      button {
-        width: 3.20rem;
-        height: 0.8rem;
-        border-radius: 0.055rem;
-        background-color: #efefef;
-        &:nth-child(2){
-          background-color: #3090e6;
-        }
-      }
-    }
-  }
-
-}
 
 
 </style>

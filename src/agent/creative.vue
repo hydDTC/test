@@ -89,7 +89,7 @@
             </i>
           </div>
 
-          <div class="card-data flex" @click="go()" v-for="item in 5">
+          <div class="card-data flex" @click="go()" v-for="item in 6">
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
@@ -111,49 +111,13 @@
       </div>
     </div>
 
+    <modal v-model="show">
+      <h1>123</h1>
+    </modal>
+
     <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
       <router-view></router-view>
     </transition>
-
-
-
-    <action-sheet v-model="show">
-      <div>
-        <div class="operating">
-          <h3 class="title-text">排序</h3>
-          <div class="flex item">
-            <span class="selected">默认排序</span>
-            <span>曝光</span>
-            <span>点击</span>
-            <span>点击成本</span>
-            <span>曝光成本</span>
-            <span>花费</span>
-          </div>
-
-          <h3 class="title-text">状态</h3>
-          <div class="flex item">
-            <span class="selected">全部</span>
-            <span>启用中</span>
-            <span>暂停</span>
-            <span>结束</span>
-          </div>
-
-          <h3 class="title-text">操作</h3>
-          <div class="flex item">
-            <span class="selected">全部</span>
-            <span>开启</span>
-            <span>关闭</span>
-          </div>
-
-        </div>
-        <div class="flex operating-btn">
-          <button>重置</button>
-          <button>确定</button>
-        </div>
-      </div>
-    </action-sheet>
-
-
 
   </div>
 </template>
@@ -161,17 +125,18 @@
 export default {
   data() {
     return {
-      show:false,
+      show:false
     };
   },
-  methods: {
-    go() {
-      this.$router.push({ name: "campaignDetail" });
+  methods:{
+    go(){
+      this.$router.push({ name: 'creativeDetail' })
     },
-    change() {
-      alert(1);
+    change(){
+      alert(1)
     },
     eventTouch(event) {
+      console.info(event)
       let scrollTop = this.$refs.scrollContent.scrollTop;
       let clientHeight = this.$refs.searchBox.clientHeight;
       if (event.position.y === 0) return;
@@ -185,73 +150,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.operating{
-  padding: 0.3rem;
-  .title-text{
-    color: #333333;
-    font-size: 0.3rem;
-    padding: 0.3rem 0;
-  }
-  .item{
-    flex-wrap:wrap;
-    justify-content:space-between;
-    span{
-      display: block;
-      width: 2.16rem;
-      height: 0.64rem;
-      border-radius: 0.02rem;
-      border: 1px solid #efefef;
-      background-color: #f7f7f7;
-      text-align: center;
-      line-height: 0.64rem;
-      margin-bottom: 0.2rem;
-      color: #666666;
-      font-size: 0.26rem;
-      font-weight: 400;
-      position: relative;
-      &.selected{
-        color: #3a93e2;
-        border-radius: 0.02rem;
-        border: 1px solid #3090e6;
-        background-color: #e2efff;
-        &::after{
-          content: '';
-          background: url("../assets/img/selected-bc.png") no-repeat right bottom;
-          background-size: 100%;
-          width: 0.4rem;
-          height: 0.4rem;
-          display: block;
-          position: absolute;
-          // bottom: 0;
-          // right: 0;
-          bottom: -0.01rem;
-          right: -0.01rem;
-        }
-      }
-    }
-  }
-}
-.operating-btn{
-  height: 0.85rem;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  button{
-    flex: 1;
-    font-size: 0.32rem;
-    font-weight: 400;
-  }
-  button:nth-child(1){
-    background: #eaf4fe;
-    color: #398ded;
-  }
-  button:nth-child(2){
-    background:#3090e6;
-    color: #ffffff;
-  }
-}
-
-
 .search-box {
   &.slide {
     top: -0.94rem;
