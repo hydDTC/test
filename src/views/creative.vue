@@ -1,22 +1,21 @@
 <template>
   <div class="push">
-    <div class="tab-content">
+    <div class="tab-content" v-touch-event="eventTouch">
     <!-- <y-header title="活动"></y-header> margin-header -->
 
-      <div class="search-box flex">
+      <div class="search-box flex" ref="searchBox">
         <div class="flex search">
           <i class="input-search-icon"></i>
-          <input type="search" placeholder="请输入创意的名称、ID ……" @change="change()">
+          <input type="search" placeholder="请输入创意的名称、ID ……" @search="change()">
         </div>
         <div class="flex search-screen">
           <span @click="show = !show">筛选</span>
-          <!-- <i> -->
-            <svg id="SVGDoc" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12"><defs><path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/></defs><desc>Generated with Avocode.</desc><g transform="matrix(1,0,0,1,-697,-172)"><g><title>多边形 1</title><use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/></g></g></svg>
-          <!-- </i> -->
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12"><defs><path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/></defs><desc>Generated with Avocode.</desc><g transform="matrix(1,0,0,1,-697,-172)"><g><title>多边形 1</title><use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/></g></g></svg>
         </div>
       </div>
+
       <div class="content">
-        <div class="scroll-content" margin-tabbar style="margin-top: 0.94rem;">
+        <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent">
 
           <div class="card-data flex" @click="go()">
             <div class="status-item">
@@ -113,7 +112,7 @@
     </div>
 
     <modal v-model="show">
-      123
+      <h1>123</h1>
     </modal>
 
     <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
@@ -135,12 +134,26 @@ export default {
     },
     change(){
       alert(1)
+    },
+    eventTouch(event) {
+      console.info(event)
+      let scrollTop = this.$refs.scrollContent.scrollTop;
+      let clientHeight = this.$refs.searchBox.clientHeight;
+      if (event.position.y === 0) return;
+      if (event.position.y > 0) {
+        this.$refs.searchBox.classList.remove("slide");
+      } else if (event.position.y < 0 && scrollTop >= clientHeight) {
+        this.$refs.searchBox.classList.add("slide");
+      }
     }
   }
 };
 </script>
 <style lang="less" scoped>
 .search-box {
+  &.slide {
+    top: -0.94rem;
+  }
   left: 0;
   top: 0;
   position: absolute;
@@ -151,6 +164,7 @@ export default {
   background-color: #ffffff;
   padding: 0 0.3rem;
   align-items: center;
+  transition: top 0.2s ease-in-out;
   .input-search-icon {
     width: 0.28rem;
     height: 0.28rem;
@@ -159,14 +173,13 @@ export default {
     background-size: 100%;
   }
   .search {
-    // width: 5.6rem;
     flex: 1;
     height: 0.58rem;
     border-radius: 0.1rem;
     background-color: #eeeeee;
     align-items: center;
     margin-right: 0.4rem;
-    .input-search-icon{
+    .input-search-icon {
       margin: 0 0.2rem;
     }
     input {
@@ -174,21 +187,20 @@ export default {
       height: 100%;
       border: none;
       background: transparent;
-      color: #999999;
       font-size: 0.28rem;
       font-weight: 400;
     }
   }
-  .search-screen{
+  .search-screen {
     margin-left: auto;
     align-items: center;
-    >span{
+    > span {
       color: #666666;
       font-size: 0.32rem;
       font-weight: 400;
       padding-right: 0.1rem;
     }
-    >svg{
+    > svg {
       width: 0.23rem;
       height: 0.12rem;
     }

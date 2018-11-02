@@ -10,7 +10,7 @@
         </div>
         <div class="flex search-screen">
           <span @click="show = !show">筛选</span>
-          <svg id="SVGDoc" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12"><defs><path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/></defs><desc>Generated with Avocode.</desc><g transform="matrix(1,0,0,1,-697,-172)"><g><title>多边形 1</title><use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/></g></g></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12"><defs><path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/></defs><desc>Generated with Avocode.</desc><g transform="matrix(1,0,0,1,-697,-172)"><g><title>多边形 1</title><use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/></g></g></svg>
         </div>
       </div>
 
@@ -287,7 +287,6 @@ export default {
       height: 100%;
       border: none;
       background: transparent;
-      color: #999999;
       font-size: 0.28rem;
       font-weight: 400;
     }

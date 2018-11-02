@@ -19,6 +19,11 @@
       <router-view name="mode"></router-view>
     </transition>
 
+    <!-- 首次加载 -->
+    <transition  name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <router-view name="index"></router-view>
+    </transition>
+
   </div>
 </template>
 
