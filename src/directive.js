@@ -50,7 +50,7 @@ export default function (Vue) {
       input.type = 'file';
       input.style.display = 'none';
       input.onchange = (event)=> {
-        binding.value(event)
+        binding.value(event.target.files)
         input.value = null;
       }
       el.addEventListener('click',()=> {

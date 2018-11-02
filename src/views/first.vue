@@ -43,7 +43,7 @@
 
           <div class="card-upload">
             <h2 class="title-upload">营业执照正面</h2>
-            <div class="upload-box">
+            <div class="upload-box" v-file-upload="fileChange">
               <div class="upload-prompt">
                 <p>+</p>
                 <p>立即上传</p>
@@ -55,7 +55,7 @@
 
           <div class="card-upload">
             <h2 class="title-upload">法人身份证正反面</h2>
-            <div class="upload-box">
+            <div class="upload-box" v-file-upload="fileChange">
               <div class="upload-prompt">
                 <p>+</p>
                 <p>立即上传</p>
@@ -63,7 +63,7 @@
             </div>
 
             <h2 class="title-upload">IPC备案信息</h2>
-            <div class="upload-box">
+            <div class="upload-box" v-file-upload="fileChange">
               <div class="upload-prompt">
                 <p>+</p>
                 <p>立即上传</p>
@@ -88,7 +88,7 @@ export default {
   mounted() {},
   methods: {
     fileChange(file){
-      console.info(file)
+      console.info(file[0])
     }
   }
 };
