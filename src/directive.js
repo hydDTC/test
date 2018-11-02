@@ -42,6 +42,23 @@ export default function (Vue) {
       }, false)
     }
   })
+  Vue.directive('file-upload', {
+    bind: function (el, binding, vnode) {
+      console.info('ok')
+      if (!(typeof binding.value === 'function')) return;
+      let input = document.createElement('input')
+      input.type = 'file';
+      input.style.display = 'none';
+      input.onchange = (event)=> {
+        binding.value(event)
+        input.value = null;
+      }
+      el.addEventListener('click',()=> {
+        input.click()
+      })
+      el.appendChild(input)
+    }
+  })
 }
 
 function position(p) {
