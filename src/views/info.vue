@@ -4,7 +4,6 @@
     <div class="content">
       <div class="scroll-content">
 
-
           <ul class="title">
             <li>今天</li>
             <li>昨天</li>
@@ -105,7 +104,6 @@
         }]
       };
       myChart.setOption(option);
-
     }
 
   }

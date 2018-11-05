@@ -2,17 +2,24 @@
     <div class="content-modal">
         <y-header title="用户"></y-header>
         <div class="content">
-            <div class="scroll-content" margin-tabbar margin-header>
-                <router-link to="/index"> <span>返回</span> </router-link>
-                <h1>当前账户</h1>
-                index
-                <router-link :to="{name:'user'}"> <h1>上海银橙传媒有限公司</h1> </router-link>
-                <router-link to="/login"> <h1>login</h1> </router-link>
-                <span @click="open()">修改预算: {{money}}</span>
+            <div class="scroll-content" margin-header>
+                <!--<router-link to="/index"> <span>返回</span> </router-link>-->
+                <!--<h1>当前账户</h1>-->
+                <!--index-->
+                <!--<router-link :to="{name:'user'}"> <h1>上海银橙传媒有限公司</h1> </router-link>-->
+                <!--<router-link to="/login"> <h1>login</h1> </router-link>-->
+                <!--<span @click="open()">修改预算: {{money}}</span>-->
 
-                <transition name="fade">
-                  <y-budget v-if="budget_show"  @change_budget="change_budget" :money="money"></y-budget>
-                </transition>
+                <!--<transition name="fade">-->
+                  <!--<y-budget v-if="budget_show"  @change_budget="change_budget" :money="money"></y-budget>-->
+                <!--</transition>-->
+
+              <div class="title-bg"></div>
+              <div class="title-bg">
+
+              </div>
+
+
             </div>
         </div>
     </div>
@@ -24,9 +31,10 @@
     }
 </script>
 
-<style scoped>
-    h1,span {
-        font-size: 0.19rem;
-    }
+<style scoped lang="less">
+   .title-bg {
+     height: 1.80rem;
+     background: url('../assets/img/user-bg.png') no-repeat;
+   }
 
 </style>

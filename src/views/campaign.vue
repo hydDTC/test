@@ -166,6 +166,7 @@ export default {
   },
   methods: {
     go() {
+      console.log('push')
       this.$router.push({ name: "campaignDetail" });
     },
     change() {
