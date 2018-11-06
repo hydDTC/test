@@ -11,7 +11,12 @@ require("./vendor.js")  // 全局的css
 
 
 Vue.config.productionTip = false;
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = echarts;
+
+
+
+
+
 
 new Vue({
   render: h => h(App),
