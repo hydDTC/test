@@ -6,7 +6,7 @@
             <div class="scroll-content" margin-tabbar margin-header>
 
               <div class="title">
-                <span>看看定向保的问题</span>
+                <span>[平实型]产品功能</span>
               </div>
 
               <div class="data-card">
@@ -50,7 +50,7 @@
 
               <div class="consume">
                 <div class="left"> <span>每日消耗：</span> <span>￥9,000</span></div>
-                <button>修改</button>
+                <button class="btn btn-primary">修改</button>
               </div>
 
 
@@ -95,9 +95,8 @@
 
           <div class="footer">
             <span>状态：<span class="status">投放中</span></span>
-            <img src="../assets/img/2-layers.png">
+            <switch-input v-model="valueStatus" ></switch-input>
           </div>
-
 
         </div>
     </div>
@@ -107,7 +106,8 @@
 export default {
   data() {
     return {
-      campaignName: ''
+      campaignName: '',
+      valueStatus: false,
     };
   }
 };
@@ -178,12 +178,6 @@ export default {
         font-weight: 400;
       }
     }
-    button {
-      width: 1.24rem;
-      height: 0.60rem;
-      border-radius: 0.05rem;
-      background-color: #3090e6;
-    }
   }
 
   .campaign {
@@ -214,6 +208,9 @@ export default {
         border-bottom: 1px solid #efefef;
         display: flex;
         align-items: center;
+        &:last-child{
+          border-bottom: none;
+        }
         span{
           color: #999999;
           font-size: 0.24rem;
@@ -222,6 +219,7 @@ export default {
         }
         .status-go {
           width: 0.2rem;
+          min-width: 0.2rem;
           height: 0.33rem;
           display: block;
           margin-left: auto;
@@ -249,10 +247,6 @@ export default {
       .status {
         color: #999999;
       }
-    }
-    img {
-      width: 1.03rem;
-      height:0.6rem;
     }
   }
 
