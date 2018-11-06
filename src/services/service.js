@@ -12,6 +12,12 @@ export function campaignList(body = {}) {
   return get('/ads/campaign/list', body);
 }
 
+export function campaignDetail(body = {}) {
+  return get('/ads/campaign/initEdit', body);
+}
+
+
+
 
 /**
  *  创意相关接口

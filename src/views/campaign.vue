@@ -6,7 +6,7 @@
       <div class="search-box flex" ref="searchBox">
         <div class="flex search">
           <i class="input-search-icon"></i>
-          <input type="search" placeholder="请输入创意的名称、ID ……" @search="change()">
+          <input type="search" placeholder="请输入创意的名称、ID ……" @search="change()" v-model="query.search_text">
         </div>
         <div class="flex search-screen">
           <span @click="show = !show">筛选</span>
@@ -27,7 +27,7 @@
       <div class="content">
         <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent">
 
-          <div class="card-data flex" @click="go()" v-for="list in campaList">
+          <div class="card-data flex" @click="go(list.campaign_id)" v-for="list in list">
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
@@ -69,30 +69,30 @@
         <div class="operating">
           <h3 class="title-text">排序</h3>
           <div class="flex item">
-            <span :class="{'selected': sort_expression===''}" @click="sort_expression = '' ">默认排序</span>
-            <span @click="sort_expression = 'pv' " :class="{'selected': sort_expression==='pv'}">曝光</span>
-            <span @click="sort_expression = 'click'" :class="{'selected': sort_expression==='click'}">点击</span>
-            <span @click="sort_expression = 'cpc'" :class="{'selected': sort_expression==='cpc'}">点击成本</span>
-            <span @click="sort_expression = 'cpm'" :class="{'selected': sort_expression==='cpm'}">曝光成本</span>
-            <span @click="sort_expression = 'admoney'" :class="{'selected': sort_expression==='admoney'}">花费</span>
+            <span :class="{'selected': query.sort_expression===''}" @click="query.sort_expression = '' ">默认排序</span>
+            <span @click="query.sort_expression = 'pv' " :class="{'selected': query.sort_expression==='pv'}">曝光</span>
+            <span @click="query.sort_expression = 'click'" :class="{'selected': query.sort_expression==='click'}">点击</span>
+            <span @click="query.sort_expression = 'cpc'" :class="{'selected': query.sort_expression==='cpc'}">点击成本</span>
+            <span @click="query.sort_expression = 'cpm'" :class="{'selected': query.sort_expression==='cpm'}">曝光成本</span>
+            <span @click="query.sort_expression = 'admoney'" :class="{'selected': query.sort_expression==='admoney'}">花费</span>
           </div>
 
           <h3 class="title-text">状态</h3>
           <div class="flex item">
-            <span :class="{'selected': current_state===''}"   @click="current_state = '' ">全部</span>
-            <span v-for="ad_states in ad_current_states" @click="current_state = ad_states.lookup_code" :class="{'selected': current_state=== ad_states.lookup_code}">{{ad_states.meaning}}</span>
+            <span :class="{'selected': query.current_state===''}"   @click="current_state = '' ">全部</span>
+            <span v-for="ad_states in ad_current_states" @click="query.current_state = ad_states.lookup_code" :class="{'selected': query.current_state=== ad_states.lookup_code}">{{ad_states.meaning}}</span>
           </div>
 
           <h3 class="title-text">操作</h3>
           <div class="flex item">
-            <span :class="{'selected': show_state===''}" @click="show_state = ''">全部</span>
-            <span v-for="show_status in show_states" @click="show_state = show_status.lookup_code" :class="{'selected': show_state === show_status.lookup_code}">{{show_status.meaning}}</span>
+            <span :class="{'selected': query.show_state===''}" @click="query.show_state = ''">全部</span>
+            <span v-for="show_status in show_states" @click="query.show_state = show_status.lookup_code" :class="{'selected': query.show_state === show_status.lookup_code}">{{show_status.meaning}}</span>
           </div>
 
           <h3 class="title-text">时间</h3>
           <div class="flex item">
-            <span class="date"><input type="date" v-model="begin_date"></span>
-            <span class="date"><input type="date" v-model="end_date"></span>
+            <span class="date"><input type="date" v-model="query.begin_date"></span>
+            <span class="date"><input type="date" v-model="query.end_date"></span>
           </div>
 
 
@@ -116,28 +116,50 @@
       return {
         show: false,
         ad_current_states:[],
-        current_state:'',
         show_states:[],
-        show_state:'',
-        sort_expression: '',
-        sort_direction: '',
-        campaList: [],
-        begin_date:'',
-        end_date: ''
+        list: [],
+        query: {
+          page_index: 1,
+          page_size: 10,
+          search_text:'',
+          begin_date:'',
+          end_date: '',
+          sort_expression: '',
+          show_state:'',
+          current_state:'',
+        },
+        flag: true
       };
     },
-    mounted(){
-      this.begin_date = this.fmtDate();
-      this.end_date = this.fmtDate();
+    // this可以访问的到
+    created(){
+      this.query.begin_date = this.fmtDate();
+      this.query.end_date = this.fmtDate();
       campaignInit({}).then((res)=> {
         console.info(res);
         this.ad_current_states = res.result.ad_current_states;
         this.show_states = res.result.show_states;
       })
-      campaignList({}).then( res => {
+      campaignList(this.query).then( res => {
         console.info(res);
-        this.campaList = res.result.items;
+        this.list.push(...res.result.items)
       })
+    },
+    mounted(){
+
+      this.$refs.scrollContent.addEventListener("scroll", event => {
+       if ( event.target.scrollHeight - event.target.scrollTop -  window.document.body.offsetHeight <= 50  ) {
+              if (this.flag) {
+                this.flag = false;
+                this.query.page_index ++;
+                campaignList(this.query).then( res => {
+                  this.list.push(...res.result.items);
+                  this.flag = true;
+                })
+              }
+       }
+      })
+
     },
     filters: {
         imgFilter: function (value) {
@@ -159,14 +181,19 @@
       }
     },
     watch: {
-      begin_date: function(val, oldVal) {
-        console.log('new: %s, old: %s', val, oldVal)
-      }
+      // begin_date: function(val, oldVal) {
+      //   console.log('new: %s, old: %s', val, oldVal)
+      // }
     },
     methods: {
-      go() {
+      go(id) {
         console.log("push");
-        this.$router.push({name: "campaignDetail"});
+        let obj = {
+          campaign_id: id,
+          beginDate: this.query.begin_date,
+          endDate: this.query.end_date
+        }
+        this.$router.push({name: "campaignDetail",  query: obj });
       },
       change() {
         alert(1);
@@ -182,11 +209,11 @@
         }
       },
       recover() {
-        this.show_state = '';
-        this.sort_expression = '';
-        this.current_state = '';
-        this.begin_date = this.fmtDate();
-        this.end_date = this.fmtDate();
+        this.query.show_state = '';
+        this.query.sort_expression = '';
+        this.query.current_state = '';
+        this.query.begin_date = this.fmtDate();
+        this.query.end_date = this.fmtDate();
       },
       fmtDate(){
         let date =  new Date();
@@ -196,7 +223,17 @@
         return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
       },
       ensure() {
-
+        // let body = {
+        //   show_state : this.query.show_state,
+        //   sort_expression :this.query.sort_expression,
+        //   current_state : this.query.current_state,
+        //   begin_date : this.query.begin_date,
+        //   end_date :  this.query.end_date
+        // }
+        campaignList(this.query).then( res => {
+          this.list = res.result.items;
+          this.show = false;
+        })
       }
     }
   };
