@@ -81,229 +81,222 @@
   </div>
 </template>
 <script>
-  export default {
-
-    data() {
-      return {
-        canvaData: [
-          {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
+export default {
+  data() {
+    return {
+      canvaData: [
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
         },
-          {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          },
-          {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          }, {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          }, {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          },
-          {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          },
-          {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          }, {
-            'time':19,
-            'baoguang': '1000',
-            'dianji': '2000',
-            'consume': 2000
-          },
-
-
-
-
-
-
-        ]
-      }
-    },
-    created(){
-
-    },
-    mounted() {
-      console.log(this.$refs.canvasInfo);
-      let myChart = this.$echarts.init(this.$refs.canvasInfo);
-      // let option = {
-      //   xAxis: {
-      //     type: 'category',
-      //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      //     splitLine: {
-      //       show: true
-      //     },
-      //     boundaryGap: true,
-      //     axisTick: {
-      //       show : true
-      //     }
-      //   },
-      //   yAxis: {
-      //     type: 'value',
-      //     splitLine: {
-      //       show: true
-      //     }
-      //   },
-      //   series: [{
-      //     data: [820, 932, 901, 934, 1290, 1330, 1320],
-      //     type: 'line',
-      //     itemStyle: {
-      //       normal: {
-      //         color: "blue",
-      //         lineStyle: {
-      //           color: "blue"
-      //         }
-      //       }
-      //     },
-      //   }]
-      // };
-
-      let option =   {
-        tooltip : {
-          trigger: 'axis'
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
         },
-        grid: {
-          left: '4%',
-          right: '4%',
-          bottom: '3%',
-          top:"18%",
-          containLabel: true,
-          backgroundColor:"blue"
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
         },
-        calculable : true,
-        xAxis : [
-          {
-            type : 'category',
-            boundaryGap : false,
-            data : [1,2,3,4,5,6,7],
-            axisLine:{
-              lineStyle:{
-                color: '#bfc4cd'
-              }
-            },
-            splitLine:{
-              show:true,
-              lineStyle:{
-                color: ['#f8f8f8'],
-                width: 1,
-                type: 'solid'
-              }
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
+        },
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
+        },
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
+        },
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
+        },
+        {
+          time: 19,
+          baoguang: "1000",
+          dianji: "2000",
+          consume: 2000
+        }
+      ]
+    };
+  },
+  created() {},
+  mounted() {
+    console.log(this.$refs.canvasInfo);
+    let myChart = this.$echarts.init(this.$refs.canvasInfo);
+    // let option = {
+    //   xAxis: {
+    //     type: 'category',
+    //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    //     splitLine: {
+    //       show: true
+    //     },
+    //     boundaryGap: true,
+    //     axisTick: {
+    //       show : true
+    //     }
+    //   },
+    //   yAxis: {
+    //     type: 'value',
+    //     splitLine: {
+    //       show: true
+    //     }
+    //   },
+    //   series: [{
+    //     data: [820, 932, 901, 934, 1290, 1330, 1320],
+    //     type: 'line',
+    //     itemStyle: {
+    //       normal: {
+    //         color: "blue",
+    //         lineStyle: {
+    //           color: "blue"
+    //         }
+    //       }
+    //     },
+    //   }]
+    // };
+
+    let option = {
+      tooltip: {
+        trigger: "axis"
+      },
+      grid: {
+        left: "4%",
+        right: "4%",
+        bottom: "3%",
+        top: "18%",
+        containLabel: true,
+        backgroundColor: "blue"
+      },
+      calculable: true,
+      xAxis: [
+        {
+          type: "category",
+          boundaryGap: false,
+          data: [1, 2, 3, 4, 5, 6, 7],
+          axisLine: {
+            lineStyle: {
+              color: "#bfc4cd"
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: ["#f8f8f8"],
+              width: 1,
+              type: "solid"
             }
           }
-        ],
-        yAxis : [
-          {
-            type : 'value',
-            axisLine:{
-              lineStyle:{
-                color: '#bfc4cd'
-              }
-            },
-            splitLine:{
-              show:true,
-              lineStyle:{
-                color: ['#f8f8f8'],
-                width: 1,
-                type: 'solid'
-              }
+        }
+      ],
+      yAxis: [
+        {
+          type: "value",
+          axisLine: {
+            lineStyle: {
+              color: "#bfc4cd"
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: ["#f8f8f8"],
+              width: 1,
+              type: "solid"
             }
           }
-        ],
-        series : [
-          {
-            name:'hahahha',
-            type:'line',
-            smooth:true,
-            itemStyle:{
-              normal:{
-                color: "#47a4df" //图标颜色
-              }
-            },
-            lineStyle:{
-              normal:{
-                color: "#47a4df"  //连线颜色
-              }
-            },
-            data:[2,3,4,5,6,7,8]
-          }
-        ]
-      }
-      myChart.setOption(option);
-    }
-
+        }
+      ],
+      series: [
+        {
+          name: "hahahha",
+          type: "line",
+          smooth: true,
+          itemStyle: {
+            normal: {
+              color: "#47a4df" //图标颜色
+            }
+          },
+          lineStyle: {
+            normal: {
+              color: "#47a4df" //连线颜色
+            }
+          },
+          data: [2, 3, 4, 5, 6, 7, 8]
+        }
+      ]
+    };
+    myChart.setOption(option);
   }
+};
 </script>
 <style lang="less" scoped>
-  .title {
-    border-bottom:  1px solid #d9d9d9;
-    li {
-      display: inline-block;
-      width: 25%;
-      height: 1.28rem;
-      line-height: 1.28rem;
-      text-align: center;
-      color: #999999;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.38rem;
-      font-weight: 400;
-    }
-  }
-
-  .canvas-title{
-    margin-top: 0.27rem;
-    background-color: white;
-    width: 7.5rem;
-    height:0.93rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.title {
+  border-bottom: 1px solid #d9d9d9;
+  li {
+    display: inline-block;
+    width: 25%;
+    height: 1.28rem;
+    line-height: 1.28rem;
     text-align: center;
-    border-bottom: 1px solid #d9d9d9;
-    span {
-      display: inline-block;
-      width: 30%;
-      height: 100%;
-      line-height: 0.93rem;
-      color: #3090e6;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.38rem;
-      font-weight: 400;
-      &:nth-child(1) {
-        border-bottom: 1px solid #0e86e3;
-      }
+    color: #999999;
+    font-family: "Microsoft Ya Hei";
+    font-size: 0.38rem;
+    font-weight: 400;
+  }
+}
+
+.canvas-title {
+  margin-top: 0.27rem;
+  background-color: white;
+  width: 7.5rem;
+  height: 0.93rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid #d9d9d9;
+  span {
+    display: inline-block;
+    width: 30%;
+    height: 100%;
+    line-height: 0.93rem;
+    color: #3090e6;
+    font-family: "Microsoft Ya Hei";
+    font-size: 0.38rem;
+    font-weight: 400;
+    &:nth-child(1) {
+      border-bottom: 1px solid #0e86e3;
     }
   }
-  .canvas{
-    background-color: white;
-    border:1px solid red;
-  }
-  .data-card {
-    background: #ffffff;
-    padding: 0 0.3rem;
+}
+.canvas {
+  background-color: white;
+  border: 1px solid red;
+}
+.data-card {
+  background: #ffffff;
+  padding: 0 0.3rem;
   &:last-child {
-  .card-border {
-    border-bottom: none;
-  }
+    .card-border {
+      border-bottom: none;
+    }
   }
   .card-border {
     padding: 0.3rem 0;
@@ -313,45 +306,42 @@
   }
   .item {
     width: 46%;
-  &:nth-child(1){
-     border-right : 1px solid #ccc;
-   }
-  p:nth-child(1) {
-    color: #333333;
-    font-size: 0.52rem;
-  }
-  p:nth-child(2) {
-    color: #999999;
-    font-size: 0.28rem;
-    font-weight: 400;
-  }
-  }
-  }
-
-  table {
-    margin-top: 0.27rem;
-    background-color: white;
-    width: 100%;
-    tr{
-      border-bottom: 1px solid #d9d9d9;
-      th {
-        color: #666666;
-        font-family: "Microsoft Ya Hei";
-        font-size: 0.38rem;
-        font-weight: 400;
-        padding: 0.3rem;
-      }
-      td{
-        padding: 0.3rem;
-        text-align: center;
-        color: #999999;
-        font-family: "Arial MT";
-        font-size: 0.28rem;
-        font-weight: 400;
-      }
+    &:nth-child(1) {
+      border-right: 1px solid #ccc;
+    }
+    p:nth-child(1) {
+      color: #333333;
+      font-size: 0.52rem;
+    }
+    p:nth-child(2) {
+      color: #999999;
+      font-size: 0.28rem;
+      font-weight: 400;
     }
   }
+}
 
-
-
+table {
+  margin-top: 0.27rem;
+  background-color: white;
+  width: 100%;
+  tr {
+    border-bottom: 1px solid #d9d9d9;
+    th {
+      color: #666666;
+      font-family: "Microsoft Ya Hei";
+      font-size: 0.38rem;
+      font-weight: 400;
+      padding: 0.3rem;
+    }
+    td {
+      padding: 0.3rem;
+      text-align: center;
+      color: #999999;
+      font-family: "Arial MT";
+      font-size: 0.28rem;
+      font-weight: 400;
+    }
+  }
+}
 </style>

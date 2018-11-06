@@ -106,148 +106,146 @@
 export default {
   data() {
     return {
-      campaignName: '',
-      valueStatus: false,
+      campaignName: "",
+      valueStatus: false
     };
   }
 };
 </script>
 
 <style scoped lang="less">
+.title {
+  line-height: 0.97rem;
+  height: 0.97rem;
+  color: #333333;
+  font-family: "Microsoft Ya Hei";
+  font-size: 0.32rem;
+  font-weight: 400;
+  background-color: white;
+  border-bottom: 1px solid #efefef;
+  span {
+    margin-left: 0.32rem;
+  }
+}
+.data-card {
+  background: #ffffff;
+  padding: 0 0.3rem;
+  &:last-child {
+    .card-border {
+      border-bottom: none;
+    }
+  }
+  .card-border {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #efefef;
+    display: flex;
+    justify-content: space-around;
+  }
+  .item {
+    width: 46%;
+    &:nth-child(1) {
+      border-right: 1px solid #ccc;
+    }
+    p:nth-child(1) {
+      color: #333333;
+      font-size: 0.52rem;
+    }
+    p:nth-child(2) {
+      color: #999999;
+      font-size: 0.28rem;
+      font-weight: 400;
+    }
+  }
+}
 
-  .title {
-    line-height: 0.97rem;
-    height: 0.97rem;
+.consume {
+  background-color: white;
+  height: 1.21rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .left {
+    margin-left: -0.6rem;
+    span:nth-child(1) {
+      color: #999999;
+      font-size: 0.28rem;
+    }
+    span:nth-child(2) {
+      color: #333333;
+      font-family: "Microsoft Ya Hei";
+      font-size: 0.32rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.campaign {
+  margin-top: 0.21rem;
+  background-color: white;
+  .campaign-title {
+    height: 0.94rem;
+    line-height: 0.94rem;
     color: #333333;
     font-family: "Microsoft Ya Hei";
     font-size: 0.32rem;
     font-weight: 400;
-    background-color: white;
     border-bottom: 1px solid #efefef;
     span {
-      margin-left: 0.32rem;
+      margin-left: 0.31rem;
     }
   }
-  .data-card {
-    background: #ffffff;
-    padding: 0 0.3rem;
-    &:last-child {
-      .card-border {
-        border-bottom: none;
-      }
-    }
-    .card-border {
-      padding: 0.3rem 0;
+  ul {
+    li {
+      margin: 0 auto;
+      width: 94%;
+      padding: 0.3rem;
+      height: 1.83rem;
+      color: #999999;
+      font-family: "Arial MT";
+      font-size: 0.32rem;
+      font-weight: 400;
       border-bottom: 1px solid #efefef;
       display: flex;
-      justify-content: space-around;
-    }
-    .item {
-      width: 46%;
-      &:nth-child(1){
-        border-right : 1px solid #ccc;
+      align-items: center;
+      &:last-child {
+        border-bottom: none;
       }
-      p:nth-child(1) {
-        color: #333333;
-        font-size: 0.52rem;
-      }
-      p:nth-child(2) {
+      span {
         color: #999999;
-        font-size: 0.28rem;
+        font-size: 0.24rem;
         font-weight: 400;
+        margin-left: 0.25rem;
+      }
+      .status-go {
+        width: 0.2rem;
+        min-width: 0.2rem;
+        height: 0.33rem;
+        display: block;
+        margin-left: auto;
+        font-size: 0.2rem;
       }
     }
   }
+}
 
-  .consume {
-    background-color: white;
-    height:1.21rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    .left {
-      margin-left:-0.6rem;
-      span:nth-child(1){
-        color: #999999;
-        font-size: 0.28rem;
-      }
-      span:nth-child(2){
-        color: #333333;
-        font-family: "Microsoft Ya Hei";
-        font-size: 0.32rem;
-        font-weight: 400;
-      }
+.footer {
+  padding: 0 0.35rem;
+  width: 100%;
+  height: 1rem;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    color: #333333;
+    font-family: "Microsoft Ya Hei";
+    font-size: 0.32rem;
+    font-weight: 400;
+    /* Text style for "状态：" */
+    .status {
+      color: #999999;
     }
   }
-
-  .campaign {
-     margin-top:0.21rem;
-     background-color: white;
-    .campaign-title {
-      height:0.94rem;
-      line-height: 0.94rem;
-      color: #333333;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.32rem;
-      font-weight: 400;
-      border-bottom: 1px solid #efefef;
-        span {
-          margin-left:0.31rem;
-        }
-    }
-    ul {
-      li {
-        margin: 0 auto;
-        width: 94%;
-        padding:0.3rem;
-        height:1.83rem;
-        color: #999999;
-        font-family: "Arial MT";
-        font-size: 0.32rem;
-        font-weight: 400;
-        border-bottom: 1px solid #efefef;
-        display: flex;
-        align-items: center;
-        &:last-child{
-          border-bottom: none;
-        }
-        span{
-          color: #999999;
-          font-size: 0.24rem;
-          font-weight: 400;
-          margin-left: 0.25rem;
-        }
-        .status-go {
-          width: 0.2rem;
-          min-width: 0.2rem;
-          height: 0.33rem;
-          display: block;
-          margin-left: auto;
-          font-size: 0.2rem;
-        }
-      }
-    }
-  }
-
-  .footer {
-    padding: 0 0.35rem;
-    width: 100%;
-    height: 1rem;
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    span {
-      color: #333333;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.32rem;
-      font-weight: 400;
-      /* Text style for "状态：" */
-      .status {
-        color: #999999;
-      }
-    }
-  }
-
+}
 </style>

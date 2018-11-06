@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-  name: 'switch-input',
+  name: "switch-input",
   props: {
     value: {
       type: Boolean,
@@ -18,12 +18,12 @@ export default {
     },
     color: {
       type: String,
-      default: '#ccc'
+      default: "#ccc"
     }
   },
   data() {
     return {
-      checked: false,
+      checked: false
     };
   },
   computed: {},
@@ -35,8 +35,8 @@ export default {
       this.checked = val;
     }
   },
-  methods:{
-    change(evnt){
+  methods: {
+    change(evnt) {
       this.$emit("input", evnt.target.checked);
     }
   }
@@ -65,7 +65,7 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
-    border-radius:  0.27rem;
+    border-radius: 0.27rem;
     background-color: #ccc;
     border: 1px solid #c4c9d2;
     padding: 0 !important;
