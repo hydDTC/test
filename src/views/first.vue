@@ -87,29 +87,29 @@
 export default {
   mounted() {},
   methods: {
-    fileChange(file){
-      console.info(file[0])
+    fileChange(file) {
+      console.info(file[0]);
     }
   }
 };
 </script>
 <style lang="less" scoped>
-.operating-btn{
+.operating-btn {
   height: 0.85rem;
   position: absolute;
   bottom: 0;
   width: 100%;
-  button{
+  button {
     flex: 1;
     font-size: 0.32rem;
     font-weight: 400;
   }
-  button:nth-child(1){
+  button:nth-child(1) {
     background: #eaf4fe;
     color: #398ded;
   }
-  button:nth-child(2){
-    background:#3090e6;
+  button:nth-child(2) {
+    background: #3090e6;
     color: #ffffff;
   }
 }

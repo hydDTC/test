@@ -15,7 +15,8 @@
 export default {
   name: "action-sheet",
   props: {
-    value: {   //接收一个 value prop
+    value: {
+      //接收一个 value prop
       type: Boolean,
       default: false
     }
@@ -29,7 +30,7 @@ export default {
   computed: {},
   watch: {
     show(val) {
-      this.$emit("input", val);   //触发 input 事件，并传入新值
+      this.$emit("input", val); //触发 input 事件，并传入新值
     },
     value(val) {
       this.show = val;

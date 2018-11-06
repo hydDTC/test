@@ -125,18 +125,18 @@
 export default {
   data() {
     return {
-      show:false
+      show: false
     };
   },
-  methods:{
-    go(){
-      this.$router.push({ name: 'creativeDetail' })
+  methods: {
+    go() {
+      this.$router.push({ name: "creativeDetail" });
     },
-    change(){
-      alert(1)
+    change() {
+      alert(1);
     },
     eventTouch(event) {
-      console.info(event)
+      console.info(event);
       let scrollTop = this.$refs.scrollContent.scrollTop;
       let clientHeight = this.$refs.searchBox.clientHeight;
       if (event.position.y === 0) return;

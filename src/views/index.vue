@@ -148,7 +148,7 @@ export default {
     return {
       message: "hyd",
       budget_show: false,
-      money: ''
+      money: ""
     };
   },
   beforeCreate() {},
@@ -157,7 +157,7 @@ export default {
   methods: {
     open() {
       this.budget_show = true;
-    },
+    }
     // change_budget(e) {
     //   console.log("接收到了");
     //   console.log(e);
@@ -237,8 +237,8 @@ export default {
   }
   .item {
     width: 46%;
-    &:nth-child(1){
-      border-right : 1px solid #ccc;
+    &:nth-child(1) {
+      border-right: 1px solid #ccc;
     }
     p:nth-child(1) {
       color: #333333;
@@ -305,7 +305,7 @@ export default {
 
 .budget_show {
   text-align: center;
-  h2{
+  h2 {
     color: #333333;
     font-family: "Microsoft Ya Hei";
     font-size: 0.36rem;
@@ -324,17 +324,17 @@ export default {
 
   .form {
     .connect {
-      margin: 0.44rem auto 0.80rem auto;
+      margin: 0.44rem auto 0.8rem auto;
       width: 6.7rem;
       height: 0.82rem;
       .input {
         width: 100%;
-        height:100%;
+        height: 100%;
         border-radius: 0.055rem;
         border: 0.02rem solid #cccccc;
         input {
           width: 100%;
-          height:100%;
+          height: 100%;
           border: none;
           color: #999999;
           font-family: "Microsoft Ya Hei";
@@ -354,18 +354,15 @@ export default {
       margin-bottom: 0.3rem;
       padding: 0;
       button {
-        width: 3.20rem;
+        width: 3.2rem;
         height: 0.8rem;
         border-radius: 0.055rem;
         background-color: #efefef;
-        &:nth-child(2){
+        &:nth-child(2) {
           background-color: #3090e6;
         }
       }
     }
   }
-
 }
-
-
 </style>
