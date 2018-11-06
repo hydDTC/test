@@ -14,16 +14,16 @@
   </div>
 </template>
 <script>
-export default {
-  mounted() {
-    console.info("login");
-  },
-  methods: {
-    test() {
-      console.info("ok");
+  export default {
+    mounted() {
+      console.info("login");
+    },
+    methods: {
+      test() {
+        console.info("ok");
+      }
     }
-  }
-};
+  };
 </script>
 <style>
 </style>

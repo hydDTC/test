@@ -84,124 +84,131 @@
   </div>
 </template>
 <script>
-export default {
-  mounted() {},
-  methods: {
-    fileChange(file) {
-      console.info(file[0]);
+  export default {
+    mounted() {
+    },
+    methods: {
+      fileChange(file) {
+        console.info(file[0]);
+      }
     }
-  }
-};
+  };
 </script>
 <style lang="less" scoped>
-.operating-btn {
-  height: 0.85rem;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  button {
-    flex: 1;
-    font-size: 0.32rem;
-    font-weight: 400;
+  .operating-btn {
+    height: 0.85rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    button {
+      flex: 1;
+      font-size: 0.32rem;
+      font-weight: 400;
+    }
+    button:nth-child(1) {
+      background: #eaf4fe;
+      color: #398ded;
+    }
+    button:nth-child(2) {
+      background: #3090e6;
+      color: #ffffff;
+    }
   }
-  button:nth-child(1) {
-    background: #eaf4fe;
-    color: #398ded;
+
+  .upload-box + .title-upload {
+    margin-top: 0.3rem;
   }
-  button:nth-child(2) {
-    background: #3090e6;
-    color: #ffffff;
-  }
-}
-.upload-box + .title-upload {
-  margin-top: 0.3rem;
-}
-.card-upload {
-  padding: 0.3rem;
-  border-radius: 0.1rem;
-  background-color: #ffffff;
-  margin-bottom: 0.3rem;
-  .title-upload {
-    color: #333333;
-    font-size: 0.26rem;
-    font-weight: 400;
+
+  .card-upload {
+    padding: 0.3rem;
+    border-radius: 0.1rem;
+    background-color: #ffffff;
     margin-bottom: 0.3rem;
-  }
-  .upload-box {
-    height: 2.39rem;
-    background-color: #efefef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .upload-prompt {
-      p {
-        color: #999999;
-        text-align: center;
-      }
-      p:nth-child(1) {
-        font-size: 0.9rem;
-        line-height: 0.8;
-        font-weight: 100;
-      }
-      p:nth-child(2) {
-        font-size: 0.26rem;
+    .title-upload {
+      color: #333333;
+      font-size: 0.26rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+    .upload-box {
+      height: 2.39rem;
+      background-color: #efefef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .upload-prompt {
+        p {
+          color: #999999;
+          text-align: center;
+        }
+        p:nth-child(1) {
+          font-size: 0.9rem;
+          line-height: 0.8;
+          font-weight: 100;
+        }
+        p:nth-child(2) {
+          font-size: 0.26rem;
+        }
       }
     }
   }
-}
-.input-control {
-  display: flex;
-  height: 0.68rem;
-  border-radius: 0.1rem;
-  background-color: #ffffff;
-  margin-bottom: 0.3rem;
-  input {
-    flex: 1;
-    border: none;
-    color: #333333;
-    font-size: 0.26rem;
-    text-indent: 0.3rem;
-    background: transparent;
+
+  .input-control {
+    display: flex;
+    height: 0.68rem;
+    border-radius: 0.1rem;
+    background-color: #ffffff;
+    margin-bottom: 0.3rem;
+    input {
+      flex: 1;
+      border: none;
+      color: #333333;
+      font-size: 0.26rem;
+      text-indent: 0.3rem;
+      background: transparent;
+    }
   }
-}
-.panle-container {
-  padding: 0.3rem;
-}
-.caveat {
-  padding: 0.3rem;
-  background: #ffffff;
-  > p {
-    color: #ff453a;
-    font-size: 0.26rem;
+
+  .panle-container {
+    padding: 0.3rem;
+  }
+
+  .caveat {
+    padding: 0.3rem;
+    background: #ffffff;
+    > p {
+      color: #ff453a;
+      font-size: 0.26rem;
+      font-weight: 400;
+      &::before {
+        content: "";
+        background: url("../assets/img/caveat-icon.png") no-repeat center;
+        background-size: 100%;
+        width: 0.28rem;
+        height: 0.28rem;
+        display: inline-block;
+        margin-right: 0.2rem;
+      }
+    }
+  }
+
+  .title-text {
+    color: #333333;
+    font-size: 0.28rem;
     font-weight: 400;
+    position: relative;
+    padding-left: 0.2rem;
+    margin-bottom: 0.3rem;
     &::before {
       content: "";
-      background: url("../assets/img/caveat-icon.png") no-repeat center;
-      background-size: 100%;
-      width: 0.28rem;
-      height: 0.28rem;
       display: inline-block;
-      margin-right: 0.2rem;
+      width: 0.1rem;
+      border-radius: 0.05rem;
+      background-color: #398ded;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
     }
   }
-}
-.title-text {
-  color: #333333;
-  font-size: 0.28rem;
-  font-weight: 400;
-  position: relative;
-  padding-left: 0.2rem;
-  margin-bottom: 0.3rem;
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 0.1rem;
-    border-radius: 0.05rem;
-    background-color: #398ded;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-  }
-}
 </style>
