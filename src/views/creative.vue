@@ -25,142 +25,31 @@
       </div>
 
       <div class="content">
-        <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent">
+        <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent" v-listener-event:scroll="scrollLoadMore">
 
-          <div class="card-data flex" @click="go()">
+          <div class="card-data flex" v-for="item in list" :key="item.creative_id" @click="go(item)">
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../../public/img/campaign-enable.png" alt="">
+                  <img v-if="item.current_state_origin == 1" src="../../public/img/campaign-enable.png" alt="">
+
+                  <img v-if="item.current_state_origin == 2" src="../../public/img/campaign-suspend.png" alt="">
+
+                  <img v-if="item.current_state_origin == 3" src="../../public/img/campaign-end.png" alt="">
                 </div>
                 <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
+                  <p>{{item.creative_name}}</p>
                   <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
                 </div>
               </div>
-              <p> [ 启用中 ] </p>
+              <p> [ {{item.current_state_origin_meaning}}: {{item.current_state_meaning}} ] </p>
             </div>
             <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33"><defs><path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/></defs><g><g opacity=".8" transform="translate(-701 -297)"><use fill="#ccc" xlink:href="#sxdya"/></g></g></svg>
             </i>
           </div>
 
-          <div class="card-data flex" @click="go()">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../../public/img/campaign-enable.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 启用中 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
-
-          <div class="card-data flex" @click="go()">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../../public/img/campaign-enable.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 启用中 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
-
-          <div class="card-data flex" @click="go()" v-for="item in 5">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../../public/img/campaign-suspend.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 暂停：账户内余额不足 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
-
-          <div class="card-data flex" @click="go()" v-for="item in 6">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../../public/img/campaign-end.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 结束：投放时间到期 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
+          <p @click="dataList()" style="text-align: center;font-size: 0.32rem;padding: 0.15rem;color: #5b5b5b;">加载中。。。</p>
 
         </div>
       </div>
@@ -177,21 +66,47 @@
   </div>
 </template>
 <script>
+  import {creativeInit, creativeList} from '../services/service'
   export default {
     data() {
       return {
-        show: false
+        show: false,
+        init:{},
+        list:[],
+        loadData:false,
+        query:{
+          page_index:1,
+          page_size: 25,
+        }
       };
     },
+    created(){
+      creativeInit().then(res => {
+        this.init = res.result
+      })
+      this.dataList()
+    },
     methods: {
-      go() {
-        this.$router.push({name: "creativeDetail"});
+      go(data) {
+        this.$router.push({name: "creativeDetail", query:{creative_id:data.creative_id,begin_date: data.begin_date,end_date: data.end_date}});
       },
       change() {
         alert(1);
       },
+      dataList(){
+        creativeList(this.query).then(res => {
+          this.list.push(...res.result.items)
+          this.loadData = false;
+        })
+      },
+      scrollLoadMore(event){
+        let n = event.target.scrollHeight - event.target.scrollTop - event.target.clientHeight
+        if(n > 150 || this.loadData) return;
+        this.loadData = true;
+        ++this.query.page_index
+        this.dataList()
+      },
       eventTouch(event) {
-        console.info(event);
         let scrollTop = this.$refs.scrollContent.scrollTop;
         let clientHeight = this.$refs.searchBox.clientHeight;
         if (event.position.y === 0) return;
@@ -268,10 +183,10 @@
 
   .card-data {
     padding: 0.3rem;
-    align-items: center;
     background: #ffffff;
     .status-img {
       width: 0.8rem;
+      min-width: 0.8rem;
       height: 0.8rem;
     }
     .status-info {
@@ -301,6 +216,7 @@
     }
     .status-go {
       width: 0.2rem;
+      min-width: 0.2rem;
       height: 0.33rem;
       display: block;
       margin-left: auto;
