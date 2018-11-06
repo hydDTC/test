@@ -5,6 +5,7 @@ Vue.use(Router)
 
 const home = () => import( /* webpackChunkName: "home" */ './views/home');
 const first = () => import( /* webpackChunkName: "first" */ './views/first');
+const test = () => import( /* webpackChunkName: "first" */ './views/test');
 
 const footer = () => import( /* webpackChunkName: "tabs" */ './components/footer');
 const index = () => import( /* webpackChunkName: "tabs" */ './views/index');
@@ -29,6 +30,12 @@ let routes = [
     path: '/first',
     components: {
       index: first
+    },
+  },
+  {
+    path: '/test',
+    components: {
+      index: test
     },
   }
 ];
