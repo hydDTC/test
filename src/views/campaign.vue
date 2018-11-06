@@ -27,18 +27,18 @@
       <div class="content">
         <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent">
 
-          <div class="card-data flex" @click="go()">
+          <div class="card-data flex" @click="go()" v-for="list in campaList">
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../assets/img/campaign-enable.png" alt="">
+                  <img :src="list.current_state_origin | imgFilter  " alt="">
                 </div>
                 <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
+                  <p>{{list.campaign_name}}</p>
+                  <p>曝光：<span>{{list.PV}}</span> 点击：<span>{{list.click}}</span> 花费：<span>{{list.ADMoney}}</span></p>
                 </div>
               </div>
-              <p> [ 启用中 ] </p>
+              <p> [ {{list.current_state_origin_meaning}}: {{list.current_state_meaning}} ] </p>
             </div>
             <i class="status-go">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
@@ -54,113 +54,6 @@
             </i>
           </div>
 
-          <div class="card-data flex" @click="go()">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../assets/img/campaign-enable.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 启用中 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
-
-          <div class="card-data flex" @click="go()">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../assets/img/campaign-enable.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 启用中 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
-
-          <div class="card-data flex" @click="go()" v-for="item in 5">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../assets/img/campaign-suspend.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 暂停：账户内余额不足 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
-
-          <div class="card-data flex" @click="go()" v-for="item in 5">
-            <div class="status-item">
-              <div class="flex">
-                <div class="status-img">
-                  <img src="../assets/img/campaign-end.png" alt="">
-                </div>
-                <div class="status-info">
-                  <p>银橙传媒企业推广项目</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
-                </div>
-              </div>
-              <p> [ 结束：投放时间到期 ] </p>
-            </div>
-            <i class="status-go">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                <defs>
-                  <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                </defs>
-                <g>
-                  <g opacity=".8" transform="translate(-701 -297)">
-                    <use fill="#ccc" xlink:href="#sxdya"/>
-                  </g>
-                </g>
-              </svg>
-            </i>
-          </div>
 
         </div>
       </div>
@@ -176,33 +69,37 @@
         <div class="operating">
           <h3 class="title-text">排序</h3>
           <div class="flex item">
-            <span class="selected">默认排序</span>
-            <span>曝光</span>
-            <span>点击</span>
-            <span>点击成本</span>
-            <span>曝光成本</span>
-            <span>花费</span>
+            <span :class="{'selected': sort_expression===''}" @click="sort_expression = '' ">默认排序</span>
+            <span @click="sort_expression = 'pv' " :class="{'selected': sort_expression==='pv'}">曝光</span>
+            <span @click="sort_expression = 'click'" :class="{'selected': sort_expression==='click'}">点击</span>
+            <span @click="sort_expression = 'cpc'" :class="{'selected': sort_expression==='cpc'}">点击成本</span>
+            <span @click="sort_expression = 'cpm'" :class="{'selected': sort_expression==='cpm'}">曝光成本</span>
+            <span @click="sort_expression = 'admoney'" :class="{'selected': sort_expression==='admoney'}">花费</span>
           </div>
 
           <h3 class="title-text">状态</h3>
           <div class="flex item">
-            <span class="selected">全部</span>
-            <span>启用中</span>
-            <span>暂停</span>
-            <span>结束</span>
+            <span :class="{'selected': current_state===''}"   @click="current_state = '' ">全部</span>
+            <span v-for="ad_states in ad_current_states" @click="current_state = ad_states.lookup_code" :class="{'selected': current_state=== ad_states.lookup_code}">{{ad_states.meaning}}</span>
           </div>
 
           <h3 class="title-text">操作</h3>
           <div class="flex item">
-            <span class="selected">全部</span>
-            <span>开启</span>
-            <span>关闭</span>
+            <span :class="{'selected': show_state===''}" @click="show_state = ''">全部</span>
+            <span v-for="show_status in show_states" @click="show_state = show_status.lookup_code" :class="{'selected': show_state === show_status.lookup_code}">{{show_status.meaning}}</span>
           </div>
+
+          <h3 class="title-text">时间</h3>
+          <div class="flex item">
+            <span class="date"><input type="date" v-model="begin_date"></span>
+            <span class="date"><input type="date" v-model="end_date"></span>
+          </div>
+
 
         </div>
         <div class="flex operating-btn">
-          <button>重置</button>
-          <button>确定</button>
+          <button @click="recover()">重置</button>
+          <button @click="ensure()">确定</button>
         </div>
       </div>
     </action-sheet>
@@ -211,11 +108,60 @@
   </div>
 </template>
 <script>
+  import {campaignInit} from "../services/service";
+  import {campaignList} from "../services/service";
+
   export default {
     data() {
       return {
-        show: false
+        show: false,
+        ad_current_states:[],
+        current_state:'',
+        show_states:[],
+        show_state:'',
+        sort_expression: '',
+        sort_direction: '',
+        campaList: [],
+        begin_date:'',
+        end_date: ''
       };
+    },
+    mounted(){
+      this.begin_date = this.fmtDate();
+      this.end_date = this.fmtDate();
+      campaignInit({}).then((res)=> {
+        console.info(res);
+        this.ad_current_states = res.result.ad_current_states;
+        this.show_states = res.result.show_states;
+      })
+      campaignList({}).then( res => {
+        console.info(res);
+        this.campaList = res.result.items;
+      })
+    },
+    filters: {
+        imgFilter: function (value) {
+        let x = ''
+        switch(value) {
+          case 1:
+            x = 'img/campaign-enable.png'
+            break;
+          case 2:
+            x = 'img/campaign-suspend.png'
+            break;
+          case 3:
+            x = 'img/campaign-end.png'
+            break;
+          default:
+            x = "";
+        }
+        return x
+      }
+    },
+    watch: {
+      begin_date: function(val, oldVal) {
+        console.log('new: %s, old: %s', val, oldVal)
+      }
     },
     methods: {
       go() {
@@ -234,6 +180,23 @@
         } else if (event.position.y < 0 && scrollTop >= clientHeight) {
           this.$refs.searchBox.classList.add("slide");
         }
+      },
+      recover() {
+        this.show_state = '';
+        this.sort_expression = '';
+        this.current_state = '';
+        this.begin_date = this.fmtDate();
+        this.end_date = this.fmtDate();
+      },
+      fmtDate(){
+        let date =  new Date();
+        let y = 1900+date.getYear();
+        let m = "0"+(date.getMonth()+1);
+        let d = "0"+date.getDate();
+        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+      },
+      ensure() {
+
       }
     }
   };
@@ -281,6 +244,17 @@
             bottom: -0.01rem;
             right: -0.01rem;
           }
+        }
+        &.date {
+          border: none;
+          width: 3.16rem;
+        }
+        & > input {
+          width:100%;
+          height:100%;
+          border: none;
+          background-color: transparent;
+          /*color : white;*/
         }
       }
     }

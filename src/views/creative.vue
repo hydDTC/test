@@ -31,7 +31,7 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../assets/img/campaign-enable.png" alt="">
+                  <img src="../../public/img/campaign-enable.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>银橙传媒企业推广项目</p>
@@ -58,7 +58,7 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../assets/img/campaign-enable.png" alt="">
+                  <img src="../../public/img/campaign-enable.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>银橙传媒企业推广项目</p>
@@ -85,7 +85,7 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../assets/img/campaign-enable.png" alt="">
+                  <img src="../../public/img/campaign-enable.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>银橙传媒企业推广项目</p>
@@ -112,7 +112,7 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../assets/img/campaign-suspend.png" alt="">
+                  <img src="../../public/img/campaign-suspend.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>银橙传媒企业推广项目</p>
@@ -139,7 +139,7 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img src="../assets/img/campaign-end.png" alt="">
+                  <img src="../../public/img/campaign-end.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>银橙传媒企业推广项目</p>
