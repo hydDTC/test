@@ -2,7 +2,7 @@ import axios from 'axios'
 import * as qs from 'querystring';
 
 let instance = axios.create({
-    baseURL: process.env.BASE_API, // api的base_url
+    baseURL: 'http://192.168.100.163:8190', // api的base_url
     timeout: 15000 // 请求超时时间
 });
 
