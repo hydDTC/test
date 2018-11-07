@@ -109,6 +109,7 @@
       eventTouch(event) {
         let scrollTop = this.$refs.scrollContent.scrollTop;
         let clientHeight = this.$refs.searchBox.clientHeight;
+        console.log(event)
         if (event.position.y === 0) return;
         if (event.position.y > 0) {
           this.$refs.searchBox.classList.remove("slide");

@@ -1,16 +1,16 @@
 <template>
   <div class="push">
-    <div class="tab-content">
+    <div class="tab-content" v-touch-event="eventTouch">
+
+      <ul class="title" ref="title">
+        <li @click="flag = 'one' " :class="{'active': flag === 'one'}">今天</li>
+        <li @click="flag = 'two' " :class="{'active': flag === 'two'}">昨天</li>
+        <li @click="flag = 'three' " :class="{'active': flag === 'three'}">近7天</li>
+        <li @click="flag = 'four' " :class="{'active': flag === 'four'}">近30天</li>
+      </ul>
+
       <div class="content">
-        <div class="scroll-content">
-
-          <ul class="title">
-            <li @click="flag = 'one' " :class="{'active': flag === 'one'}">今天</li>
-            <li @click="flag = 'two' " :class="{'active': flag === 'two'}">昨天</li>
-            <li @click="flag = 'three' " :class="{'active': flag === 'three'}">近7天</li>
-            <li @click="flag = 'four' " :class="{'active': flag === 'four'}">近30天</li>
-          </ul>
-
+        <div class="scroll-content" style="padding-top: 1.28rem;" ref="scrollContent">
           <div>
               <div>
                 <div class="data-card">
@@ -76,6 +76,7 @@
 
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -87,56 +88,6 @@
       return {
         type: 'PV',
         flag : 'one',
-        canvaData: [
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          },
-          {
-            time: 19,
-            baoguang: "1000",
-            dianji: "2000",
-            consume: 2000
-          }
-        ],
         begin_date: '',
         end_date: '',
         total: [],
@@ -305,6 +256,16 @@
       }
     },
     methods: {
+      eventTouch(event) {
+        let scrollTop = this.$refs.scrollContent.scrollTop;
+        let clientHeight = this.$refs.title.clientHeight;
+        if (event.position.y === 0) return;
+        if (event.position.y > 0) { // 往下滑动
+          this.$refs.title.classList.remove("slide");
+        } else if (event.position.y < 0 && scrollTop >= clientHeight) { // 往上滑动
+          this.$refs.title.classList.add("slide");
+        }
+      },
       fmtDate(num){
         let first = new Date();
         let date = new Date (first.setDate(first.getDate() + num) )
@@ -348,6 +309,12 @@
 </script>
 <style lang="less" scoped>
   .title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    background-color: white;
     border-bottom: 1px solid #d9d9d9;
     display: flex;
     justify-content: space-between;
@@ -364,6 +331,9 @@
       &.active {
         border-bottom: 1px solid #0e86e3;
       }
+    }
+    &.slide {
+      top: -1.28rem;
     }
   }
 

@@ -130,10 +130,10 @@
       };
     },
     created() {
-     this.init();
+     this.initList();
     },
     methods: {
-      init(){
+      initList(){
         campaignDetail(this.$route.query).then( res => {
           this.init = JSON.parse(JSON.stringify(res.result.campaign)); // 这边budget需要修改
           this.creatives = res.result.creatives
@@ -152,7 +152,7 @@
         campaignUpdateBudget(obj).then( res => {
             if (res.success === 200) {
               this.budget_show = false;
-              this.init();
+              this.initList();
             }
         })
       },
