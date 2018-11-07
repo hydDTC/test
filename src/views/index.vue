@@ -24,11 +24,11 @@
             <div class="data-card">
               <div class="card-border flex">
                 <div class="item">
-                  <p>1,000</p>
+                  <p>{{report_data.PV}}</p>
                   <p>曝光量（次）</p>
                 </div>
                 <div class="item">
-                  <p>100</p>
+                  <p>{{report_data.Click}}</p>
                   <p>点击量（次）</p>
                 </div>
               </div>
@@ -37,11 +37,11 @@
             <div class="data-card">
               <div class="card-border flex">
                 <div class="item">
-                  <p>10.00</p>
+                  <p>{{report_data.CTR}}</p>
                   <p>点击率（%）</p>
                 </div>
                 <div class="item">
-                  <p>0.5</p>
+                  <p>{{report_data.CPC}}</p>
                   <p>点击均价（元）</p>
                 </div>
               </div>
@@ -50,11 +50,11 @@
             <div class="data-card">
               <div class="card-border flex">
                 <div class="item">
-                  <p>1.00</p>
+                  <p>{{report_data.CPM}}</p>
                   <p>展示均价（元）</p>
                 </div>
                 <div class="item">
-                  <p>50.00</p>
+                  <p>{{report_data.ADMoney}}</p>
                   <p>今日消耗（元）</p>
                 </div>
               </div>
@@ -68,7 +68,7 @@
               </div>
               <p class="info-text">账户余额 （元）</p>
             </div>
-            <p class="info-number">￥9,500</p>
+            <p class="info-number">{{account_info.balance}}</p>
           </div>
 
           <div class="data-card account-info">
@@ -79,8 +79,8 @@
               <p class="info-text">每日预算 （元）</p>
             </div>
             <div class="flex">
-              <p class="info-number">￥3,500</p>
-              <button class="budget-edit btn btn-primary" @click="budget_show = !budget_show">修改</button>
+              <p class="info-number">{{account_info.max_day_money}}</p>
+              <button class="budget-edit btn btn-primary" @click="revise()">修改</button>
             </div>
           </div>
 
@@ -93,15 +93,15 @@
             </div>
             <div class="flex">
               <div class="status-item">
-                <p>0</p>
+                <p>{{advert_Total.wait_count}}</p>
                 <p>待审核</p>
               </div>
               <div class="status-item">
-                <p>3</p>
+                <p>{{advert_Total.wait_submit_count}}</p>
                 <p>未通过</p>
               </div>
               <div class="status-item">
-                <p>0</p>
+                <p>{{advert_Total.pass_count}}</p>
                 <p>有效广告</p>
               </div>
             </div>
@@ -131,10 +131,11 @@
             <div class="input">
               <input v-model="money" placeholder="邮箱" type="text">
             </div>
+            <span v-if="money < 100">请输入大于100的合法数字</span>
           </div>
           <div class="btn">
-            <button>取消</button>
-            <button>确定</button>
+            <button type="button" @click="cancel()">取消</button>
+            <button type="button" @click="ensure()">确定</button>
           </div>
         </form>
       </div>
@@ -143,10 +144,15 @@
   </div>
 </template>
 <script>
+  import {homeInit} from "../services/service";
+  import {updateMaxDayMoney} from "../services/service";
+
   export default {
     data() {
       return {
-        message: "hyd",
+        report_data: {},
+        advert_Total:{},
+        account_info:{},
         budget_show: false,
         money: ""
       };
@@ -154,25 +160,41 @@
     beforeCreate() {
     },
     created() {
+     this.init();
     },
     mounted() {
     },
     methods: {
-      open() {
+      init() {
+        homeInit({}).then( res => {
+          this.report_data = res.result.report_data;
+          this.advert_Total = res.result.advert_Total;
+          this.account_info = res.result.account_info;
+        })
+      },
+      revise() {
         this.budget_show = true;
+        this.money = this.account_info.max_day_money;
+      },
+      cancel() {
+        this.budget_show = false;
+      },
+      ensure() {
+        let obj = {
+          userId: this.account_info.user_id,
+          money: Number(this.money)
+        }
+        updateMaxDayMoney(obj).then( res => {
+            if (res.success === 200){
+              this.init();
+              this.budget_show = false;
+            }
+        })
       }
-      // change_budget(e) {
-      //   console.log("接收到了");
-      //   console.log(e);
-      //   this.budget_show = false;
-      //   this.money = e;
-      // }
     },
-    beforeRouteLeave(to, from, next) {
-      // console.log(to)
-      // console.log(from)
-      next();
-    }
+    // beforeRouteLeave(to, from, next) {
+    //   next();
+    // }
   };
 </script>
 <style lang="less" scoped>
@@ -330,6 +352,7 @@
         margin: 0.44rem auto 0.8rem auto;
         width: 6.7rem;
         height: 0.82rem;
+        position: relative;
         .input {
           width: 100%;
           height: 100%;
@@ -345,6 +368,14 @@
             font-weight: 400;
             text-indent: 0.32rem;
           }
+        }
+        > span {
+          position: absolute;
+          left: 0.3rem;
+          top: 110%;
+          font-size: 0.28rem;
+          font-weight: 400;
+          color: red;
         }
       }
       .btn {

@@ -100,10 +100,11 @@
               <div class="input">
                 <input v-model="day_budget" placeholder="预算" type="text">
               </div>
+              <span v-if="day_budget < 100">请输入大于100的合法数字</span>
             </div>
             <div class="btn">
-              <button @click="cancel()">取消</button>
-              <button @click="ensure()">确定</button>
+              <button type="button" @click="cancel()">取消</button>
+              <button type="button" @click="ensure()">确定</button>
             </div>
           </form>
         </div>
@@ -115,6 +116,7 @@
 
 <script>
   import {campaignDetail} from "../services/service";
+  import {campaignUpdateBudget} from "../services/service";
 
   export default {
 
@@ -128,18 +130,34 @@
       };
     },
     created() {
-      campaignDetail(this.$route.query).then( res => {
-        console.info(res);
-        this.init = res.result.campaign;
-        this.creatives = res.result.creatives
-      })
+     this.init();
     },
     methods: {
+      init(){
+        campaignDetail(this.$route.query).then( res => {
+          this.init = JSON.parse(JSON.stringify(res.result.campaign)); // 这边budget需要修改
+          this.creatives = res.result.creatives
+        })
+      },
+      // 修改预算
       revise() {
         this.budget_show = true;
+        this.day_budget =  this.init.day_budget;
       },
       ensure() {
-        this.init.day_budget = this.day_budget;
+        let obj = {
+          campaign_id: this.$route.query.campaign_id,
+          day_budget: Number(this.day_budget)
+        }
+        campaignUpdateBudget(obj).then( res => {
+            if (res.success === 200) {
+              this.budget_show = false;
+              this.init();
+            }
+        })
+      },
+      cancel() {
+        this.budget_show = false;
       }
     }
   };
@@ -306,6 +324,7 @@
         margin: 0.44rem auto 0.8rem auto;
         width: 6.7rem;
         height: 0.82rem;
+        position: relative;
         .input {
           width: 100%;
           height: 100%;
@@ -321,6 +340,14 @@
             font-weight: 400;
             text-indent: 0.32rem;
           }
+        }
+        > span {
+          position: absolute;
+          left: 0.3rem;
+          top: 110%;
+          font-size: 0.28rem;
+          font-weight: 400;
+          color: red;
         }
       }
       .btn {

@@ -1,4 +1,4 @@
-import {get} from './http'
+import {get, postForm, postJson} from './http'
 
 
 /**
@@ -14,6 +14,18 @@ export function campaignList(body = {}) {
 
 export function campaignDetail(body = {}) {
   return get('/ads/campaign/initEdit', body);
+}
+
+export function campaignUpdateBudget(body = {}){
+  return postJson('/ads/campaign/update_day_budget', body);
+}
+
+
+/**
+ * 数据相关接口
+ * */
+export function initData(body = {}) {
+  return get('/ads/data/initData', body);
 }
 
 
@@ -41,6 +53,15 @@ export function creativeUpdatePrice(body = {}){
 /**
  *  首页相关接口
  * */
+export function homeInit(body = {}){
+  return get('/ads/home/init', body);
+}
+
+export function updateMaxDayMoney(body = {}){
+  return postJson('/ads/home/updateMaxDayMoney', body);
+}
+
+
 
 
 /**
