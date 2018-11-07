@@ -6,7 +6,7 @@
       <div class="search-box flex" ref="searchBox">
         <div class="flex search">
           <i class="input-search-icon"></i>
-          <input type="search" placeholder="请输入创意的名称、ID ……" @search="change()">
+          <input type="search" v-model="query.search_text" placeholder="请输入创意的名称、ID ……" @search="change()">
         </div>
         <div class="flex search-screen">
           <span @click="show = !show">筛选</span>
@@ -77,6 +77,7 @@
         query:{
           page_index:1,
           page_size: 25,
+          search_text: '',
         }
       };
     },
@@ -91,7 +92,9 @@
         this.$router.push({name: "creativeDetail", query:{creative_id:data.creative_id,begin_date: data.begin_date,end_date: data.end_date}});
       },
       change() {
-        alert(1);
+        this.list.length = 0;
+        this.query.page_index = 1;
+        this.dataList()
       },
       dataList(){
         creativeList(this.query).then(res => {

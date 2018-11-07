@@ -1,18 +1,43 @@
 <template>
   <div class="content-modal">
-    <y-header title="创意详情"></y-header>
+    <y-header @btnLeft="btnLeft()" @btnRight="btnRight()" @btnTitle="btnTitle()">
+      <template slot="btn-left">
+        <img src="../assets/img/left.png">
+        <span>返回</span>
+      </template>
+      <span>创意详情</span>
+    </y-header>
     <div class="content">
       <div class="scroll-content" margin-header>
 
-        <div class="img-box">
-          <img src="../assets/img/test.png">
-          <span>1280X720</span>
-          <div class="mask"></div>
-        </div>
+        <!-- <div class="material-list-box"> -->
+          <div class="material-box" v-for="ma in material">
+            <template v-for="ele in ma.title_list">
+              <p>{{ele[ele.name]}}</p>
+            </template>
+
+            <preview-img>
+              <div class="img-box" v-for="ele in ma.file_list">
+
+                <img v-if="ele.element_type === 'img'" :src="ele[ele.name]">
+                <video v-if="ele.element_type === 'video'" :src="ele[ele.name]" autoplay loop></video>
+                <!-- <span>{{ele.file_size}}</span> -->
+                <!-- <div class="mask"></div> -->
+
+              </div>
+            </preview-img>
+
+            <template v-for="ele in ma.text_list">
+              <p>{{ele[ele.name]}}</p>
+            </template>
+          </div>
+        <!-- </div> -->
+
+
 
         <div class="img-text">
-          <span>1280x720-信息流广告 平实产品功能11-16号   临时修改副本2</span>
-          <span>ID:800267</span>
+          <span>{{creative.creative_name}}</span>
+          <span>ID:{{creative.creative_id}}</span>
         </div>
 
 
@@ -20,11 +45,11 @@
           <div class="data-card">
             <div class="card-border flex">
               <div class="item">
-                <p>1,000</p>
+                <p>{{creative.PV}}</p>
                 <p>曝光量（次）</p>
               </div>
               <div class="item">
-                <p>100</p>
+                <p>{{creative.Click}}</p>
                 <p>点击量（次）</p>
               </div>
             </div>
@@ -33,11 +58,11 @@
           <div class="data-card">
             <div class="card-border flex">
               <div class="item">
-                <p>10.00</p>
+                <p>{{creative.CTR}}</p>
                 <p>点击率（%）</p>
               </div>
               <div class="item">
-                <p>0.5</p>
+                <p>{{creative.CPC}}</p>
                 <p>点击均价（元）</p>
               </div>
             </div>
@@ -46,11 +71,11 @@
           <div class="data-card">
             <div class="card-border flex">
               <div class="item">
-                <p>1.00</p>
+                <p>{{creative.CPM}}</p>
                 <p>展示均价（元）</p>
               </div>
               <div class="item">
-                <p>50.00</p>
+                <p>{{creative.ADMoney}}</p>
                 <p>今日消耗（元）</p>
               </div>
             </div>
@@ -60,29 +85,29 @@
 
         <div class="detail">
           <div>
-            <span>投放日期：<span class="status">2016-11-12至2016-11-22</span> </span>
+            <span>投放日期：<span class="status">{{creative.begin_date}}至{{creative.end_date}}</span> </span>
           </div>
           <div>
-            <span>创意出价：<span class="status">&0.1 </span></span>
+            <span>创意出价：<span class="status">{{creative.ad_price}}</span></span>
             <button>修改</button>
           </div>
           <div>
-            <span>创意状态：<span class="status">投放中</span> </span>
+            <span>创意状态：<span class="status">{{creative.current_state_meaning}}</span> </span>
           </div>
         </div>
 
         <div class="detail detail-bottom">
           <div>
-            <span>推广活动：<span class="status">2016-11-12至2016-11-22</span> </span>
+            <span>推广活动：<span class="status">{{creative.campaign_name}}</span> </span>
           </div>
           <div>
-            <span>投放时间：<span class="status">2016-11-12至2016-11-22</span> </span>
+            <span>投放时间：<span class="status">{{creative.today_show_hours_meaning}}</span> </span>
           </div>
           <div>
-            <span>投放平台：<span class="status">&0.1 </span></span>
+            <span>投放媒体：<span class="status">{{creative.media_name}}</span></span>
           </div>
           <div>
-            <span>投放规格：<span class="status">投放中</span> </span>
+            <span>投放规格：<span class="status">{{creative.ad_width}}X{{creative.ad_height}}</span> </span>
           </div>
         </div>
 
@@ -101,56 +126,96 @@ export default {
     return {
       query: undefined,
       creative: {},
+      material: [],
     };
   },
   created() {
     this.query = this.$route.query;
     creativeEdit(this.query).then(res => {
-      console.info(res);
       this.creative = res.result.creative
+      let value = res.result.creative.elements.data_list
+      let material = res.result.creative.material_elements.data_list
+      this.assignDefaultData(material, value);
+      material.forEach((item) => {
+        let title = item.text_list.find(t => t.name === 'title')
+        if(title) {
+          item.title_list = [title]
+          item.text_list.splice(item.text_list.indexOf(title), 1)
+        }
+      })
+      this.material = material;
     })
   },
   mounted() {},
-  methods: {}
+  methods: {
+    assignDefaultData(target, source) {
+      Object.keys(source).forEach(sk => {
+        if (typeof target[sk] === 'object' && typeof source[sk] === 'object') {
+          this.assignDefaultData(target[sk], source[sk]);
+        }
+        if (!target[sk]) {
+          target[sk] = source[sk];
+        }
+      });
+    },
+    btnLeft() {
+      this.$router.replace({name:'creative'})
+    },
+    btnRight() {
+      this.$router.replace({name:'creative'})
+    },
+    btnTitle() {
+      this.$router.replace({name:'creative'})
+    },
+  }
 };
 </script>
 
 <style scoped lang="less">
-.img-box {
-  height: 3.6rem;
-  background: #666666;
-  text-align: center;
-  position: relative;
-  > img {
-    max-width: 100%;
-    max-height: 100%;
+.material-box{
+  border-bottom: 1px solid #efefef;
+  background: #fff;
+  overflow: hidden;
+  > p{
+    padding: 0.1rem 0;
   }
-  > span {
-    text-shadow: 0 1px 1px rgba(0, 3, 4, 0.5);
-    color: #ffffff;
-    font-size: 0.32rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 4;
-    padding: 0.2rem 0.3rem;
-  }
-  .mask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    background: rgba(0, 0, 0, 0.3);
+  .img-box {
+    height: 3.6rem;
+    background: #666666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    > span {
+      text-shadow: 0 1px 1px rgba(0, 3, 4, 0.5);
+      color: #ffffff;
+      font-size: 0.32rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 4;
+      padding: 0.2rem 0.3rem;
+    }
+    .mask {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.3);
+    }
   }
 }
 
 .img-text {
   background-color: white;
-  height: 2.01rem;
+  // height: 2.01rem;
   padding: 0.3rem;
   font-weight: 400;
   font-family: "Microsoft Ya Hei";
