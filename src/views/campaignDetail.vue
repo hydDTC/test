@@ -6,17 +6,17 @@
       <div class="scroll-content" margin-tabbar margin-header>
 
         <div class="title">
-          <span>[平实型]产品功能</span>
+          <span>{{init.campaign_name}}</span>
         </div>
 
         <div class="data-card">
           <div class="card-border flex">
             <div class="item">
-              <p>1,000</p>
+              <p>{{init.PV}}</p>
               <p>曝光量（次）</p>
             </div>
             <div class="item">
-              <p>100</p>
+              <p>{{init.Click}}</p>
               <p>点击量（次）</p>
             </div>
           </div>
@@ -25,11 +25,11 @@
         <div class="data-card">
           <div class="card-border flex">
             <div class="item">
-              <p>10.00</p>
+              <p>{{init.CTR}}</p>
               <p>点击率（%）</p>
             </div>
             <div class="item">
-              <p>0.5</p>
+              <p>{{init.CPC}}</p>
               <p>点击均价（元）</p>
             </div>
           </div>
@@ -38,27 +38,27 @@
         <div class="data-card">
           <div class="card-border flex">
             <div class="item">
-              <p>1.00</p>
+              <p>{{init.CPM}}</p>
               <p>展示均价（元）</p>
             </div>
             <div class="item">
-              <p>50.00</p>
+              <p>{{init.ADMoney}}</p>
               <p>今日消耗（元）</p>
             </div>
           </div>
         </div>
 
         <div class="consume">
-          <div class="left"><span>每日消耗：</span> <span>￥9,000</span></div>
-          <button class="btn btn-primary">修改</button>
+          <div class="left"><span>每日消耗：</span> <span>{{init.day_budget}}</span></div>
+          <button class="btn btn-primary" @click="revise()">修改</button>
         </div>
 
 
         <div class="campaign">
-          <div class="campaign-title"><span>此活动包含8个创意：</span></div>
+          <div class="campaign-title"><span>此活动包含{{creatives.length}}个创意：</span></div>
           <ul>
-            <li>
-              <div>800267-1280x720-信息流广告 <span>[启用中]</span></div>
+            <li v-for="creative in  creatives">
+              <div>{{creative.creative_name}} <span>[{{creative.zc_audit_status_name}}]</span></div>
               <i class="status-go">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
                   <defs>
@@ -73,54 +73,6 @@
               </i>
             </li>
 
-            <li>
-              <div>800267-1280x720-信息流广告 <span>[启用中]</span></div>
-              <i class="status-go">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                  <defs>
-                    <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                  </defs>
-                  <g>
-                    <g opacity=".8" transform="translate(-701 -297)">
-                      <use fill="#ccc" xlink:href="#sxdya"/>
-                    </g>
-                  </g>
-                </svg>
-              </i>
-            </li>
-
-            <li>
-              <div>800267-1280x720-信息流广告 800267-1280x720-信息流广告<span>[启用中]</span></div>
-              <i class="status-go">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                  <defs>
-                    <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                  </defs>
-                  <g>
-                    <g opacity=".8" transform="translate(-701 -297)">
-                      <use fill="#ccc" xlink:href="#sxdya"/>
-                    </g>
-                  </g>
-                </svg>
-              </i>
-            </li>
-
-            <li>
-              <div>
-                800267-1280x720-信息流广告 <span>[启用中]</span></div>
-              <i class="status-go">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
-                  <defs>
-                    <path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/>
-                  </defs>
-                  <g>
-                    <g opacity=".8" transform="translate(-701 -297)">
-                      <use fill="#ccc" xlink:href="#sxdya"/>
-                    </g>
-                  </g>
-                </svg>
-              </i>
-            </li>
           </ul>
         </div>
 
@@ -134,17 +86,79 @@
         <switch-input v-model="valueStatus"></switch-input>
       </div>
 
+      <!-- 修改预算 -->
+      <!--  :value="show" @input="handleInput"  v-modal的缩写-->
+      <modal v-model="budget_show">
+        <div class="budget_show">
+          <h2>修改每日预算</h2>
+          <div class="tips">
+            <p>当前账户每日预算 3,500/天</p>
+            <p>每次修改幅度≥50元</p>
+          </div>
+          <form class="form">
+            <div class="connect">
+              <div class="input">
+                <input v-model="day_budget" placeholder="预算" type="text">
+              </div>
+              <span v-if="day_budget < 100">请输入大于100的合法数字</span>
+            </div>
+            <div class="btn">
+              <button type="button" @click="cancel()">取消</button>
+              <button type="button" @click="ensure()">确定</button>
+            </div>
+          </form>
+        </div>
+      </modal>
+
     </div>
   </div>
 </template>
 
 <script>
+  import {campaignDetail} from "../services/service";
+  import {campaignUpdateBudget} from "../services/service";
+
   export default {
+
     data() {
       return {
-        campaignName: "",
-        valueStatus: false
+        init: {},
+        valueStatus: false,
+        day_budget: '',
+        budget_show: false,
+        creatives: []
       };
+    },
+    created() {
+     this.init();
+    },
+    methods: {
+      init(){
+        campaignDetail(this.$route.query).then( res => {
+          this.init = JSON.parse(JSON.stringify(res.result.campaign)); // 这边budget需要修改
+          this.creatives = res.result.creatives
+        })
+      },
+      // 修改预算
+      revise() {
+        this.budget_show = true;
+        this.day_budget =  this.init.day_budget;
+      },
+      ensure() {
+        let obj = {
+          campaign_id: this.$route.query.campaign_id,
+          day_budget: Number(this.day_budget)
+        }
+        campaignUpdateBudget(obj).then( res => {
+            if (res.success === 200) {
+              this.budget_show = false;
+              this.init();
+            }
+        })
+      },
+      cancel() {
+        this.budget_show = false;
+      }
     }
   };
 </script>
@@ -282,6 +296,78 @@
       /* Text style for "状态：" */
       .status {
         color: #999999;
+      }
+    }
+  }
+
+  .budget_show {
+    text-align: center;
+    h2 {
+      color: #333333;
+      font-family: "Microsoft Ya Hei";
+      font-size: 0.36rem;
+      font-weight: 400;
+      margin: 0.34rem auto;
+    }
+    .tips {
+      p {
+        margin-bottom: 0.23rem;
+        color: #999999;
+        font-family: "Microsoft Ya Hei";
+        font-size: 0.32rem;
+        font-weight: 400;
+      }
+    }
+
+    .form {
+      .connect {
+        margin: 0.44rem auto 0.8rem auto;
+        width: 6.7rem;
+        height: 0.82rem;
+        position: relative;
+        .input {
+          width: 100%;
+          height: 100%;
+          border-radius: 0.055rem;
+          border: 0.02rem solid #cccccc;
+          input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            color: #999999;
+            font-family: "Microsoft Ya Hei";
+            font-size: 0.32rem;
+            font-weight: 400;
+            text-indent: 0.32rem;
+          }
+        }
+        > span {
+          position: absolute;
+          left: 0.3rem;
+          top: 110%;
+          font-size: 0.28rem;
+          font-weight: 400;
+          color: red;
+        }
+      }
+      .btn {
+        display: flex;
+        justify-content: space-around;
+        color: #666666;
+        font-family: "Microsoft Ya Hei";
+        font-size: 0.36rem;
+        font-weight: 400;
+        margin-bottom: 0.3rem;
+        padding: 0;
+        button {
+          width: 3.2rem;
+          height: 0.8rem;
+          border-radius: 0.055rem;
+          background-color: #efefef;
+          &:nth-child(2) {
+            background-color: #3090e6;
+          }
+        }
       }
     }
   }

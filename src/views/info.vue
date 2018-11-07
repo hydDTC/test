@@ -5,85 +5,88 @@
         <div class="scroll-content">
 
           <ul class="title">
-            <li>今天</li>
-            <li>昨天</li>
-            <li>近7天</li>
-            <li>近30天</li>
+            <li @click="flag = 'one' " :class="{'active': flag === 'one'}">今天</li>
+            <li @click="flag = 'two' " :class="{'active': flag === 'two'}">昨天</li>
+            <li @click="flag = 'three' " :class="{'active': flag === 'three'}">近7天</li>
+            <li @click="flag = 'four' " :class="{'active': flag === 'four'}">近30天</li>
           </ul>
 
           <div>
-            <div class="data-card">
-              <div class="card-border flex">
-                <div class="item">
-                  <p>1,000</p>
-                  <p>曝光量（次）</p>
+              <div>
+                <div class="data-card">
+                  <div class="card-border flex">
+                    <div class="item">
+                      <p>{{total.PV}}</p>
+                      <p>曝光量（次）</p>
+                    </div>
+                    <div class="item">
+                      <p>{{total.CPC}}</p>
+                      <p>点击量（次）</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="item">
-                  <p>100</p>
-                  <p>点击量（次）</p>
-                </div>
-              </div>
-            </div>
 
-            <div class="data-card">
-              <div class="card-border flex">
-                <div class="item">
-                  <p>10.00</p>
-                  <p>点击率（%）</p>
+                <div class="data-card">
+                  <div class="card-border flex">
+                    <div class="item">
+                      <p>{{total.CTR}}</p>
+                      <p>点击率（%）</p>
+                    </div>
+                    <div class="item">
+                      <p>{{total.CPC}}</p>
+                      <p>点击均价（元）</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="item">
-                  <p>0.5</p>
-                  <p>点击均价（元）</p>
-                </div>
-              </div>
-            </div>
 
-            <div class="data-card">
-              <div class="card-border flex">
-                <div class="item">
-                  <p>1.00</p>
-                  <p>展示均价（元）</p>
-                </div>
-                <div class="item">
-                  <p>50.00</p>
-                  <p>今日消耗（元）</p>
+                <div class="data-card">
+                  <div class="card-border flex">
+                    <div class="item">
+                      <p>{{total.CPM}}</p>
+                      <p>展示均价（元）</p>
+                    </div>
+                    <div class="item">
+                      <p>{{total.ADMoney}}</p>
+                      <p>今日消耗（元）</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div class="canvas-title">
+                <span @click="type = 'PV'" >曝光量</span>
+                <span @click="type = 'Click'">点击量</span>
+                <span @click="type = 'ADMoney'">消费</span>
+              </div>
+              <canvas ref="canvasInfo" class="canvas" style="width:7.5rem; height:5.4rem;"></canvas>
+              <table>
+                <thead>
+                <tr>
+                  <th>曝光量</th>
+                  <th>点击量</th>
+                  <th>消费</th>
+                </tr>
+                <tr v-for="data in tableList">
+                  <td>{{data.PV}}</td>
+                  <td>{{data.Click}}</td>
+                  <td>{{data.ADMoney}}</td>
+                </tr>
+                </thead>
+              </table>
           </div>
 
-          <div class="canvas-title">
-            <span>曝光量</span>
-            <span>点击量</span>
-            <span>消费</span>
-          </div>
-          <canvas ref="canvasInfo" class="canvas" style="width:7.5rem; height:5.4rem;"></canvas>
-
-          <table>
-            <thead>
-            <tr>
-              <th>事件</th>
-              <th>曝光量</th>
-              <th>点击量</th>
-              <th>消费</th>
-            </tr>
-            <tr v-for="data in canvaData">
-              <td>{{data.time}}</td>
-              <td>{{data.baoguang}}</td>
-              <td>{{data.dianji}}</td>
-              <td>{{data.consume}}</td>
-            </tr>
-            </thead>
-          </table>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import {initData} from "../services/service";
+
   export default {
     data() {
       return {
+        type: 'PV',
+        flag : 'one',
         canvaData: [
           {
             time: 19,
@@ -133,14 +136,28 @@
             dianji: "2000",
             consume: 2000
           }
-        ]
+        ],
+        begin_date: '',
+        end_date: '',
+        total: [],
+        tableList: [],
+        chats:{},
+        myChartRef: ''
       };
     },
     created() {
+      // 调试接口 这边数据写死先
+      // this.begin_date = this.fmtDate(0);
+      // this.end_date = this.fmtDate(0);
+      let myDate = new Date ( new Date().setFullYear(2018,6,1));
+      this.begin_date = this.test(myDate)
+      let myDate1 = new Date ( new Date().setFullYear(2018,6,30) );
+      this.end_date = this.test(myDate1);
+
+      this.init();
     },
     mounted() {
-      console.log(this.$refs.canvasInfo);
-      let myChart = this.$echarts.init(this.$refs.canvasInfo);
+
       // let option = {
       //   xAxis: {
       //     type: 'category',
@@ -173,6 +190,8 @@
       //   }]
       // };
 
+      // 初次加载echarts
+      this.myChartRef  = this.$echarts.init(this.$refs.canvasInfo);
       let option = {
         tooltip: {
           trigger: "axis"
@@ -190,7 +209,7 @@
           {
             type: "category",
             boundaryGap: false,
-            data: [1, 2, 3, 4, 5, 6, 7],
+            data: [],
             axisLine: {
               lineStyle: {
                 color: "#bfc4cd"
@@ -239,20 +258,102 @@
                 color: "#47a4df" //连线颜色
               }
             },
-            data: [2, 3, 4, 5, 6, 7, 8]
+            data: []
           }
         ]
       };
-      myChart.setOption(option);
+      this.myChartRef.setOption(option);
+    },
+    watch: {
+      flag: function(val) {
+           switch(val) {
+             case 'one':
+               this.begin_date = this.fmtDate(0)
+               this.end_date = this.fmtDate(0)
+               this.init();
+                   break;
+             case 'two':
+               this.begin_date = this.fmtDate(-1)
+               this.end_date = this.fmtDate(0)
+               this.init();
+               break;
+             case 'three':
+               this.begin_date = this.fmtDate(-6)
+               this.end_date = this.fmtDate(0)
+               this.init();
+               break;
+             case 'four':
+               this.begin_date = this.fmtDate(0)
+               this.end_date = this.fmtDate(-29)
+               this.init();
+               break;
+           }
+      },
+      type: function(val) {
+        this.myChartRef.setOption({
+          xAxis: [
+            {
+              data: this.chats.xAxisData,
+            }
+          ],
+          series: [
+            {
+              data: this.chats.yAxisData[val],
+            }
+          ]
+        });
+      }
+    },
+    methods: {
+      fmtDate(num){
+        let first = new Date();
+        let date = new Date (first.setDate(first.getDate() + num) )
+        let y = 1900+date.getYear();
+        let m = "0"+(date.getMonth()+1);
+        let d = "0"+date.getDate();
+        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+      },
+      test(date) {
+        console.log(date)
+        let y = 1900+date.getYear();
+        let m = "0"+(date.getMonth()+1);
+        let d = "0"+date.getDate();
+        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+      },
+      init() {
+        initData({
+          begin_date: this.begin_date,
+          end_date: this.end_date
+        }).then( res => {
+          this.total = res.result.total;
+          this.tableList = res.result.tableList;
+          this.chats = res.result.chats;
+          // 加载echarts
+          this.myChartRef.setOption({
+            xAxis: [
+              {
+                data: this.chats.xAxisData,
+              }
+            ],
+            series: [
+              {
+                data: this.chats.yAxisData[this.type],
+              }
+            ]
+          });
+        })
+      }
     }
-  };
+  }
 </script>
 <style lang="less" scoped>
   .title {
     border-bottom: 1px solid #d9d9d9;
+    display: flex;
+    justify-content: space-between;
     li {
       display: inline-block;
-      width: 25%;
+      width: 24%;
       height: 1.28rem;
       line-height: 1.28rem;
       text-align: center;
@@ -260,6 +361,9 @@
       font-family: "Microsoft Ya Hei";
       font-size: 0.38rem;
       font-weight: 400;
+      &.active {
+        border-bottom: 1px solid #0e86e3;
+      }
     }
   }
 
