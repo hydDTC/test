@@ -1,18 +1,20 @@
 <template>
   <div class="header">
     <div class="toolbar toolbar-ios">
-      <div class="toolbar-background toolbar-background-ios">
-
+      <div class="toolbar-background toolbar-background-ios" :style="{'background': background}"></div>
+      <div class="bar-button">
+        <span class="button-inner" @click="btnLeftFn()">
+          <slot name="btn-left"></slot>
+        </span>
       </div>
       <div class="bar-button">
-        <span class="button-inner"></span>
-      </div>
-      <div class="bar-button">
-        <span class="button-inner"></span>
+        <span class="button-inner"  @click="btnRightFn()">
+          <slot name="btn-right"></slot>
+        </span>
       </div>
       <div class="title">
-        <div class="toolbar-title toolbar-title-ios">
-          {{title}}
+        <div class="toolbar-title toolbar-title-ios" @click="btnTitleFn()">
+          <slot></slot>
         </div>
       </div>
     </div>
@@ -27,10 +29,40 @@ export default {
       type: String,
       default: "",
       required: false
+    },
+    background: {
+      type: String,
+      default: "#000000",
+      required: false
+    },
+    btnLeft:{
+      type: Function,
+      default: () => {},
+      required: false
+    },
+    btnRight:{
+      type: Function,
+      default: () => {},
+      required: false
+    },
+    btnTitle:{
+      type: Function,
+      default: () => {},
+      required: false
     }
   },
   mounted() {},
-  methods: {}
+  methods: {
+    btnLeftFn(){
+      this.$emit('btnLeft')
+    },
+    btnRightFn(){
+      this.$emit('btnRight')
+    },
+    btnTitleFn(){
+      this.$emit('btnTitle')
+    }
+  }
 };
 </script>
 <style scoped lang="less">
@@ -155,9 +187,9 @@ export default {
 
 .toolbar-title-ios {
   text-align: center;
-  font-size: 0.17rem * 2;
-  font-weight: 600;
-  color: #000;
+  font-size: 0.36rem;
+  font-weight: 400;
+  color: #fff;
   pointer-events: auto;
 }
 
@@ -180,5 +212,25 @@ export default {
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.3);
   border-width: 0 0 0.55px;
+}
+</style>
+
+<style lang="less">
+.button-inner {
+  img {
+    width: 0.21rem;
+    height: 0.36rem;
+    margin-right: 0.1rem;
+    margin-left: 0.1rem;
+    &.right{
+      width: 0.42rem;
+      height:0.1rem;
+    }
+  }
+  span {
+    color: #ffffff;
+    font-size: 0.3rem;
+    font-weight: 400;
+  }
 }
 </style>
