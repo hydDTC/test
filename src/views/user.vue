@@ -1,22 +1,16 @@
 <template>
   <div class="content-modal">
 
-
-    <div class="top-header">
-      <router-link :to="{name:'index'}">
-        <div class="left">
-          <img src="../assets/img/left.png">
-          <span>返回</span>
-        </div>
-      </router-link>
-
-      <div class="text">智橙广告投放平台</div>
-
-      <!--<div class="right">-->
-      <!--<img src="../assets/img/menus.png">-->
-      <!--</div>-->
-    </div>
-
+    <y-header @btnLeft="btnLeft()" @btnRight="btnRight()" @btnTitle="btnTitle()">
+      <template slot="btn-left">
+        <img src="../assets/img/left.png">
+        <span>返回</span>
+      </template>
+      <span>智橙广告投放平台</span>
+      <template slot="btn-right">
+        <img class="right" src="../assets/img/menus.png">
+      </template>
+    </y-header>
 
     <div class="content">
       <div class="scroll-content" margin-header>
@@ -82,139 +76,150 @@
 </template>
 
 <script>
-  export default {};
+export default {
+  data(){
+    return {
+
+    }
+  },
+  created(){
+
+  },
+  mounted(){
+
+  },
+  methods: {
+    btnLeft() {
+      this.$router.replace({name:'index'})
+    },
+    btnRight() {
+      this.$router.replace({name:'index'})
+    },
+    btnTitle() {
+      this.$router.replace({name:'index'})
+    },
+  }
+};
 </script>
 
 <style scoped lang="less">
-  .top-header {
-    background-color: #000000;
-    position: absolute;
-    top: 0;
-    left: 0;
+.top-header {
+  background-color: #000000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+  height: 0.92rem;
+  line-height: 0.92rem;
+  display: flex;
+  padding: 0 0.2rem;
+
+  .text {
+    margin-left: 1.22rem;
+    color: #ffffff;
+    font-family: "Microsoft Ya Hei";
+    font-size: 0.36rem;
+    font-weight: 400;
+  }
+  /*.right {*/
+  /*width: 0.42rem;*/
+  /*height:0.1rem;*/
+  /*}*/
+}
+
+.title-bg {
+  height: 1.8rem;
+  background: #216ad1 url("../assets/img/user-bg.png") no-repeat;
+}
+
+.title-img {
+  width: 1.78rem;
+  height: 1.78rem;
+  position: absolute;
+  top: 0.67rem;
+  left: 2.76rem;
+  img {
     width: 100%;
-    z-index: 1001;
-    height: 0.92rem;
-    line-height: 0.92rem;
-    display: flex;
-    padding: 0 0.2rem;
-    .left {
-      img {
-        width: 0.21rem;
-        height: 0.26rem;
-        margin-right: 0.14rem;
-      }
-      span {
-        color: #ffffff;
-        font-family: "Microsoft Ya Hei";
-        font-size: 0.3rem;
-        font-weight: 400;
-      }
-    }
-    .text {
-      margin-left: 1.22rem;
-      color: #ffffff;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.36rem;
-      font-weight: 400;
-    }
-    /*.right {*/
-    /*width: 0.42rem;*/
-    /*height:0.1rem;*/
-    /*}*/
+    height: 100%;
   }
+}
 
-  .title-bg {
-    height: 1.8rem;
-    background: #216ad1 url("../assets/img/user-bg.png") no-repeat;
+.user-content {
+  padding-top: 0.01rem;
+  background-color: white;
+  h2 {
+    margin-top: 1.25rem;
+    color: #3090e6;
+    font-family: "Microsoft Ya Hei";
+    font-size: 0.32rem;
+    font-weight: 400;
+    line-height: 0.32rem;
+    text-align: center;
   }
-
-  .title-img {
-    width: 1.78rem;
-    height: 1.78rem;
-    position: absolute;
-    top: 0.67rem;
-    left: 2.76rem;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .user-content {
-    padding-top: 0.01rem;
+  .detail {
     background-color: white;
-    h2 {
-      margin-top: 1.25rem;
-      color: #3090e6;
-      font-family: "Microsoft Ya Hei";
-      font-size: 0.32rem;
-      font-weight: 400;
-      line-height: 0.32rem;
-      text-align: center;
-    }
-    .detail {
-      background-color: white;
-      margin-top: 0.71rem;
-      padding: 0 0.4rem;
-      > div {
-        border-bottom: 1px solid #efefef;
-        height: 1rem;
-        line-height: 1rem;
-        span {
-          font-family: "Microsoft Ya Hei";
-          font-size: 0.28rem;
-          font-weight: 400;
-          color: #999999;
-          .status {
-            color: #333333;
-          }
+    margin-top: 0.71rem;
+    padding: 0 0.4rem;
+    > div {
+      border-bottom: 1px solid #efefef;
+      height: 1rem;
+      line-height: 1rem;
+      span {
+        font-family: "Microsoft Ya Hei";
+        font-size: 0.28rem;
+        font-weight: 400;
+        color: #999999;
+        .status {
+          color: #333333;
         }
       }
     }
   }
+}
 
-  .remind {
-    padding: 0 0.5rem;
-    background-color: white;
-    margin-top: 0.3rem;
-    height: 1.02rem;
-    display: flex;
-    align-items: center;
-    > div {
-      img {
-        vertical-align: middle;
-        margin-right: 0.5rem;
-        width: 0.48rem;
-        height: 0.52rem;
-      }
-      .status {
-        color: #333333;
-        font-family: "Microsoft Ya Hei";
-        font-size: 0.28rem;
-        font-weight: 400;
-      }
+.remind {
+  padding: 0 0.5rem;
+  background-color: white;
+  margin-top: 0.3rem;
+  height: 1.02rem;
+  display: flex;
+  align-items: center;
+  > div {
+    img {
+      vertical-align: middle;
+      margin-right: 0.5rem;
+      width: 0.48rem;
+      height: 0.52rem;
     }
-    .status-go {
-      width: 0.2rem;
-      height: 0.33rem;
-      display: block;
-      margin-left: auto;
-      font-size: 0.2rem;
-    }
-  }
-
-  .bottom {
-    text-align: center;
-    margin-top: 2.38rem;
-    button {
-      width: 6.8rem;
-      height: 1rem;
-      border-radius: 0.05rem;
-      background-color: #2d84ed;
-      color: #ffffff;
+    .status {
+      color: #333333;
       font-family: "Microsoft Ya Hei";
-      font-size: 0.32rem;
+      font-size: 0.28rem;
       font-weight: 400;
     }
   }
+  .status-go {
+    width: 0.2rem;
+    height: 0.33rem;
+    display: block;
+    margin-left: auto;
+    font-size: 0.2rem;
+  }
+}
+
+.bottom {
+  text-align: center;
+  margin-top: 2.38rem;
+  button {
+    width: 6.8rem;
+    height: 1rem;
+    border-radius: 0.05rem;
+    background-color: #2d84ed;
+    color: #ffffff;
+    font-family: "Microsoft Ya Hei";
+    font-size: 0.32rem;
+    font-weight: 400;
+  }
+}
 </style>
