@@ -180,15 +180,15 @@
 
             <ul class="first_part">
               <li>
-                <p><img src="../assets/img/yue.png"><span>累计充值（元）</span></p>
+                <p><img src="../assets/img/chongzhi.png"><span>累计充值（元）</span></p>
                 <p>&9500</p>
               </li>
               <li>
-                <p><img src="../assets/img/yue.png"><span>累计配送（元）</span></p>
+                <p><img src="../assets/img/peisong.png"><span>累计配送（元）</span></p>
                 <p>&9500</p>
               </li>
               <li>
-                <p><img src="../assets/img/yue.png"><span>累计退款（元）</span></p>
+                <p><img src="../assets/img/tuikuan.png"><span>累计退款（元）</span></p>
                 <p>&9500</p>
               </li>
             </ul>
