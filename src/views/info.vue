@@ -428,7 +428,6 @@
       border-bottom: 1px solid #d9d9d9;
       th {
         color: #666666;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.38rem;
         font-weight: 400;
         padding: 0.3rem;

@@ -118,7 +118,6 @@ export default {
   .text {
     margin-left: 1.22rem;
     color: #ffffff;
-    font-family: "Microsoft Ya Hei";
     font-size: 0.36rem;
     font-weight: 400;
   }
@@ -151,7 +150,6 @@ export default {
   h2 {
     margin-top: 1.25rem;
     color: #3090e6;
-    font-family: "Microsoft Ya Hei";
     font-size: 0.32rem;
     font-weight: 400;
     line-height: 0.32rem;
@@ -166,7 +164,6 @@ export default {
       height: 1rem;
       line-height: 1rem;
       span {
-        font-family: "Microsoft Ya Hei";
         font-size: 0.28rem;
         font-weight: 400;
         color: #999999;
@@ -194,7 +191,6 @@ export default {
     }
     .status {
       color: #333333;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.28rem;
       font-weight: 400;
     }
@@ -217,7 +213,6 @@ export default {
     border-radius: 0.05rem;
     background-color: #2d84ed;
     color: #ffffff;
-    font-family: "Microsoft Ya Hei";
     font-size: 0.32rem;
     font-weight: 400;
   }

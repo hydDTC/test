@@ -223,13 +223,14 @@ export default {
     font-size: 0.36rem;
     font-weight: 400;
     text-align: center;
+    margin-bottom: 0.2rem;
   }
   >p{
     color: #999999;
     font-size: 0.32rem;
     font-weight: 400;
     text-align: center;
-    padding: 0.04rem 0;
+    margin-bottom: 0.15rem;
   }
   >span{
     color: #3090e6;
@@ -237,7 +238,7 @@ export default {
   .input-ctrl{
     height: 0.82rem;
     border-radius: 0.05rem;
-    border: 2px solid #cccccc;
+    border: 0.02rem solid #cccccc;
     margin: 0.4rem 0 0.8rem 0;
     &.error{
       border-color: red;
@@ -276,7 +277,7 @@ export default {
   overflow: hidden;
   > p{
     padding: 0.1rem 0.3rem;
-    font-size: 0.24rem;
+    font-size: 0.28rem;
   }
   .img-box {
     height: 3.6rem;

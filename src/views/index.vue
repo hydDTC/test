@@ -366,7 +366,6 @@
       text-align: center;
       flex: 1;
       color: #999999;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.38rem;
       font-weight: 400;
       position: relative;
@@ -518,7 +517,6 @@
     text-align: center;
     h2 {
       color: #333333;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.36rem;
       font-weight: 400;
       margin: 0.34rem auto;
@@ -527,7 +525,6 @@
       p {
         margin-bottom: 0.23rem;
         color: #999999;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.32rem;
         font-weight: 400;
       }
@@ -549,7 +546,6 @@
             height: 100%;
             border: none;
             color: #999999;
-            font-family: "Microsoft Ya Hei";
             font-size: 0.32rem;
             font-weight: 400;
             text-indent: 0.32rem;
@@ -568,7 +564,6 @@
         display: flex;
         justify-content: space-around;
         color: #666666;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.36rem;
         font-weight: 400;
         margin-bottom: 0.3rem;
@@ -576,9 +571,14 @@
         button {
           width: 3.2rem;
           height: 0.8rem;
+          font-size: 0.36rem;
           border-radius: 0.055rem;
-          background-color: #efefef;
+          &:nth-child(1) {
+            color: #666666;
+            background-color: #efefef;
+          }
           &:nth-child(2) {
+            color: #ffffff;
             background-color: #3090e6;
           }
         }
@@ -607,7 +607,6 @@
               margin-right: 0.31rem;
             }
             color: #333333;
-            font-family: "Microsoft Ya Hei";
             font-size: 0.32rem;
             font-weight: 400;
           }
@@ -636,7 +635,6 @@
         border-bottom: 1px solid  #efefef;
         span {
           color: #666666;
-          font-family: "Microsoft Ya Hei";
           font-size: 0.32rem;
           font-weight: 400;
         }
@@ -652,7 +650,6 @@
         border-bottom: 1px solid  #efefef;
         padding: 0.34rem 0 0.27rem 0.27rem;
         p{
-          font-family: "Microsoft Ya Hei";
           font-weight: 400;
           &:nth-child(1){
             display: flex;justify-content: space-between;
