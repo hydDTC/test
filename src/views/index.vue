@@ -3,7 +3,7 @@
 
     <div class="tab-content" v-touch-event="eventTouch">
 
-      <ul class="title" ref="title">
+      <ul class="title flex" ref="title">
         <li @click="type='one'" :class="{'active': type==='one'}">我的账户</li>
         <li @click="type='two'" :class="{'active': type==='two'}">消费记录</li>
         <li @click="type='three'" :class="{'active': type==='three'}">充值记录</li>
@@ -364,13 +364,23 @@
       height: 100%;
       line-height: 0.95rem;
       text-align: center;
-      width: 30%;
+      flex: 1;
       color: #999999;
       font-family: "Microsoft Ya Hei";
       font-size: 0.38rem;
       font-weight: 400;
+      position: relative;
       &.active {
-        color: #007aff;
+        color: #0e86e3;
+        &::after{
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 0.06rem;
+          background-color: #0e86e3;
+        }
       }
     }
     &.slide {

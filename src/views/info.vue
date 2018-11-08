@@ -10,7 +10,7 @@
       </ul>
 
       <div class="content">
-        <div class="scroll-content" style="padding-top: 1.28rem;" ref="scrollContent">
+        <div class="scroll-content" style="padding-top: 0.94rem;" ref="scrollContent">
           <div>
               <div>
                 <div class="data-card">
@@ -53,9 +53,9 @@
                 </div>
               </div>
               <div class="canvas-title">
-                <span @click="type = 'PV'" >曝光量</span>
-                <span @click="type = 'Click'">点击量</span>
-                <span @click="type = 'ADMoney'">消费</span>
+                <span :class="{'active': type === 'PV'}" @click="type = 'PV'" >曝光量</span>
+                <span :class="{'active': type === 'Click'}" @click="type = 'Click'">点击量</span>
+                <span :class="{'active': type === 'ADMoney'}" @click="type = 'ADMoney'">消费</span>
               </div>
               <canvas ref="canvasInfo" class="canvas" style="width:7.5rem; height:5.4rem;"></canvas>
               <table>
@@ -314,22 +314,35 @@
     left: 0;
     z-index: 10;
     width: 100%;
+
     background-color: white;
     border-bottom: 1px solid #d9d9d9;
     display: flex;
     justify-content: space-between;
     li {
-      display: inline-block;
-      width: 24%;
-      height: 1.28rem;
-      line-height: 1.28rem;
+      // display: inline-block;
+      // width: 24%;
+      // height: 1.28rem;
+      // line-height: 1.28rem;
+      height: 0.94rem;
+      line-height: 0.94rem;
+      flex: 1;
       text-align: center;
       color: #999999;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.38rem;
       font-weight: 400;
+      position: relative;
       &.active {
-        border-bottom: 1px solid #0e86e3;
+        color: #0e86e3;
+        &::after{
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 0.06rem;
+          background-color: #0e86e3;
+        }
       }
     }
     &.slide {
@@ -352,12 +365,21 @@
       width: 30%;
       height: 100%;
       line-height: 0.93rem;
-      color: #3090e6;
-      font-family: "Microsoft Ya Hei";
+      color: #999999;
       font-size: 0.38rem;
       font-weight: 400;
-      &:nth-child(1) {
-        border-bottom: 1px solid #0e86e3;
+      position: relative;
+      &.active {
+        color: #0e86e3;
+        &::after{
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 0.06rem;
+          background-color: #0e86e3;
+        }
       }
     }
   }
