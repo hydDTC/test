@@ -42,15 +42,23 @@ export default function (Vue) {
       }, false)
     }
   })
+  /**
+   * value = {
+   *  data:{},
+   *  func:()=>{}
+   * }
+   */
   Vue.directive('file-upload', {
     bind: function (el, binding, vnode) {
       console.info('ok')
-      if (!(typeof binding.value === 'function')) return;
+      console.log(el)
+      console.log(binding)
+      if (!(typeof binding.value.func === 'function')) return;
       let input = document.createElement('input')
       input.type = 'file';
       input.style.display = 'none';
       input.onchange = (event)=> {
-        binding.value(event.target.files)
+        binding.value.func(event.target.files, binding.value.data)
         input.value = null;
       }
       el.addEventListener('click',()=> {

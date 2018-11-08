@@ -1,4 +1,4 @@
-import {get, postForm, postJson} from './http'
+import {get, postForm, postJson, postFormData} from './http'
 
 
 /**
@@ -59,6 +59,25 @@ export function homeInit(body = {}){
 
 export function updateMaxDayMoney(body = {}){
   return postJson('/ads/home/updateMaxDayMoney', body);
+}
+
+
+
+/**
+ *  用户资质相关接口
+ * */
+export function editInit(body = {}){
+  return get('/user/edit/init', body);
+}
+
+export function imgQualification(body = {}) {
+  return postFormData('/ws-api/img/qualification', body, {
+    baseURL: 'http://180.97.75.148:8050'
+  });
+}
+
+export function editUpdate(body = {}){
+  return postJson('/user/edit/update', body);
 }
 
 
