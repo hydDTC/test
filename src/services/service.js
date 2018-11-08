@@ -84,5 +84,8 @@ export function editUpdate(body = {}){
 
 
 /**
- *  数据相关接口
+ *  权限相关接口
  * */
+ export function getMenu(body = {}){
+  return get('/jurisdiction/menus', body);
+ }

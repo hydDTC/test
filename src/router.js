@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+const middle = () => import( /* webpackChunkName: "home" */ './views/middle');
 const home = () => import( /* webpackChunkName: "home" */ './views/home');
 const first = () => import( /* webpackChunkName: "first" */ './views/first');
 const test = () => import( /* webpackChunkName: "first" */ './views/test');
@@ -17,17 +18,15 @@ const user = () => import( /* webpackChunkName: "user" */ './views/user');
 const campaignDetail = () => import( /* webpackChunkName: "campaign" */ './views/campaignDetail');
 const creativeDetail = () => import( /* webpackChunkName: "creative" */ './views/creativeDetail');
 
-const login = () => import( /* webpackChunkName: "login" */ './views/login');
-
 let routes = [
   {
     path: '*',
     components: {
-      mode: home
+      index: home
     },
   },
   {
-    path: '/first',
+    path: '/account',
     components: {
       index: first
     },
@@ -40,27 +39,9 @@ let routes = [
   }
 ];
 
-let user_r = [{
-  name: 'login',
-  path: '/login',
-  components: {
-    mode: login
-  },
-  children: [{
-    name: 'login2',
-    path: 'login',
-    component: login,
-    children: [{
-      name: 'login3',
-      path: 'login',
-      component: login,
-    }]
-  }]
-}, ]
-
 let tabs = [{
-    name: 'index',
-    path: '/index',
+    name: 'home',
+    path: 'home',
     components: {
       node: index,
       footer: footer
@@ -72,8 +53,8 @@ let tabs = [{
     }, ]
   },
   {
-    name: 'info',
-    path: '/info',
+    name: 'data',
+    path: 'data',
     components: {
       node: info,
       footer: footer
@@ -81,7 +62,7 @@ let tabs = [{
   },
   {
     name: 'campaign',
-    path: '/campaign',
+    path: 'campaign',
     components: {
       node: campaign,
       footer: footer
@@ -95,7 +76,7 @@ let tabs = [{
   },
   {
     name: 'creative',
-    path: '/creative',
+    path: 'creative',
     components: {
       node: creative,
       footer: footer
@@ -105,6 +86,20 @@ let tabs = [{
       path: 'creativeDetail',
       component: creativeDetail
     }, ]
+  }
+]
+
+let ads_tabs = [
+  {
+    name: 'ads',
+    path: '/ads',
+    component: middle,
+    children: tabs
+  },
+  {
+    name: 'middle_home',
+    path: '/home',
+    component: middle,
   }
 ]
 
@@ -130,8 +125,7 @@ export default new Router({
   scrollBehavior,
   routes: [
     ...routes,
-    ...tabs,
-    ...user_r,
+    ...ads_tabs,
   ],
 
 })

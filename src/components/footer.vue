@@ -1,6 +1,17 @@
 <template>
   <div class="tabbar tabs-ios show-tabbar">
-    <router-link to="/index" class="tab-button">
+
+
+    <template v-for="m in menu">
+      <router-link :to="{path: m.route}" class="tab-button">
+        <div class="tab-button-icon" :class="{'active': path(m.route), 'icon-index': m.code === 'ZCWAP_ADS_HOME', 'icon-data': m.code === 'ZCWAP_ADS_DATA', 'icon-campaign': m.code === 'ZCWAP_ADS_CAMPAIGN', 'icon-creative': m.code === 'ZCWAP_ADS_CREATIVE'}">
+
+        </div>
+        <span class="tab-button-text">{{m.name}}</span>
+      </router-link>
+    </template>
+
+    <!-- <router-link to="/index" class="tab-button">
       <div class="tab-button-icon icon-index" :class="{'active': path('index')}">
 
       </div>
@@ -23,21 +34,23 @@
 
       </div>
       <span class="tab-button-text">创意</span>
-    </router-link>
+    </router-link> -->
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "y-footer",
-  beforeCreate() {},
   data() {
     return {};
   },
-  computed: {},
+  computed: mapState({
+    menu: state => state.menu
+  }),
   methods: {
-    path: function(path) {
-      return this.$route.name === path;
+    path(path) {
+      return !!~this.$route.path.indexOf(path);
     }
   }
 };
