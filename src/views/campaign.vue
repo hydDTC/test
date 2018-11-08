@@ -1,22 +1,20 @@
 <template>
   <div class="push">
     <div class="tab-content" v-touch-event="eventTouch">
-      <!-- <y-header title="活动"></y-header> margin-header -->
-
       <div class="search-box flex" ref="searchBox">
         <div class="flex search">
           <i class="input-search-icon"></i>
           <input type="search" placeholder="请输入创意的名称、ID ……" @search="change()" v-model="query.search_text">
         </div>
-        <div class="flex search-screen">
-          <span @click="show = !show">筛选</span>
-          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12">
+        <div class="flex search-screen" @click="show = !show">
+          <span>筛选</span>
+          <svg :class="{'active': show}" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12">
             <defs>
               <path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/>
             </defs>
             <desc>Generated with Avocode.</desc>
             <g transform="matrix(1,0,0,1,-697,-172)">
-              <g><title>多边形 1</title>
+              <g>
                 <use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/>
               </g>
             </g>
@@ -79,7 +77,7 @@
 
           <h3 class="title-text">状态</h3>
           <div class="flex item">
-            <span :class="{'selected': query.current_state===''}"   @click="current_state = '' ">全部</span>
+            <span :class="{'selected': query.current_state===''}"   @click="query.current_state = ''">全部</span>
             <span v-for="ad_states in ad_current_states" @click="query.current_state = ad_states.lookup_code" :class="{'selected': query.current_state=== ad_states.lookup_code}">{{ad_states.meaning}}</span>
           </div>
 
@@ -99,7 +97,7 @@
         </div>
         <div class="flex operating-btn">
           <button @click="recover()">重置</button>
-          <button @click="ensure()">确定</button>
+          <button @click="ensure();show = !show">确定</button>
         </div>
       </div>
     </action-sheet>
@@ -232,90 +230,13 @@
         // }
         campaignList(this.query).then( res => {
           this.list = res.result.items;
-          this.show = false;
         })
       }
     }
   };
 </script>
 <style lang="less" scoped>
-  .operating {
-    padding: 0.3rem;
-    .title-text {
-      color: #333333;
-      font-size: 0.3rem;
-      padding: 0.3rem 0;
-    }
-    .item {
-      flex-wrap: wrap;
-      justify-content: space-between;
-      span {
-        display: block;
-        width: 2.16rem;
-        height: 0.64rem;
-        border-radius: 0.02rem;
-        border: 1px solid #efefef;
-        background-color: #f7f7f7;
-        text-align: center;
-        line-height: 0.64rem;
-        margin-bottom: 0.2rem;
-        color: #666666;
-        font-size: 0.26rem;
-        font-weight: 400;
-        position: relative;
-        &.selected {
-          color: #3a93e2;
-          border-radius: 0.02rem;
-          border: 1px solid #3090e6;
-          background-color: #e2efff;
-          &::after {
-            content: "";
-            background: url("../assets/img/selected-bc.png") no-repeat right bottom;
-            background-size: 100%;
-            width: 0.4rem;
-            height: 0.4rem;
-            display: block;
-            position: absolute;
-            // bottom: 0;
-            // right: 0;
-            bottom: -0.01rem;
-            right: -0.01rem;
-          }
-        }
-        &.date {
-          border: none;
-          width: 3.16rem;
-        }
-        & > input {
-          width:100%;
-          height:100%;
-          border: none;
-          background-color: transparent;
-          /*color : white;*/
-        }
-      }
-    }
-  }
 
-  .operating-btn {
-    height: 0.85rem;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    button {
-      flex: 1;
-      font-size: 0.32rem;
-      font-weight: 400;
-    }
-    button:nth-child(1) {
-      background: #eaf4fe;
-      color: #398ded;
-    }
-    button:nth-child(2) {
-      background: #3090e6;
-      color: #ffffff;
-    }
-  }
 
   .search-box {
     &.slide {
@@ -370,6 +291,11 @@
       > svg {
         width: 0.23rem;
         height: 0.12rem;
+        transform: rotate(0deg);
+        transition: all 200ms;
+        &.active{
+          transform: rotate(180deg);
+        }
       }
     }
   }

@@ -47,7 +47,7 @@ export function creativeEdit(body = {}){
 }
 
 export function creativeUpdatePrice(body = {}){
-  return get('/ads/creative/update_ad_price', body);
+  return postJson('/ads/creative/update_ad_price', body);
 }
 
 /**

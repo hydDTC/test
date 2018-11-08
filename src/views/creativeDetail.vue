@@ -38,6 +38,7 @@
         <div class="img-text">
           <span>{{creative.creative_name}}</span>
           <span>ID:{{creative.creative_id}}</span>
+          <span>点击地址：<a :href="creative.click_link">{{creative.click_link}}</a></span>
         </div>
 
 
@@ -85,29 +86,36 @@
 
         <div class="detail">
           <div>
-            <span>投放日期：<span class="status">{{creative.begin_date}}至{{creative.end_date}}</span> </span>
+            <span>投放日期： </span>
+            <span class="status">{{creative.begin_date}}至{{creative.end_date}}</span>
+          </div>
+          <div class="flex" style="justify-content: center;align-items: center;">
+            <span>创意出价：</span>
+            <span class="status">{{creative.ad_price}}</span>
+            <button class="btn btn-primary" @click="show = !show;ad_price = creative.ad_price">修改</button>
           </div>
           <div>
-            <span>创意出价：<span class="status">{{creative.ad_price}}</span></span>
-            <button>修改</button>
-          </div>
-          <div>
-            <span>创意状态：<span class="status">{{creative.current_state_meaning}}</span> </span>
+            <span>创意状态： </span>
+            <span class="status">{{creative.current_state_meaning}}</span>
           </div>
         </div>
 
         <div class="detail detail-bottom">
-          <div>
-            <span>推广活动：<span class="status">{{creative.campaign_name}}</span> </span>
+          <div class="flex">
+            <span>推广活动：</span>
+            <span class="status">{{creative.campaign_name}}</span>
           </div>
-          <div>
-            <span>投放时间：<span class="status">{{creative.today_show_hours_meaning}}</span> </span>
+          <div class="flex">
+            <span>投放时间：</span>
+            <span class="status">{{creative.today_show_hours_meaning}}</span>
           </div>
-          <div>
-            <span>投放媒体：<span class="status">{{creative.media_name}}</span></span>
+          <div class="flex">
+            <span>投放媒体：</span>
+            <span class="status">{{creative.media_name}}</span>
           </div>
-          <div>
-            <span>投放规格：<span class="status">{{creative.ad_width}}X{{creative.ad_height}}</span> </span>
+          <div class="flex">
+            <span>投放规格：</span>
+            <span class="status">{{creative.ad_width}}X{{creative.ad_height}}</span>
           </div>
         </div>
 
@@ -116,15 +124,34 @@
         <!--<span>创意详情</span>-->
       </div>
     </div>
+
+    <modal v-model="show">
+      <div class="update-price-box">
+        <h1>修改出价</h1>
+        <p>当前账户每日预算 <span>0.10</span> 元</p>
+        <p>出价范围在0.10~100元</p>
+        <div class="input-ctrl" :class="{'error':ad_price_error}">
+          <input type="number" v-model="ad_price" @input="ad_price_error = false;" autofocus name="ad_price">
+        </div>
+        <div class="flex modal-btn">
+          <button @click="show =! show">取消</button>
+          <button @click="updatePrice()">确定</button>
+        </div>
+      </div>
+    </modal>
+
   </div>
 </template>
 
 <script>
-import {creativeEdit} from '../services/service'
+import {creativeEdit, creativeUpdatePrice} from '../services/service'
 export default {
   data() {
     return {
+      show: false,
       query: undefined,
+      ad_price: '',
+      ad_price_error: false,
       creative: {},
       material: [],
     };
@@ -148,6 +175,23 @@ export default {
   },
   mounted() {},
   methods: {
+    updatePrice(){
+      let reg = /(^[0-9]\d*\.?\d{0,2}$)/
+      if(!reg.test(this.ad_price)){
+        this.ad_price_error = true;
+        return;
+      }
+      let body = {
+        creative_id:this.creative.creative_id,
+        ad_price: this.ad_price
+      }
+      this.show =! this.show
+      creativeUpdatePrice(body).then(res => {
+        if(res.success == 200){
+          this.creative.ad_price = this.ad_price
+        }
+      })
+    },
     assignDefaultData(target, source) {
       Object.keys(source).forEach(sk => {
         if (typeof target[sk] === 'object' && typeof source[sk] === 'object') {
@@ -172,12 +216,67 @@ export default {
 </script>
 
 <style scoped lang="less">
+.update-price-box{
+  padding: 0.25rem;
+  > h1{
+    color: #333333;
+    font-size: 0.36rem;
+    font-weight: 400;
+    text-align: center;
+  }
+  >p{
+    color: #999999;
+    font-size: 0.32rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 0.04rem 0;
+  }
+  >span{
+    color: #3090e6;
+  }
+  .input-ctrl{
+    height: 0.82rem;
+    border-radius: 0.05rem;
+    border: 2px solid #cccccc;
+    margin: 0.4rem 0 0.8rem 0;
+    &.error{
+      border-color: red;
+    }
+    input[type=number]{
+      border: none;
+      width: 100%;
+      height: 100%;
+      text-indent: 0.3rem;
+      font-size: 0.32rem;
+    }
+  }
+  .modal-btn{
+    button{
+      height: 0.80rem;
+      border-radius: 0.05rem;
+      font-size: 0.36rem;
+      font-weight: 400;
+      flex: 1;
+    }
+    button:nth-child(1){
+      margin-right: 0.15rem;
+      color: #666666;
+      background-color: #efefef;
+    }
+    button:nth-child(2){
+      margin-left: 0.15rem;
+      color: #ffffff;
+      background-color: #3090e6;
+    }
+  }
+}
 .material-box{
   border-bottom: 1px solid #efefef;
   background: #fff;
   overflow: hidden;
   > p{
-    padding: 0.1rem 0;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.24rem;
   }
   .img-box {
     height: 3.6rem;
@@ -218,17 +317,30 @@ export default {
   // height: 2.01rem;
   padding: 0.3rem;
   font-weight: 400;
-  font-family: "Microsoft Ya Hei";
   border-bottom: 1px solid #efefef;
+  > span{
+    padding-bottom: 0.05rem;
+  }
   > span:nth-child(1) {
     color: #333333;
     font-size: 0.36rem;
+    display: block;
   }
   > span:nth-child(2) {
     display: block;
-    color: #999999;
+    color: #333333;
     font-size: 0.28rem;
     font-weight: 400;
+  }
+  > span:nth-child(3){
+    display: block;
+    color: #333333;
+    font-size: 0.28rem;
+    font-weight: 400;
+    >a{
+
+      color: #398ded;
+    }
   }
 }
 
@@ -272,27 +384,24 @@ export default {
   }
   > div {
     border-bottom: 1px solid #efefef;
-    height: 1rem;
     line-height: 1rem;
     &:last-child {
       border-bottom: none;
     }
-    span {
-      font-family: "Microsoft Ya Hei";
+    > span{
       font-size: 0.28rem;
       font-weight: 400;
+    }
+    > span:nth-child(1){
       color: #999999;
-      .status {
-        color: #333333;
-      }
+      min-width: 1.4rem;
+      white-space: nowrap;
+    }
+    > span:nth-child(2) {
+      color: #333333;
     }
     button {
-      color: white;
-      margin-left: 3.27rem;
-      width: 1.24rem;
-      height: 0.6rem;
-      border-radius: 0.05rem;
-      background-color: #3090e6;
+      margin-left: auto;
     }
   }
 }

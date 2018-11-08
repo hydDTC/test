@@ -45,7 +45,7 @@ export default {
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: 0;
+  z-index: -1;
   overflow: hidden;
   display: flex;
   align-items: center;

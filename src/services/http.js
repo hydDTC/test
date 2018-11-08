@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as qs from 'querystring';
+import Loading from '../components/loading/Loading'
 
 let instance = axios.create({
     baseURL: 'http://192.168.100.163:8190', // api的base_url
@@ -8,19 +9,23 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
     request => {
-        return request;
+      Loading.open()
+      return request;
     },
     error => {
-        return Promise.reject(error)
+      Loading.close()
+      return Promise.reject(error)
     }
 );
 
 instance.interceptors.response.use(
     response => {
-        return response.data
+      Loading.close()
+      return response.data
     },
     error => {
-        return Promise.reject(error)
+      Loading.close()
+      return Promise.reject(error)
     }
 );
 

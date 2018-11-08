@@ -1,22 +1,20 @@
 <template>
   <div class="push">
     <div class="tab-content" v-touch-event="eventTouch">
-      <!-- <y-header title="活动"></y-header> margin-header -->
-
       <div class="search-box flex" ref="searchBox">
         <div class="flex search">
           <i class="input-search-icon"></i>
           <input type="search" v-model="query.search_text" placeholder="请输入创意的名称、ID ……" @search="change()">
         </div>
-        <div class="flex search-screen">
-          <span @click="show = !show">筛选</span>
-          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12">
+        <div class="flex search-screen" @click="show = !show">
+          <span>筛选</span>
+          <svg :class="{'active': show}" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12">
             <defs>
               <path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/>
             </defs>
             <desc>Generated with Avocode.</desc>
             <g transform="matrix(1,0,0,1,-697,-172)">
-              <g><title>多边形 1</title>
+              <g>
                 <use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/>
               </g>
             </g>
@@ -39,7 +37,7 @@
                 </div>
                 <div class="status-info">
                   <p>{{item.creative_name}}</p>
-                  <p>曝光：<span>2,569</span> 点击：<span>1,621</span> 花费：<span>2,690.36</span></p>
+                  <p>曝光：<span>{{item.PV}}</span> 点击：<span>{{item.Click}}</span> 花费：<span>{{item.ADMoney}}</span></p>
                 </div>
               </div>
               <p> [ {{item.current_state_origin_meaning}}: {{item.current_state_meaning}} ] </p>
@@ -55,9 +53,38 @@
       </div>
     </div>
 
-    <modal v-model="show">
-      <h1>123</h1>
-    </modal>
+    <action-sheet v-model="show">
+      <div>
+        <div class="operating">
+          <h3 class="title-text">排序</h3>
+          <div class="flex item">
+            <span :class="{'selected': query.sort_expression===''}" @click="query.sort_expression = '' ">默认排序</span>
+            <span @click="query.sort_expression = 'pv' " :class="{'selected': query.sort_expression==='pv'}">曝光</span>
+            <span @click="query.sort_expression = 'click'" :class="{'selected': query.sort_expression==='click'}">点击</span>
+            <!-- <span @click="query.sort_expression = 'cpc'" :class="{'selected': query.sort_expression==='cpc'}">点击成本</span> -->
+            <!-- <span @click="query.sort_expression = 'cpm'" :class="{'selected': query.sort_expression==='cpm'}">曝光成本</span> -->
+            <span @click="query.sort_expression = 'admoney'" :class="{'selected': query.sort_expression==='admoney'}">花费</span>
+          </div>
+
+          <h3 class="title-text">状态</h3>
+          <div class="flex item">
+            <span :class="{'selected': query.current_state===''}"   @click="query.current_state = '' ">全部</span>
+            <span v-for="ad_states in ad_current_states" @click="query.current_state = ad_states.lookup_code" :class="{'selected': query.current_state=== ad_states.lookup_code}">{{ad_states.meaning}}</span>
+          </div>
+
+          <h3 class="title-text">操作</h3>
+          <div class="flex item">
+            <span :class="{'selected': query.show_state===''}" @click="query.show_state = ''">全部</span>
+            <span v-for="show_status in show_states" @click="query.show_state = show_status.lookup_code" :class="{'selected': query.show_state === show_status.lookup_code}">{{show_status.meaning}}</span>
+          </div>
+
+        </div>
+        <div class="flex operating-btn">
+          <button @click="recover()">重置</button>
+          <button @click="change();show = !show">确定</button>
+        </div>
+      </div>
+    </action-sheet>
 
     <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
       <router-view></router-view>
@@ -74,22 +101,33 @@
         init:{},
         list:[],
         loadData:false,
+        ad_current_states:[],
+        show_states:[],
         query:{
           page_index:1,
           page_size: 25,
           search_text: '',
+          sort_expression: '',
+          show_state:'',
+          current_state:'',
         }
       };
     },
     created(){
       creativeInit().then(res => {
-        this.init = res.result
+        this.ad_current_states = res.result.ad_current_states
+        this.show_states = res.result.show_states
       })
       this.dataList()
     },
     methods: {
       go(data) {
         this.$router.push({name: "creativeDetail", query:{creative_id:data.creative_id,begin_date: data.begin_date,end_date: data.end_date}});
+      },
+      recover() {
+        this.query.show_state = '';
+        this.query.sort_expression = '';
+        this.query.current_state = '';
       },
       change() {
         this.list.length = 0;
@@ -177,6 +215,11 @@
       > svg {
         width: 0.23rem;
         height: 0.12rem;
+        transform: rotate(0deg);
+        transition: all 200ms;
+        &.active{
+          transform: rotate(180deg);
+        }
       }
     }
   }

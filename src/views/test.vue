@@ -4,12 +4,26 @@
     <div class="content">
       <div class="scroll-content" ref="test">
         <button @click="link()">link</button>
+
+        <form ref="form">
+          <div>
+            <input type="text" required>
+          </div>
+          <div>
+          </div>
+          <div>
+            <input type="text" ref="number" pattern="(^[0-9]\d*\.?\d{0,2}$)" required>
+          </div>
+          <button @click="save()" type="button">save</button>
+        </form>
+
       </div>
     </div>
   </div>
 </div>
 </template>
 <script>
+import Loading from '../components/loading/Loading'
 export default {
   data() {
     return {
@@ -39,6 +53,9 @@ export default {
       href: "snssdk1128://aweme/detail/6620596176129363214" // 'snssdk1128://aweme/detail/6620515399978978568?refer=web&gd_label=click_wap_profile_feature&appParam=&needlaunchlog=1' //itms-appss://itunes.apple.com/cn/app/a.me-yin-le-duan-shi-pin-she-qu/id1142110895?l=zh&ls=1&mt=8&ct=share_profile
     };
   },
+  mounted(){
+
+  },
   methods: {
     link() {
       this.list.forEach(href => {
@@ -51,6 +68,13 @@ export default {
         })(i);
         this.$refs.test.appendChild(i);
       });
+    },
+    save(){
+      console.dir(this.$refs.form.reportValidity())
+      console.dir(this.$refs.form.checkValidity())
+      console.dir(this.$refs.form.noValidate)
+      console.dir(this.$refs.form)
+      console.dir(this.$refs.form.value)
     }
   }
 };

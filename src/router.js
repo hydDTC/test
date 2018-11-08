@@ -117,8 +117,8 @@ const scrollBehavior = (to, from, savedPosition) => {
     return savedPosition
   } else {
     return {
-      x: 700,
-      y: 700
+      x: 0,
+      y: 0
     }
   }
 }
