@@ -39,6 +39,7 @@ let routes = [
     },
   },
   {
+    name:'account',
     path: '/account',
     components: {
       index: account
