@@ -25,7 +25,7 @@
       <div class="content">
         <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent">
 
-          <div class="card-data flex" @click="go(list.campaign_id)" v-for="list in list">
+          <div class="card-data flex" @click="go(list.campaign_id, list.application_id)" v-for="list in list">
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
@@ -50,6 +50,10 @@
                 </g>
               </svg>
             </i>
+          </div>
+
+          <div v-if="!flag" style="font-size: 0.4rem; color: gray; text-align: center;">
+             加载中。。。
           </div>
 
 
@@ -184,7 +188,7 @@
       // }
     },
     methods: {
-      go(id) {
+      go(id, application_id) {
         console.log("push");
         let obj = {
           campaign_id: id,
@@ -194,7 +198,12 @@
         this.$router.push({name: "campaignDetail",  query: obj });
       },
       change() {
-        alert(1);
+        this.query.page_index = 1;
+        this.query.page_size = 10;
+        this.list = [];
+        campaignList(this.query).then( res => {
+          this.list.push(...res.result.items);
+        })
       },
       eventTouch(event) {
         let scrollTop = this.$refs.scrollContent.scrollTop;

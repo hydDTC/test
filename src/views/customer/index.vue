@@ -133,6 +133,8 @@
             <div class="second_part">
               <div class="choose">
                 <span>筛选</span>
+                <span class="up" @click="triangle_show = !triangle_show; consume_query.sort_direction = 1;" v-if="!triangle_show"></span>
+                <span class="down" @click="triangle_show = !triangle_show; consume_query.sort_direction = 0;" v-if="triangle_show"></span>
                 <input type="date" v-model="consume_query.begin_date">
                 <input type="date" v-model="consume_query.end_date">
               </div>
@@ -144,8 +146,6 @@
                 </p>
                 <p>{{list.current_date}}</p>
               </div>
-
-
             </div>
 
           </div>
@@ -169,7 +169,8 @@
             <div class="second_part">
               <div class="choose">
                   <span>筛选</span>
-
+                  <span class="up" @click="triangle_show_recharge = !triangle_show_recharge; recharge_query.sort_direction = 1;" v-if="!triangle_show_recharge"></span>
+                  <span class="down" @click="triangle_show_recharge = !triangle_show_recharge; recharge_query.sort_direction = 0;" v-if="triangle_show_recharge"></span>
                   <input type="date" v-model="recharge_query.begin_date">
                   <input type="date" v-model="recharge_query.end_date">
               </div>
@@ -215,7 +216,7 @@
         <form class="form">
           <div class="connect">
             <div class="input">
-              <input v-model="money" placeholder="邮箱" type="text">
+              <input v-model="money" placeholder="预算" type="number">
             </div>
             <span v-if="money < 100">请输入大于100的合法数字</span>
           </div>
@@ -248,15 +249,17 @@
         consume: {},
         consumeList:[],
         rechargeList:[],
+        triangle_show: false,
+        triangle_show_recharge: false,
         consume_query:{
           begin_date: '',
           end_date: '',
-          sort_direction: ''
+          sort_direction: 0
         },
         recharge_query:{
           begin_date: '',
           end_date: '',
-          sort_direction: ''
+          sort_direction: 0
         },
         recharge: {}
       };
@@ -305,7 +308,6 @@
       },
       consume_query: {
         handler(val){
-            console.log(val)
             consumeList(val).then( res => {
               this.consumeList = res.result.items;
             })
@@ -314,7 +316,6 @@
       },
       recharge_query: {
         handler(val){
-          console.log(val)
           rechargeList(this.recharge_query).then( res => {
             this.rechargeList = res.result.items;
           })
@@ -373,6 +374,7 @@
 <style lang="less" scoped>
 
   .title {
+    transition: all 1s;
     background-color: white;
     width: 100%;
     position: absolute;
@@ -662,6 +664,22 @@
           color: #666666;
           font-size: 0.32rem;
           font-weight: 400;
+          &.up{
+            margin-left: -0.5rem;
+            width:0;
+            height:0;
+            border-width:0 5px 5px;
+            border-style:solid;
+            border-color:transparent transparent red;/*透明 透明  灰*/
+          }
+          &.down {
+            margin-left: -0.5rem;
+            width:0;
+            height:0;
+            border-width:5px 5px 0;
+            border-style:solid;
+            border-color: red transparent transparent;/*灰 透明 透明 */
+          }
         }
         input {
           height: 0.6rem;

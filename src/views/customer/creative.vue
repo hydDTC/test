@@ -130,8 +130,10 @@
         this.query.current_state = '';
       },
       change() {
-        this.list.length = 0;
+        // this.list.length = 0;
+        this.list = [];
         this.query.page_index = 1;
+        console.log(this.list)
         this.dataList()
       },
       dataList(){
