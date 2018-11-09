@@ -48,9 +48,17 @@
           </div>
         </div>
 
+
         <div class="consume">
           <div class="left"><span>每日消耗：</span> <span>{{init.day_budget}}</span></div>
           <button class="btn btn-primary" @click="revise()">修改</button>
+        </div>
+        <div class="consume">
+          <div class="left"><span>投放日期：</span> <span>{{init.begin_date}}至{{init.end_date}}</span></div>
+        </div>
+        <div class="consume">
+          <div class="left"><span>投放小时：</span> <span>{{init.today_show_hours_meaning}}</span></div>
+          <button class="btn btn-primary" @click="timeRevise()">修改</button>
         </div>
 
 
@@ -110,6 +118,36 @@
         </div>
       </modal>
 
+      <modal v-model="time_show">
+        <div class="time_show">
+          <h2>修改投放时间</h2>
+          <div class="one">
+            <span>开始日期：</span>
+            <input type="date" class="input" v-model="market.begin_date">
+          </div>
+          <div class="one">
+            <span>结束日期：</span>
+            <input type="date" class="input" v-model="market.end_date">
+          </div>
+          <div class="one">
+            <span>投放小时：</span>
+            <div class="radio">
+              <span><input type="radio" v-model="market.show_time_type" value="0">不限</span>
+              <span><input type="radio" v-model="market.show_time_type" value="1">指定小时</span>
+            </div>
+          </div>
+
+          <div class="checkbox" v-if="market.show_time_type === 1 || market.show_time_type === '1' ">
+            <span v-for="(a,index) in arr"><input type="checkbox"  v-model="arr[index]" >{{index}}</span>
+          </div>
+
+          <div class="btn">
+            <button type="button" @click="cancelTime()">取消</button>
+            <button type="button" @click="ensureTime()">确定</button>
+          </div>
+        </div>
+      </modal>
+
     </div>
   </div>
 </template>
@@ -117,26 +155,43 @@
 <script>
   import {campaignDetail} from "../services/service";
   import {campaignUpdateBudget} from "../services/service";
+  import {updateShowHours} from "../services/service";
 
   export default {
 
     data() {
       return {
+        arr:[],
         init: {},
         valueStatus: false,
         day_budget: '',
         budget_show: false,
-        creatives: []
+        creatives: [],
+        time_show: false,
+        market: {
+          begin_date:'',
+          end_date:'',
+          show_time_type: 0,
+          show_hours: []
+        }
       };
     },
     created() {
      this.initList();
     },
     methods: {
+
       initList(){
         campaignDetail(this.$route.query).then( res => {
           this.init = JSON.parse(JSON.stringify(res.result.campaign)); // 这边budget需要修改
-          this.creatives = res.result.creatives
+          this.creatives = res.result.creatives;
+          if (this.market.show_time_type === 0) { // 不限
+            for (let i = 0; i < 24; i ++) {
+              this.market.show_hours.push( 1 )  // 对应的就是全都是1 但是这边后台不给  自己前端初始化
+            }
+          } else { // 指定时间段
+            this.market.show_hours = res.result.show_hours;
+          }
         })
       },
       // 修改预算
@@ -158,6 +213,35 @@
       },
       cancel() {
         this.budget_show = false;
+      },
+      timeRevise(){
+        // 打开的时候  初始化
+        this.time_show = true;
+        // slice 后是一个新数组 不是引用
+        this.market.show_time_type = this.init.show_time_type;
+        this.arr = this.market.show_hours.slice(0,24).map( a => a===1?true:false);
+        this.market.begin_date = this.init.begin_date;
+        this.market.end_date = this.init.end_date;
+      },
+      ensureTime() {
+        // 把整个对象替换
+        let a = this.arr.map(a => a ? 1 : 0);
+        this.market.campaign_id = this.init.campaign_id;
+        this.market.show_time_type = Number(this.market.show_time_type);
+        if (this.market.show_time_type === 0) {  // 不限
+          this.market.show_hours = null;
+        } else {
+          this.market.show_hours = [...a, ...a, ...a,...a,...a,...a,...a];
+        }
+        updateShowHours(this.market).then( res => {
+          if (res.success === 200) {
+            this.time_show = false;
+            this.initList();
+          }
+        })
+      },
+      cancelTime() {
+        this.time_show = false;
       }
     }
   };
@@ -210,23 +294,32 @@
   }
 
   .consume {
+    position:relative;
+    padding: 0.5rem;
     background-color: white;
     height: 1.21rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    border-bottom: 1px solid #efefef;
     .left {
-      margin-left: -0.6rem;
+      display: inline-block;
       span:nth-child(1) {
         color: #999999;
         font-size: 0.28rem;
       }
       span:nth-child(2) {
         color: #333333;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.32rem;
         font-weight: 400;
+        display: inline-block;
+        width: 4.5rem;
       }
+    }
+    button {
+      position: absolute;
+      right: 0.5rem;
+      top:0;
+    }
+    &:last-child {
+      border: none;
     }
   }
 
@@ -368,6 +461,59 @@
             background-color: #3090e6;
           }
         }
+      }
+    }
+  }
+  .time_show {
+    text-align: center;
+    font-size: 0.30rem;
+    h2 {
+      color: #333333;
+      font-family: "Microsoft Ya Hei";
+      font-size: 0.36rem;
+      font-weight: 400;
+      margin: 0.34rem auto;
+    }
+    .one {
+      margin-top: 0.3rem;
+       .input , .radio{
+        width: 3rem;
+       }
+      .radio {
+        display: inline-block;
+        text-align: left;
+        span {
+          margin-right: 0.2rem;
+        }
+      }
+    }
+    .btn {
+      display: flex;
+      justify-content: space-around;
+      color: #666666;
+      font-family: "Microsoft Ya Hei";
+      font-size: 0.36rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+      padding: 0;
+      button {
+        width: 3.2rem;
+        height: 0.8rem;
+        border-radius: 0.055rem;
+        background-color: #efefef;
+        &:nth-child(2) {
+          background-color: #3090e6;
+        }
+      }
+    }
+    .checkbox {
+      width: 70%;
+      margin: 0.5rem auto;
+      width: 5.0rem;
+      span {
+        text-align: left;
+        display:inline-block;
+        width:15%;
       }
     }
   }

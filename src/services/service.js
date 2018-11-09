@@ -20,6 +20,10 @@ export function campaignUpdateBudget(body = {}){
   return postJson('/ads/campaign/update_day_budget', body);
 }
 
+export function updateShowHours(body = {}){
+  return postJson('/ads/campaign/update_show_hours', body);
+}
+
 
 /**
  * 数据相关接口
