@@ -181,7 +181,7 @@
     }
 
 
-    .title {
+  .title {
       height:1.08rem;
       line-height: 0.58rem;
       text-align: center;

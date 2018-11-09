@@ -136,3 +136,10 @@ export function userLogin(body = {}){
   return get('/jurisdiction/sublogin', body)
 }
 
+/**
+ *  官网登入 注册
+ * */
+export function jurisdictionLogin(body = {}){
+  return postForm('/jurisdiction/login', body);
+}
+

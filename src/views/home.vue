@@ -203,12 +203,125 @@
         <!-- 这边要用相对路径-->
         <img src="../assets/home/slipping.png"/>
       </div>
-      <y-login v-if="login_show" @login_cancel="login_cancel"></y-login>
+
+
+      <modal v-model="login_show">
+        <div class="login_show">
+
+          <div class="close" @click="cancel()">
+            <img src="../assets/css/login/close.png">
+          </div>
+
+          <div class="title">
+            <span @click="flag ='login'" :class="{'active': flag ==='login'}">登陆</span>
+            <span @click="flag ='register'" :class="{'active': flag ==='register'}">注册</span>
+          </div>
+
+          <!-- login-->
+          <div class="form" v-if=" flag ==='login' ">
+            <form  id="myform" ref="myform" target="frameFile" @submit="goLogin()" >
+
+              <iframe name='frameFile' style='display: none;'></iframe>
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/mail.png" />
+                <!-- 套一层 因为input边框每个浏览器渲染的样式不一样 -->
+                <div class="input">
+                  <input v-model="form1.username" placeholder="用户名" type="text" required>
+                </div>
+              </div>
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/pwd.png" />
+                <div class="input">
+                  <input v-model="form1.password" type="customer_name" placeholder="密码" required >
+                </div>
+              </div>
+
+              <div class="connect code">
+                <img class="icon" src="../assets/css/login/yanzhengma.png" />
+                <div class="input">
+                  <input v-model="form1.veritycode" type="text" placeholder="验证码" required>
+                </div>
+                <a><img src="../assets/css/login/code.png"></a>
+              </div>
+              <button  type="submit">登陆</button>
+            </form>
+
+          </div>
+
+          <!--register-->
+          <div class="form" v-if=" flag ==='register' ">
+
+            <form  target="frameFile1" @submit="goRegister()" >
+              <iframe name='frameFile1' style='display: none;'></iframe>
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/mail.png" />
+                <div class="input">
+                  <input v-model="user.user_name" placeholder="登录邮箱" type="text" required pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$">
+                </div>
+              </div>
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/pwd.png" />
+                <div class="input">
+                  <input v-model="user.password" placeholder="设置密码" type="text" required  pattern="((?=.*\d)(?=.*[A-Za-z]))^[A-Za-z\d]{6,18}$">
+                </div>
+              </div>
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/pwd.png" />
+                <div class="input">
+                  <input v-model="user.old_pwd" placeholder="确认密码" type="text" required>
+                </div>
+              </div>
+
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/company.png" />
+                <div class="input">
+                  <input v-model="user.nick_name" placeholder="企业名称" type="text" required>
+                </div>
+              </div>
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/link-people.png" />
+                <div class="input">
+                  <input v-model="user.link_user" type="text" placeholder="联系人" required>
+                </div>
+              </div>
+
+              <div class="connect">
+                <img class="icon" src="../assets/css/login/loginphone.png" />
+                <div class="input">
+                  <input v-model="user.mobile_phone" placeholder="联系电话" type="text" required pattern="^1\d{10}$">
+                </div>
+              </div>
+
+              <div class="connect code">
+                <img class="icon" src="../assets/css/login/yanzhengma.png" />
+                <div class="input">
+                  <input v-model="user.verify_code" type="text" placeholder="验证码" required>
+                </div>
+                <a @click="verifyCode()"><img src="../assets/css/login/code.png"></a>
+              </div>
+              <button type="submit">登陆</button>
+            </form>
+          </div>
+        </div>
+      </modal>
+
+      <!--<y-login v-if="login_show" @login_cancel="login_cancel"></y-login>-->
     </div>
   </div>
+
+
+
+
 </template>
 
 <script>
+  import {jurisdictionLogin} from "../services/service";
   export default {
     data() {
       return {
@@ -501,7 +614,26 @@
         nx: "",
         ny: "",
         angle: "",
-        startTime: ""
+        startTime: "",
+        /*  登入 注册这方面的 */
+        form1 : {
+          username: '',
+          password:'',
+          veritycode:''
+        },
+        flag: 'login',
+        user : {
+          nick_name:'',
+          link_user:'',
+          user_name:'',
+          password:'',
+          old_pwd:'',
+          mobile_phone:'',
+          verify_code:''
+        },
+        countdown :  60,
+        flagCode : false,
+        codeText : '获取验证码'
       };
     },
 
@@ -675,13 +807,62 @@
 
       /*login */
       login() {
+        this.form1 = {};
         this.login_show = true;
       },
-      login_cancel() {
+      cancel() {
         this.login_show = false;
-      }
+      },
 
       /*login */
+      goLogin() {
+        jurisdictionLogin(this.form1).then( res => {
+          if (res.success != 200) {
+            alert(res.errorList[0]._description)
+          } else {
+            this.login_show = false;
+          }
+
+        })
+      },
+      /* register */
+      goRegister() {
+        jurisdictionLogin(this.user).then( res => {
+          if (res.success != 200) {
+            alert(res.errorList[0]._description)
+          } else {
+            this.login_show = false;
+          }
+
+        })
+      },
+      verifyCode() {
+        if (!this.user.mobile_phone) {
+           alert('请输入手机号');
+           return;
+        }
+        this.countdown --;
+        localStorage.setItem('countdown', this.countdown + '');
+        this.codeTest()
+        // this._publicService.RegisterVerifyCode({mobile_number: this.user.mobile_phone}).subscribe( res => {})
+      },
+      codeTest() {
+        if (localStorage.getItem('countdown') && +localStorage.getItem('countdown') <  60 && +localStorage.getItem('countdown') > 0) {
+          this.countdown = +localStorage.getItem('countdown');
+          this.countdown --;
+          this.flagCode = true;
+          this.codeText = '重新发送';
+          localStorage.setItem('countdown', this.countdown + '');
+          setTimeout( () => {
+            this.codeTest();
+          }, 1000)
+        } else {
+          this.countdown = 60;
+          this.flagCode = false;
+          this.codeText = '获取验证码';
+          localStorage.setItem('countdown', this.countdown + '');
+        }
+      }
     }
   };
 </script>
@@ -1176,4 +1357,87 @@
       }
     }
   }
+
+  /*  登录  */
+  .login_show {
+    > .close {
+      position:absolute;
+      width:0.28rem;
+      height:0.28rem;
+      top: 0.2rem;
+      right: 0.2rem;
+      img {
+        min-width: 100%;
+      }
+    }
+    .title {
+      height:1.08rem;
+      line-height: 0.58rem;
+      text-align: center;
+      background: #fcfcfc;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-evenly;
+      span {
+        display:inline-block;
+        width:0.9rem;
+        height: 0.74rem;
+        &.active {
+          border-bottom: 2px solid blue;
+        }
+      }
+    }
+
+    .form {
+      text-align: center;
+      margin-top:0.52rem;
+      .connect{
+        margin: 0 auto 0.25rem auto;
+        width : 5rem;
+        height: 0.55rem;
+        position: relative;
+        .input {
+          border: 1px solid #e1e3e5;
+          height: 100%;
+          border-radius: 0.03rem;
+          input {
+            width : 100%;
+            height: 100%;
+            text-indent: 0.9rem;
+            border: none;
+          }
+        }
+        .icon {
+          width: 0.23rem;
+          height:0.31rem;
+          position: absolute;
+          left: 0.3rem;
+          top: 0.1rem;
+        }
+        /* 验证码 */
+        &.code {
+          display: flex;
+          text-align: left;
+          input {
+            width : 3.54rem;
+          }
+          a {
+            img {
+              width: 1.32rem;
+              height: 0.55rem;
+            }
+          }
+        }
+      }
+      button {
+        width : 5rem;
+        height: 0.55rem;
+        border-radius: 0.03rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.6rem;
+        background-color: #12a6ff;
+      }
+    }
+  }
+
 </style>
