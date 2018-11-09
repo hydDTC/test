@@ -113,3 +113,26 @@ export function editUpdate(body = {}){
  export function getMenu(body = {}){
   return get('/jurisdiction/menus', body);
  }
+
+
+/**
+ * 代理首页
+ */
+
+
+/**
+ * 代理客户
+ *  user/child/init
+ */
+export function userInit(body = {}){
+  return get('/user/child/init', body)
+}
+
+export function userList(body = {}){
+  return get('/user/child/list', body)
+}
+
+export function userLogin(body = {}){
+  return get('/jurisdiction/sublogin', body)
+}
+

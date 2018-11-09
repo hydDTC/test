@@ -4,7 +4,7 @@
 
     <template v-for="m in menu">
       <router-link :to="{path: m.route}" class="tab-button">
-        <div class="tab-button-icon" :class="{'active': path(m.route), 'icon-index': m.code === 'ZCWAP_ADS_HOME' || m.code === 'ZCMOBI_WAP_V4_US_HOME', 'icon-data': m.code === 'ZCWAP_ADS_DATA', 'icon-campaign': m.code === 'ZCWAP_ADS_CAMPAIGN', 'icon-creative': m.code === 'ZCWAP_ADS_CREATIVE'}">
+        <div class="tab-button-icon" :class="{'active': path(m.route), 'icon-index': m.code === 'ZCWAP_ADS_HOME' || m.code === 'ZCMOBI_WAP_V4_US_HOME', 'icon-user': m.code === 'ZCMOBI_WAP_V4_US_USERS', 'icon-data': m.code === 'ZCWAP_ADS_DATA', 'icon-campaign': m.code === 'ZCWAP_ADS_CAMPAIGN', 'icon-creative': m.code === 'ZCWAP_ADS_CREATIVE'}">
 
         </div>
         <span class="tab-button-text">{{m.name}}</span>
@@ -73,6 +73,16 @@ export default {
     background-size: 100%;
   }
 }
+
+.icon-user {
+  background: url("../assets/img/user.png") no-repeat center;
+  background-size: 100%;
+  &.active {
+    background: url("../assets/img/user_active.png") no-repeat center;
+    background-size: 100%;
+  }
+}
+
 
 .icon-campaign {
   background: url("../assets/img/campaign.png") no-repeat center;

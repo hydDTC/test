@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 
 Vue.use(Router)
 
@@ -116,8 +117,8 @@ let utabs = [
     }, ]
   },
   {
-    name: 'udata',
-    path: 'data',
+    name: 'users',
+    path: 'users',
     components: {
       node: uinfo,
       footer: footer
@@ -168,7 +169,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  window.token = to.query.token
+  store.commit('setToken', to.query.token)
   if(from.query.token && !to.query.token){
     next({name: to.name, query: {...to.query,token: from.query.token}})
   }else {
