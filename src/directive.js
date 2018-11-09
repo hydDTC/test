@@ -62,6 +62,7 @@ export default function (Vue) {
         input.value = null;
       }
       el.addEventListener('click',()=> {
+        if(binding.value.disabled) return;
         input.click()
       })
       el.appendChild(input)

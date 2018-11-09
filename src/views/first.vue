@@ -79,21 +79,12 @@
             <div v-for="b in list2" class="second_part">
               <h2 class="title-upload">{{b.item_type_name}}</h2>
 
-              <div class="upload-box" v-file-upload="{data:b,func: fileChange}" :hhh="b" v-if="user.zc_audit_status !== 'AUDITED' ">
-
+              <div class="upload-box" v-file-upload="{data:b,func: fileChange, disabled: user.zc_audit_status === 'AUDITED'}">
                 <div class="upload-prompt" v-if="!b.url">
                   <p>+</p>
                   <p>立即上传</p>
                 </div>
-
                 <div class="img" v-if="b.url">
-                  <img :src="b.url">
-                </div>
-
-              </div>
-
-              <div class="upload-box" v-if="user.zc_audit_status === 'AUDITED' ">
-                <div class="img">
                   <img :src="b.url">
                 </div>
               </div>
@@ -251,16 +242,16 @@
           font-size: 0.26rem;
         }
       }
-      .img {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        vertical-align: center;
-        justify-content: center;
-        img {
+      // .img {
+      //   width: 100%;
+      //   height: 100%;
+      //   display: flex;
+      //   vertical-align: center;
+      //   justify-content: center;
+      //   img {
 
-        }
-      }
+      //   }
+      // }
     }
     > .second_part{
       &:nth-child(2){

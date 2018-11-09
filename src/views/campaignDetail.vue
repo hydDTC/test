@@ -1,6 +1,12 @@
 <template>
   <div class="content-modal">
-    <y-header title="活动详情"></y-header>
+    <y-header @btnLeft="btnLeft()" @btnRight="btnRight()" @btnTitle="btnTitle()">
+      <template slot="btn-left">
+        <img src="../assets/img/left.png">
+        <span>返回</span>
+      </template>
+      <span>活动详情</span>
+    </y-header>
     <div class="content">
 
       <div class="scroll-content" margin-tabbar margin-header>
@@ -242,7 +248,16 @@
       },
       cancelTime() {
         this.time_show = false;
-      }
+      },
+      btnLeft() {
+        this.$router.replace({name:'campaign'})
+      },
+      btnRight() {
+        this.$router.replace({name:'campaign'})
+      },
+      btnTitle() {
+        this.$router.replace({name:'campaign'})
+      },
     }
   };
 </script>
@@ -252,7 +267,6 @@
     line-height: 0.97rem;
     height: 0.97rem;
     color: #333333;
-    font-family: "Microsoft Ya Hei";
     font-size: 0.32rem;
     font-weight: 400;
     background-color: white;
@@ -330,7 +344,6 @@
       height: 0.94rem;
       line-height: 0.94rem;
       color: #333333;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.32rem;
       font-weight: 400;
       border-bottom: 1px solid #efefef;
@@ -383,7 +396,6 @@
     align-items: center;
     span {
       color: #333333;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.32rem;
       font-weight: 400;
       /* Text style for "状态：" */
@@ -397,7 +409,6 @@
     text-align: center;
     h2 {
       color: #333333;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.36rem;
       font-weight: 400;
       margin: 0.34rem auto;
@@ -406,7 +417,6 @@
       p {
         margin-bottom: 0.23rem;
         color: #999999;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.32rem;
         font-weight: 400;
       }
@@ -428,7 +438,6 @@
             height: 100%;
             border: none;
             color: #999999;
-            font-family: "Microsoft Ya Hei";
             font-size: 0.32rem;
             font-weight: 400;
             text-indent: 0.32rem;
@@ -447,7 +456,6 @@
         display: flex;
         justify-content: space-around;
         color: #666666;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.36rem;
         font-weight: 400;
         margin-bottom: 0.3rem;
@@ -455,9 +463,14 @@
         button {
           width: 3.2rem;
           height: 0.8rem;
+          font-size: 0.36rem;
           border-radius: 0.055rem;
-          background-color: #efefef;
+          &:nth-child(1) {
+            color: #666666;
+            background-color: #efefef;
+          }
           &:nth-child(2) {
+            color: #ffffff;
             background-color: #3090e6;
           }
         }

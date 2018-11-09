@@ -3,7 +3,7 @@
 
     <div class="tab-content" v-touch-event="eventTouch">
 
-      <ul class="title" ref="title">
+      <ul class="title flex" ref="title">
         <li @click="type='one'" :class="{'active': type==='one'}">我的账户</li>
         <li @click="type='two'" :class="{'active': type==='two'}">消费记录</li>
         <li @click="type='three'" :class="{'active': type==='three'}">充值记录</li>
@@ -364,13 +364,22 @@
       height: 100%;
       line-height: 0.95rem;
       text-align: center;
-      width: 30%;
+      flex: 1;
       color: #999999;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.38rem;
       font-weight: 400;
+      position: relative;
       &.active {
-        color: #007aff;
+        color: #0e86e3;
+        &::after{
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 0.06rem;
+          background-color: #0e86e3;
+        }
       }
     }
     &.slide {
@@ -508,7 +517,6 @@
     text-align: center;
     h2 {
       color: #333333;
-      font-family: "Microsoft Ya Hei";
       font-size: 0.36rem;
       font-weight: 400;
       margin: 0.34rem auto;
@@ -517,7 +525,6 @@
       p {
         margin-bottom: 0.23rem;
         color: #999999;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.32rem;
         font-weight: 400;
       }
@@ -539,7 +546,6 @@
             height: 100%;
             border: none;
             color: #999999;
-            font-family: "Microsoft Ya Hei";
             font-size: 0.32rem;
             font-weight: 400;
             text-indent: 0.32rem;
@@ -558,7 +564,6 @@
         display: flex;
         justify-content: space-around;
         color: #666666;
-        font-family: "Microsoft Ya Hei";
         font-size: 0.36rem;
         font-weight: 400;
         margin-bottom: 0.3rem;
@@ -566,9 +571,14 @@
         button {
           width: 3.2rem;
           height: 0.8rem;
+          font-size: 0.36rem;
           border-radius: 0.055rem;
-          background-color: #efefef;
+          &:nth-child(1) {
+            color: #666666;
+            background-color: #efefef;
+          }
           &:nth-child(2) {
+            color: #ffffff;
             background-color: #3090e6;
           }
         }
@@ -597,7 +607,6 @@
               margin-right: 0.31rem;
             }
             color: #333333;
-            font-family: "Microsoft Ya Hei";
             font-size: 0.32rem;
             font-weight: 400;
           }
@@ -626,7 +635,6 @@
         border-bottom: 1px solid  #efefef;
         span {
           color: #666666;
-          font-family: "Microsoft Ya Hei";
           font-size: 0.32rem;
           font-weight: 400;
         }
@@ -642,7 +650,6 @@
         border-bottom: 1px solid  #efefef;
         padding: 0.34rem 0 0.27rem 0.27rem;
         p{
-          font-family: "Microsoft Ya Hei";
           font-weight: 400;
           &:nth-child(1){
             display: flex;justify-content: space-between;
