@@ -13,7 +13,7 @@ const footer = () => import( /* webpackChunkName: "tabs" */ './components/footer
  *  投放
  * */
 const index = () => import( /* webpackChunkName: "tabs" */ './views/customer/index');
-const info = () => import( /* webpackChunkName: "tabs" */ './views/customer/info');
+const data = () => import( /* webpackChunkName: "tabs" */ './views/customer/data');
 const campaign = () => import( /* webpackChunkName: "tabs" */ './views/customer/campaign');
 const creative = () => import( /* webpackChunkName: "tabs" */ './views/customer/creative');
 const user = () => import( /* webpackChunkName: "user" */ './views/customer/user');
@@ -68,7 +68,7 @@ let tabs = [
     name: 'data',
     path: 'data',
     components: {
-      node: info,
+      node: data,
       footer: footer
     }
   },
@@ -130,13 +130,13 @@ let middle_tabs = [
     name: 'ads',
     path: '/ads',
     component: middle,
-    children: tabs
+    children: tabs,
   },
   {
     name: 'us',
     path: '/us',
     component: middle,
-    children: utabs
+    children: utabs,
   },
   {
     name: 'middle_home',
@@ -157,7 +157,7 @@ const scrollBehavior = (to, from, savedPosition) => {
   }
 }
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   // base: process.env.BASE_URL,
   scrollBehavior,
@@ -166,3 +166,14 @@ export default new Router({
     ...middle_tabs,
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  window.token = to.query.token
+  if(from.query.token && !to.query.token){
+    next({name: to.name, query: {...to.query,token: from.query.token}})
+  }else {
+    next()
+  }
+})
+
+export default router

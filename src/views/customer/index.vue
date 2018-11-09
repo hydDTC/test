@@ -263,6 +263,7 @@
     beforeCreate() {
     },
     created() {
+      console.info('11')
      this.init();
       this.consume_query.begin_date = this.fmtDate();
       this.consume_query.end_date = this.fmtDate();
@@ -331,7 +332,6 @@
         if (event.position.y > 0) { // 往下滑动
           this.$refs.title.classList.remove("slide");
         } else if (event.position.y < 0 && scrollTop >= clientHeight) { // 往上滑动
-          console.log('jinlai')
           this.$refs.title.classList.add("slide");
         }
       },
@@ -362,9 +362,6 @@
         })
       }
     },
-    // beforeRouteLeave(to, from, next) {
-    //   next();
-    // }
   };
 </script>
 <style lang="less" scoped>
@@ -381,6 +378,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #d9d9d9;
+    transition: top 0.2s ease-in-out;
     li {
       height: 100%;
       line-height: 0.95rem;
