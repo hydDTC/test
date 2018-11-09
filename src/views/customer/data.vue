@@ -373,6 +373,7 @@ export default {
   background-color: white;
   width:100wh;
   height:5.4rem;
+  margin-bottom: 1rem;
 }
 
 .data-card {

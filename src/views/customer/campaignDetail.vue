@@ -326,13 +326,15 @@
 
   .consume {
     position:relative;
-    padding: 0.5rem;
+    padding: 0.3rem;
     background-color: white;
-    height: 1.21rem;
+    /*height: 1.21rem;*/
+    line-height: 0.5rem;
     border-bottom: 1px solid #efefef;
     .left {
       display: inline-block;
       span:nth-child(1) {
+        vertical-align: top;
         color: #999999;
         font-size: 0.28rem;
       }
@@ -341,13 +343,11 @@
         font-size: 0.32rem;
         font-weight: 400;
         display: inline-block;
-        width: 4.5rem;
+        width: 4rem;
       }
     }
     button {
-      position: absolute;
-      right: 0.5rem;
-      top:0;
+     vertical-align: top;
     }
     &:last-child {
       border: none;
