@@ -102,13 +102,13 @@ export default {
       })
     },
     btnLeft() {
-      this.$router.replace({name:'uhome'})
+      this.$router.replace({name:'home'})
     },
     btnRight() {
-      this.$router.replace({name:'uhome'})
+      this.$router.replace({name:'home'})
     },
     btnTitle() {
-      this.$router.replace({name:'uhome'})
+      this.$router.replace({name:'home'})
     },
   }
 };
