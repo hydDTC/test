@@ -1,6 +1,7 @@
 import axios from 'axios'
 import * as qs from 'querystring';
 import Loading from '../components/loading/Loading'
+import store from '../store'
 
 let instance = axios.create({
     baseURL: 'http://192.168.100.163:8190', // api的base_url
@@ -9,8 +10,8 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
     request => {
-      if(window.token){
-        request.headers.token = window.token
+      if(store.state.token){
+        request.headers.token = store.state.token
       }
       Loading.open()
       return request;

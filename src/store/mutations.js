@@ -3,6 +3,9 @@
 const mutations = {
   setMenu(state, payload) {
     state.menu = payload
+  },
+  setToken(state, payload){
+    state.token = payload
   }
 }
 export default mutations

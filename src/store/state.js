@@ -1,5 +1,6 @@
 const state = {
-  menu: []
+  menu: [],
+  token:''
 };
 
 export default state
