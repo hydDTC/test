@@ -94,9 +94,10 @@
             <span class="status">{{creative.ad_price}}</span>
             <button class="btn btn-primary" @click="show = !show;ad_price = creative.ad_price">修改</button>
           </div>
-          <div>
+          <div class="flex" style="align-items: center; justify-content: center">
             <span>创意状态： </span>
             <span class="status">{{creative.current_state_meaning}}</span>
+            <switch-input v-model="valueStatus" @changed="change_state" style="margin-left: auto"></switch-input>
           </div>
         </div>
 
@@ -144,7 +145,7 @@
 </template>
 
 <script>
-import {creativeEdit, creativeUpdatePrice} from '../../services/service'
+import {creativeEdit, creativeUpdatePrice, creativeShowState} from '../../services/service'
 export default {
   data() {
     return {
@@ -154,12 +155,14 @@ export default {
       ad_price_error: false,
       creative: {},
       material: [],
+      valueStatus: false
     };
   },
   created() {
     this.query = this.$route.query;
     creativeEdit(this.query).then(res => {
-      this.creative = res.result.creative
+      this.creative = res.result.creative;
+      this.valueStatus = this.creative.show_state === 1;
       let value = res.result.creative.elements.data_list
       let material = res.result.creative.material_elements.data_list
       this.assignDefaultData(material, value);
@@ -175,6 +178,15 @@ export default {
   },
   mounted() {},
   methods: {
+    change_state(){
+      let obj = {
+        creative_id: this.creative.creative_id,
+        show_state: this.valueStatus
+      }
+      creativeShowState(obj).then( res => {
+        this.creative.show_state = this.valueStatus
+      })
+    },
     updatePrice(){
       let reg = /(^[0-9]\d*\.?\d{0,2}$)/
       if(!reg.test(this.ad_price)){

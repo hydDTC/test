@@ -117,124 +117,77 @@
 
             <ul class="first_part">
               <li>
-                <p><img src="../../assets/img/yue.png"><span>累计充值（元）</span></p>
-                <p>&9500</p>
+                <p><img src="../../assets/img/yue.png"><span>账户余额（元）</span></p>
+                <p>{{consume.balance}}</p>
               </li>
               <li>
                 <p><img src="../../assets/img/today.png"><span>今日花费（元）</span></p>
-                <p>&9500</p>
+                <p>{{consume.today_consume}}</p>
               </li>
               <li>
                 <p><img src="../../assets/img/leiji.png"><span>累计花费（元）</span></p>
-                <p>&9500</p>
+                <p>{{consume.total_consume}}</p>
               </li>
             </ul>
 
             <div class="second_part">
               <div class="choose">
                 <span>筛选</span>
-                <input type="date" v-model="begin_date">
-                <input type="date" v-model="end_date">
+                <input type="date" v-model="consume_query.begin_date">
+                <input type="date" v-model="consume_query.end_date">
               </div>
 
-              <div class="data">
+              <div class="data" v-for="list in consumeList">
                 <p>
                   <span>消费</span>
-                  <span>-1200</span>
+                  <span>-{{list.consume_money}}</span>
                 </p>
-                <p>2018-11-06  20:26</p>
+                <p>{{list.current_date}}</p>
               </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
+
 
             </div>
 
           </div>
-          <div v-if="type === 'three' " class="two">
+          <div v-if="type === 'three' " class="two three">
 
             <ul class="first_part">
               <li>
                 <p><img src="../../assets/img/chongzhi.png"><span>累计充值（元）</span></p>
-                <p>&9500</p>
+                <p>{{recharge.c_money}}</p>
               </li>
               <li>
                 <p><img src="../../assets/img/peisong.png"><span>累计配送（元）</span></p>
-                <p>&9500</p>
+                <p>{{recharge.d_money}}</p>
               </li>
               <li>
                 <p><img src="../../assets/img/tuikuan.png"><span>累计退款（元）</span></p>
-                <p>&9500</p>
+                <p>{{recharge.f_money}}</p>
               </li>
             </ul>
 
             <div class="second_part">
               <div class="choose">
                   <span>筛选</span>
-                  <input type="date" v-model="begin_date">
-                  <input type="date" v-model="end_date">
+
+                  <input type="date" v-model="recharge_query.begin_date">
+                  <input type="date" v-model="recharge_query.end_date">
               </div>
 
-              <div class="data">
+              <div class="data" v-for="list in  rechargeList">
                 <p>
-                  <span>消费</span>
-                  <span>-1200</span>
+                  <span>{{list.recharge_type_name}}</span>
+                  <span>{{list.money}}</span>
                 </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
                 <p>
-                  <span>消费</span>
-                  <span>-1200</span>
+                  <span>{{list.creation_date}}</span>
+                  <span>{{list.reciprocal_nick_name}}</span>
                 </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
                 <p>
-                  <span>消费</span>
-                  <span>-1200</span>
+                  <span>[{{list.description}}]</span>
                 </p>
-                <p>2018-11-06  20:26</p>
               </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
+
 
             </div>
 
@@ -277,8 +230,8 @@
   </div>
 </template>
 <script>
-  import {homeInit} from "../../services/service";
-  import {updateMaxDayMoney} from "../../services/service";
+  import {homeInit, consumeRecord, rechargeRecord, updateMaxDayMoney, consumeList, rechargeList} from "../../services/service";
+
 
   export default {
     data() {
@@ -290,7 +243,21 @@
         budget_show: false,
         money: '',
         end_date: '',
-        begin_date:''
+        begin_date:'',
+        consume: {},
+        consumeList:[],
+        rechargeList:[],
+        consume_query:{
+          begin_date: '',
+          end_date: '',
+          sort_direction: ''
+        },
+        recharge_query:{
+          begin_date: '',
+          end_date: '',
+          sort_direction: ''
+        },
+        recharge: {}
       };
     },
     beforeCreate() {
@@ -298,10 +265,66 @@
     created() {
       console.info('11')
      this.init();
+      this.consume_query.begin_date = this.fmtDate();
+      this.consume_query.end_date = this.fmtDate();
+      this.recharge_query.begin_date = this.fmtDate();
+      this.recharge_query.end_date = this.fmtDate();
     },
     mounted() {
     },
+    watch:{
+      type(val) {
+        switch(val) {
+          case 'one' :
+            this.init()
+                break;
+          case 'two' :
+            consumeRecord().then( res => {
+              this.consume = res.result;
+            })
+            consumeList(this.consume_query).then( res => {
+                  this.consumeList = res.result.items;
+            })
+            break;
+          case 'three':
+            rechargeRecord({}).then( res =>{
+              this.recharge = res.result;
+            })
+            rechargeList(this.recharge_query).then( res => {
+              this.rechargeList = res.result.items;
+            })
+                break;
+
+        }
+      },
+      consume_query: {
+        handler(val){
+            console.log(val)
+            consumeList(val).then( res => {
+              this.consumeList = res.result.items;
+            })
+        },
+        deep: true
+      },
+      recharge_query: {
+        handler(val){
+          console.log(val)
+          rechargeList(this.recharge_query).then( res => {
+            this.rechargeList = res.result.items;
+          })
+        },
+        deep: true
+      }
+
+    },
     methods: {
+      fmtDate(){
+        let date =  new Date();
+        let y = 1900+date.getYear();
+        let m = "0"+(date.getMonth()+1);
+        let d = "0"+date.getDate();
+        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+      },
       eventTouch(event) {
         let scrollTop = this.$refs.scrollContent.scrollTop;
         let clientHeight = this.$refs.title.clientHeight;
@@ -664,6 +687,46 @@
             margin-top: 0.15rem;
             color: #999999;
             font-size: 0.2rem;
+          }
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+  }
+  .three {
+    .second_part {
+      .data {
+        height: 2rem;
+        p{
+          font-weight: 400;
+          &:nth-child(1), &:nth-child(2){
+            display: flex;
+            justify-content: space-between;
+            span {
+              font-size: 0.30rem;
+              &:nth-child(1){
+                color: #333333;
+              }
+              &:nth-child(2){
+                color: #ec7534;
+                margin-right: 0.3rem;
+              }
+            }
+          }
+          &:nth-child(2){
+            margin-top: 0.15rem;
+            span {
+              color: #999999 !important;
+              font-size: 0.2rem;
+            }
+          }
+          &:nth-child(3){
+            margin-top: 0.15rem;
+            text-align: right;
+            margin-right: 0.3rem;
+            color: #999999 !important;
           }
         }
         &:last-child {

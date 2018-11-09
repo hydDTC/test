@@ -26,11 +26,8 @@ const creativeDetail = () => import( /* webpackChunkName: "creative" */ './views
  * */
 const uindex = () => import( /* webpackChunkName: "utabs" */ './views/agent/index');
 const uinfo = () => import( /* webpackChunkName: "utabs" */ './views/agent/info');
-const ucampaign = () => import( /* webpackChunkName: "utabs" */ './views/agent/campaign');
-const ucreative = () => import( /* webpackChunkName: "utabs" */ './views/agent/creative');
 const uuser = () => import( /* webpackChunkName: "uuser" */ './views/agent/user');
-const ucampaignDetail = () => import( /* webpackChunkName: "ucampaign" */ './views/agent/campaignDetail');
-const ucreativeDetail = () => import( /* webpackChunkName: "ucreative" */ './views/agent/creativeDetail');
+
 
 let routes = [
   {
@@ -126,33 +123,6 @@ let utabs = [
       node: uinfo,
       footer: footer
     }
-  },
-  {
-    name: 'ucampaign',
-    path: 'campaign',
-    components: {
-      node: ucampaign,
-      footer: footer
-    },
-    children: [{
-      name: 'ucampaignDetail',
-      path: 'campaignDetail',
-      component: ucampaignDetail
-    }, ]
-
-  },
-  {
-    name: 'ucreative',
-    path: 'creative',
-    components: {
-      node: ucreative,
-      footer: footer
-    },
-    children: [{
-      name: 'ucreativeDetail',
-      path: 'creativeDetail',
-      component: ucreativeDetail
-    }, ]
   }
 ]
 
