@@ -97,7 +97,7 @@
 
       <div class="footer">
         <span>状态：<span class="status">投放中</span></span>
-        <switch-input v-model="valueStatus"></switch-input>
+        <switch-input v-model="valueStatus" @change="change_state"></switch-input>
       </div>
 
       <!-- 修改预算 -->
@@ -162,6 +162,7 @@
   import {campaignDetail} from "../../services/service";
   import {campaignUpdateBudget} from "../../services/service";
   import {updateShowHours} from "../../services/service";
+  import {updateShowState} from "../../services/service";
 
   export default {
 
@@ -169,7 +170,7 @@
       return {
         arr:[],
         init: {},
-        valueStatus: false,
+        valueStatus: true,
         day_budget: '',
         budget_show: false,
         creatives: [],
@@ -186,11 +187,23 @@
      this.initList();
     },
     methods: {
+      change_state(){
+        console.log(this.valueStatus)
+        let obj = {
+          campaign_id: this.init.campaign_id,
+          show_state: this.valueStatus
+        }
+        updateShowState(obj).then( res => {
+
+        })
+      },
 
       initList(){
         campaignDetail(this.$route.query).then( res => {
           this.init = JSON.parse(JSON.stringify(res.result.campaign)); // 这边budget需要修改
           this.creatives = res.result.creatives;
+          this.valueStatus =  this.init.show_state === 1 ? true : false;
+          console.log(this.valueStatus)
           if (this.market.show_time_type === 0) { // 不限
             for (let i = 0; i < 24; i ++) {
               this.market.show_hours.push( 1 )  // 对应的就是全都是1 但是这边后台不给  自己前端初始化

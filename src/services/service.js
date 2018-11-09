@@ -23,6 +23,9 @@ export function campaignUpdateBudget(body = {}){
 export function updateShowHours(body = {}){
   return postJson('/ads/campaign/update_show_hours', body);
 }
+export function updateShowState (body = {}){
+  return postJson('/ads/campaign/update_show_state', body);
+}
 
 
 /**
