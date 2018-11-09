@@ -13,8 +13,8 @@
                   <img src="img/index-default-head.png">
                 </div>
                 <div class="user-info">
-                  <p>银橙（上海）信息技术有限公司</p>
-                  <p>用户名：541874126@ycmedia.cn</p>
+                  <p>{{user.nick_name}}</p>
+                  <p>用户名：{{user.user_name}}</p>
                 </div>
                 <i class="user-right-go"></i>
               </div>
@@ -71,7 +71,7 @@
               <p class="info-number">{{account_info.balance}}</p>
             </div>
 
-            <div class="data-card account-info">
+            <!-- <div class="data-card account-info">
               <div class="flex">
                 <div class="info-icon">
                   <img src="../../assets/img/index-budget.png" alt="">
@@ -82,7 +82,7 @@
                 <p class="info-number">{{account_info.max_day_money}}</p>
                 <button class="budget-edit btn btn-primary" @click="revise()">修改</button>
               </div>
-            </div>
+            </div> -->
 
             <div class="data-card account-info">
               <div class="flex">
@@ -145,13 +145,14 @@
   </div>
 </template>
 <script>
-  import {homeInit} from "../../services/service";
+  import {homeInit, current} from "../../services/service";
   import {updateMaxDayMoney} from "../../services/service";
 
   export default {
     data() {
       return {
         type: 'one',
+        user: {},
         report_data: {},
         advert_Total:{},
         account_info:{},
@@ -165,6 +166,11 @@
     },
     created() {
      this.init();
+      current().then(res => {
+       if(res.success == 200){
+         this.user = res.result.user || {};
+       }
+     })
     },
     mounted() {
     },
