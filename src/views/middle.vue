@@ -16,11 +16,12 @@ import {getMenu} from '../services/service'
 import {mapMutations} from 'vuex'
   export default {
     created(){
+
       getMenu().then(res => {
         if(res.success == 200){
           let menu = res.result
           this.setMenu(menu)
-          if(menu && menu.length){
+          if(menu && menu.length && this.$router.name === 'middle_home'){
             this.$router.push({path:menu[0].route})
           }
         }
