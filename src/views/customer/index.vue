@@ -19,8 +19,8 @@
                   <img src="img/index-default-head.png">
                 </div>
                 <div class="user-info">
-                  <p>银橙（上海）信息技术有限公司</p>
-                  <p>用户名：541874126@ycmedia.cn</p>
+                  <p>{{user.nick_name}}</p>
+                  <p>用户名：{{user.user_name}}</p>
                 </div>
                 <i class="user-right-go"></i>
               </div>
@@ -230,7 +230,7 @@
   </div>
 </template>
 <script>
-  import {homeInit, consumeRecord, rechargeRecord, updateMaxDayMoney, consumeList, rechargeList} from "../../services/service";
+  import {homeInit, consumeRecord, rechargeRecord, updateMaxDayMoney, consumeList, rechargeList, current} from "../../services/service";
 
 
   export default {
@@ -242,6 +242,7 @@
         account_info:{},
         budget_show: false,
         money: '',
+        user: {},
         end_date: '',
         begin_date:'',
         consume: {},
@@ -265,6 +266,11 @@
     created() {
       console.info('11')
      this.init();
+     current().then(res => {
+       if(res.success == 200){
+         this.user = res.result.user || {};
+       }
+     })
       this.consume_query.begin_date = this.fmtDate();
       this.consume_query.end_date = this.fmtDate();
       this.recharge_query.begin_date = this.fmtDate();

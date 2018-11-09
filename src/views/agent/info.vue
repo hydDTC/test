@@ -78,186 +78,195 @@
   </div>
 </template>
 <script>
-  import {userInit, userList, userLogin} from '../../services/service'
-  export default {
-    data() {
-      return {
-        show: false,
-        init:{},
-        list:[],
-        loadData:false,
-        zc_audit_status:[],
-        query:{
-          page_index:1,
-          page_size: 25,
-          search_text: '',
-          sort_expression: '',
-          zc_audit_status:'',
-        }
-      };
-    },
-    created(){
-      userInit().then(res => {
-        this.zc_audit_status = res.result.zc_audit_status
-      })
-      this.dataList()
-    },
-    methods: {
-      go(data) {
-        const tem = window.open(); // 先打开页面
-        userLogin({user_id: data.user_id}).then(res => {
-          if(res.success == 200){
-            tem.location.href = window.location.origin + '/home?token=' + res.result
+import { userInit, userList, userLogin } from "../../services/service";
+export default {
+  data() {
+    return {
+      show: false,
+      init: {},
+      list: [],
+      loadData: false,
+      zc_audit_status: [],
+      query: {
+        page_index: 1,
+        page_size: 25,
+        search_text: "",
+        sort_expression: "",
+        zc_audit_status: ""
+      }
+    };
+  },
+  created() {
+    userInit().then(res => {
+      this.zc_audit_status = res.result.zc_audit_status;
+    });
+    this.dataList();
+  },
+  methods: {
+    go(data) {
+      const tem = window.open(); // 先打开页面
+      userLogin({ user_id: data.user_id }).then(
+        res => {
+          if (res.success == 200) {
+            tem.location.href =
+              window.location.origin + "/home?token=" + res.result;
           }
-        })
-      },
-      recover() {
-        this.query.show_state = '';
-        this.query.sort_expression = '';
-        this.query.current_state = '';
-      },
-      change() {
-        this.list.length = 0;
-        this.query.page_index = 1;
-        this.dataList()
-      },
-      dataList(){
-        userList(this.query).then(res => {
-          if(res.success == 200 && res.result.items.length){
-            this.list.push(...res.result.items)
-            this.loadData = false;
-          }
-        })
-      },
-      scrollLoadMore(event){
-        let n = event.target.scrollHeight - event.target.scrollTop - event.target.clientHeight
-        if(n > 150 || this.loadData) return;
-        this.loadData = true;
-        ++this.query.page_index
-        this.dataList()
-      },
-      eventTouch(event) {
-        let scrollTop = this.$refs.scrollContent.scrollTop;
-        let clientHeight = this.$refs.searchBox.clientHeight;
-        if (event.position.y === 0) return;
-        if (event.position.y > 0) {
-          this.$refs.searchBox.classList.remove("slide");
-        } else if (event.position.y < 0 && scrollTop >= clientHeight) {
-          this.$refs.searchBox.classList.add("slide");
+        },
+        () => {
+          tem.close();
         }
+      );
+    },
+    recover() {
+      this.query.show_state = "";
+      this.query.sort_expression = "";
+      this.query.current_state = "";
+    },
+    change() {
+      this.list.length = 0;
+      this.query.page_index = 1;
+      this.dataList();
+    },
+    dataList() {
+      userList(this.query).then(res => {
+        if (res.success == 200 && res.result.items.length) {
+          this.list.push(...res.result.items);
+          this.loadData = false;
+        }
+      });
+    },
+    scrollLoadMore(event) {
+      let n =
+        event.target.scrollHeight -
+        event.target.scrollTop -
+        event.target.clientHeight;
+      if (n > 150 || this.loadData) return;
+      this.loadData = true;
+      ++this.query.page_index;
+      this.dataList();
+    },
+    eventTouch(event) {
+      let scrollTop = this.$refs.scrollContent.scrollTop;
+      let clientHeight = this.$refs.searchBox.clientHeight;
+      if (event.position.y === 0) return;
+      if (event.position.y > 0) {
+        this.$refs.searchBox.classList.remove("slide");
+      } else if (event.position.y < 0 && scrollTop >= clientHeight) {
+        this.$refs.searchBox.classList.add("slide");
       }
     }
-  };
+  }
+};
 </script>
 <style lang="less" scoped>
-  .search-box {
-    &.slide {
-      top: -0.94rem;
-    }
-    left: 0;
-    top: 0;
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 0.94rem;
-    box-shadow: 0 1px 0 rgba(204, 204, 204, 0.35);
-    background-color: #ffffff;
-    padding: 0 0.3rem;
+.search-box {
+  &.slide {
+    top: -0.94rem;
+  }
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 0.94rem;
+  box-shadow: 0 1px 0 rgba(204, 204, 204, 0.35);
+  background-color: #ffffff;
+  padding: 0 0.3rem;
+  align-items: center;
+  transition: top 0.2s ease-in-out;
+  .input-search-icon {
+    width: 0.28rem;
+    height: 0.28rem;
+    display: block;
+    background: url("../../assets/img/input-search.png") no-repeat center;
+    background-size: 100%;
+  }
+  .search {
+    flex: 1;
+    height: 0.58rem;
+    border-radius: 0.1rem;
+    background-color: #eeeeee;
     align-items: center;
-    transition: top 0.2s ease-in-out;
+    margin-right: 0.4rem;
     .input-search-icon {
-      width: 0.28rem;
-      height: 0.28rem;
-      display: block;
-      background: url("../../assets/img/input-search.png") no-repeat center;
-      background-size: 100%;
+      margin: 0 0.2rem;
     }
-    .search {
+    input {
       flex: 1;
-      height: 0.58rem;
-      border-radius: 0.1rem;
-      background-color: #eeeeee;
-      align-items: center;
-      margin-right: 0.4rem;
-      .input-search-icon {
-        margin: 0 0.2rem;
-      }
-      input {
-        flex: 1;
-        height: 100%;
-        border: none;
-        background: transparent;
-        font-size: 0.28rem;
-        font-weight: 400;
-      }
-    }
-    .search-screen {
-      margin-left: auto;
-      align-items: center;
-      > span {
-        color: #666666;
-        font-size: 0.32rem;
-        font-weight: 400;
-        padding-right: 0.1rem;
-      }
-      > svg {
-        width: 0.23rem;
-        height: 0.12rem;
-        transform: rotate(0deg);
-        transition: all 200ms;
-        &.active{
-          transform: rotate(180deg);
-        }
-      }
+      height: 100%;
+      border: none;
+      background: transparent;
+      font-size: 0.28rem;
+      font-weight: 400;
     }
   }
-
-  .card-data + .card-data {
-    margin-top: 1px;
-  }
-
-  .card-data {
-    padding: 0.3rem;
-    background: #ffffff;
+  .search-screen {
+    margin-left: auto;
     align-items: center;
-    .status-img {
-      width: 0.8rem;
-      min-width: 0.8rem;
-      height: 0.8rem;
+    > span {
+      color: #666666;
+      font-size: 0.32rem;
+      font-weight: 400;
+      padding-right: 0.1rem;
     }
-    .status-info {
-      padding-left: 0.3rem;
-      p:nth-child(1) {
-        color: #333333;
-        font-size: 0.36rem;
-        font-weight: 400;
+    > svg {
+      width: 0.23rem;
+      height: 0.12rem;
+      transform: rotate(0deg);
+      transition: all 200ms;
+      &.active {
+        transform: rotate(180deg);
       }
-      p:nth-child(2) {
-        color: #666666;
-        font-size: 0.24rem;
-        font-weight: 400;
-        padding: 0.08rem 0;
-      }
-      span {
-        color: #333333;
-      }
-    }
-    .status-item {
-      // min-width: 6rem;
-      > p {
-        color: #999999;
-        font-size: 0.24rem;
-        font-weight: 400;
-        padding-left: 1.1rem;
-      }
-    }
-    .status-go {
-      width: 0.2rem;
-      min-width: 0.2rem;
-      height: 0.33rem;
-      display: block;
-      margin-left: auto;
-      font-size: 0.2rem;
     }
   }
+}
+
+.card-data + .card-data {
+  margin-top: 1px;
+}
+
+.card-data {
+  padding: 0.3rem;
+  background: #ffffff;
+  align-items: center;
+  .status-img {
+    width: 0.8rem;
+    min-width: 0.8rem;
+    height: 0.8rem;
+  }
+  .status-info {
+    padding-left: 0.3rem;
+    p:nth-child(1) {
+      color: #333333;
+      font-size: 0.36rem;
+      font-weight: 400;
+    }
+    p:nth-child(2) {
+      color: #666666;
+      font-size: 0.24rem;
+      font-weight: 400;
+      padding: 0.08rem 0;
+    }
+    span {
+      color: #333333;
+    }
+  }
+  .status-item {
+    // min-width: 6rem;
+    > p {
+      color: #999999;
+      font-size: 0.24rem;
+      font-weight: 400;
+      padding-left: 1.1rem;
+    }
+  }
+  .status-go {
+    width: 0.2rem;
+    min-width: 0.2rem;
+    height: 0.33rem;
+    display: block;
+    margin-left: auto;
+    font-size: 0.2rem;
+  }
+}
 </style>

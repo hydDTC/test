@@ -7,9 +7,9 @@
         <span>返回</span>
       </template>
       <span>智橙广告投放平台</span>
-      <template slot="btn-right">
+      <!-- <template slot="btn-right">
         <img class="right" src="../../assets/img/menus.png">
-      </template>
+      </template> -->
     </y-header>
 
     <div class="content">
@@ -31,21 +31,21 @@
         </div>
 
         <div class="user-content">
-          <h2>银橙（上海）信息技术有限公司</h2>
+          <h2>{{user.nick_name}}</h2>
           <div class="detail">
             <div>
-              <span>用户名：<span class="status">2016-11-12至2016-11-22</span> </span>
+              <span>用户名：<span class="status">{{user.user_name}}</span> </span>
             </div>
-            <div>
-              <span>行业：<span class="status">&0.1 </span></span>
-            </div>
-            <div>
+            <!-- <div>
+              <span>昵称：<span class="status">{{user.nick_name}}</span></span>
+            </div> -->
+            <!-- <div>
               <span>手机：<span class="status">投放中</span> </span>
-            </div>
+            </div> -->
           </div>
         </div>
 
-        <div class="remind">
+        <!-- <div class="remind">
           <div>
             <img src="../../assets/img/clock.png"><span class="status">提醒设置</span>
           </div>
@@ -62,11 +62,11 @@
               </g>
             </svg>
           </i>
-        </div>
+        </div> -->
 
 
         <div class="bottom">
-          <button>退出当前账户</button>
+          <button @click="lgout()">退出当前账户</button>
         </div>
 
 
@@ -76,27 +76,39 @@
 </template>
 
 <script>
+import {quit, current} from '../../services/service'
 export default {
   data(){
     return {
-
+      user:{}
     }
   },
   created(){
-
+    current().then(res => {
+       if(res.success == 200){
+         this.user = res.result.user || {};
+       }
+     })
   },
   mounted(){
 
   },
   methods: {
+    lgout(){
+      quit().then(res => {
+        if(res.success == 200){
+          this.$router.push({path: '/'})
+        }
+      })
+    },
     btnLeft() {
-      this.$router.replace({name:'home'})
+      this.$router.replace({name:'uhome'})
     },
     btnRight() {
-      this.$router.replace({name:'home'})
+      this.$router.replace({name:'uhome'})
     },
     btnTitle() {
-      this.$router.replace({name:'home'})
+      this.$router.replace({name:'uhome'})
     },
   }
 };

@@ -136,3 +136,11 @@ export function userLogin(body = {}){
   return get('/jurisdiction/sublogin', body)
 }
 
+export function current(body = {}){
+  return get('/jurisdiction/current', body)
+}
+
+export function quit(body = {}){
+  return get('/jurisdiction/quit', body)
+}
+
