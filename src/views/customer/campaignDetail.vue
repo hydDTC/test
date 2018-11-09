@@ -112,7 +112,7 @@
           <form class="form">
             <div class="connect">
               <div class="input">
-                <input v-model="day_budget" placeholder="预算" type="text">
+                <input v-model="day_budget" placeholder="预算" type="number">
               </div>
               <span v-if="day_budget < 100">请输入大于100的合法数字</span>
             </div>

@@ -198,7 +198,12 @@
         this.$router.push({name: "campaignDetail",  query: obj });
       },
       change() {
-        alert(1);
+        this.query.page_index = 1;
+        this.query.page_size = 10;
+        this.list = [];
+        campaignList(this.query).then( res => {
+          this.list.push(...res.result.items);
+        })
       },
       eventTouch(event) {
         let scrollTop = this.$refs.scrollContent.scrollTop;
