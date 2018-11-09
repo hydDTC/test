@@ -29,11 +29,11 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img v-if="item.current_state_origin == 1" src="../../../public/img/campaign-enable.png" alt="">
+                  <img v-if="item.current_state_origin == 1" src="../../assets/img/campaign-enable.png" alt="">
 
-                  <img v-if="item.current_state_origin == 2" src="../../../public/img/campaign-suspend.png" alt="">
+                  <img v-if="item.current_state_origin == 2" src="../../assets/img/campaign-suspend.png" alt="">
 
-                  <img v-if="item.current_state_origin == 3" src="../../../public/img/campaign-end.png" alt="">
+                  <img v-if="item.current_state_origin == 3" src="../../assets/img/campaign-end.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>{{item.creative_name}}</p>
@@ -136,8 +136,10 @@
       },
       dataList(){
         creativeList(this.query).then(res => {
-          this.list.push(...res.result.items)
-          this.loadData = false;
+          if(res.success == 200 && res.result.items.length){
+            this.list.push(...res.result.items)
+            this.loadData = false;
+          }
         })
       },
       scrollLoadMore(event){
@@ -231,6 +233,7 @@
   .card-data {
     padding: 0.3rem;
     background: #ffffff;
+    align-items: center;
     .status-img {
       width: 0.8rem;
       min-width: 0.8rem;

@@ -326,9 +326,9 @@
         return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
       },
       eventTouch(event) {
+        if (event.position.y === 0) return;
         let scrollTop = this.$refs.scrollContent.scrollTop;
         let clientHeight = this.$refs.title.clientHeight;
-        if (event.position.y === 0) return;
         if (event.position.y > 0) { // 往下滑动
           this.$refs.title.classList.remove("slide");
         } else if (event.position.y < 0 && scrollTop >= clientHeight) { // 往上滑动

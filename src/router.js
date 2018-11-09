@@ -117,8 +117,8 @@ let utabs = [
     }, ]
   },
   {
-    name: 'udata',
-    path: 'data',
+    name: 'users',
+    path: 'users',
     components: {
       node: uinfo,
       footer: footer

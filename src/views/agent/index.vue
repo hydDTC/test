@@ -1,13 +1,13 @@
 <template>
   <div class="push">
 
-    <div class="tab-content" v-touch-event="eventTouch">
+    <div class="tab-content">
 
       <div class="content">
         <div class="scroll-content" margin-tabbar  ref="scrollContent">
 
           <div class="one">
-            <router-link :to="{name:'user'}">
+            <router-link :to="{name:'uuser'}">
               <div class="user-header">
                 <div class="user-head">
                   <img src="img/index-default-head.png">
@@ -169,17 +169,6 @@
     mounted() {
     },
     methods: {
-      eventTouch(event) {
-        let scrollTop = this.$refs.scrollContent.scrollTop;
-        let clientHeight = this.$refs.title.clientHeight;
-        if (event.position.y === 0) return;
-        if (event.position.y > 0) { // 往下滑动
-          this.$refs.title.classList.remove("slide");
-        } else if (event.position.y < 0 && scrollTop >= clientHeight) { // 往上滑动
-          console.log('jinlai')
-          this.$refs.title.classList.add("slide");
-        }
-      },
       init() {
         homeInit({}).then( res => {
           this.report_data = res.result.report_data;
@@ -207,9 +196,6 @@
         })
       }
     },
-    // beforeRouteLeave(to, from, next) {
-    //   next();
-    // }
   };
 </script>
 <style lang="less" scoped>
@@ -247,9 +233,6 @@
           background-color: #0e86e3;
         }
       }
-    }
-    &.slide {
-      top: -0.95rem;
     }
   }
 

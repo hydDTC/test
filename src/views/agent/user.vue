@@ -90,13 +90,13 @@ export default {
   },
   methods: {
     btnLeft() {
-      this.$router.replace({name:'home'})
+      this.$router.replace({name:'uhome'})
     },
     btnRight() {
-      this.$router.replace({name:'home'})
+      this.$router.replace({name:'uhome'})
     },
     btnTitle() {
-      this.$router.replace({name:'home'})
+      this.$router.replace({name:'uhome'})
     },
   }
 };

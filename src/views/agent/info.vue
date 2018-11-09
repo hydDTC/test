@@ -1,445 +1,263 @@
 <template>
   <div class="push">
     <div class="tab-content" v-touch-event="eventTouch">
-
-      <ul class="title" ref="title">
-        <li @click="flag = 'one' " :class="{'active': flag === 'one'}">今天</li>
-        <li @click="flag = 'two' " :class="{'active': flag === 'two'}">昨天</li>
-        <li @click="flag = 'three' " :class="{'active': flag === 'three'}">近7天</li>
-        <li @click="flag = 'four' " :class="{'active': flag === 'four'}">近30天</li>
-      </ul>
-
-      <div class="content">
-        <div class="scroll-content" style="padding-top: 0.94rem;" ref="scrollContent">
-          <div>
-              <div>
-                <div class="data-card">
-                  <div class="card-border flex">
-                    <div class="item">
-                      <p>{{total.PV}}</p>
-                      <p>曝光量（次）</p>
-                    </div>
-                    <div class="item">
-                      <p>{{total.CPC}}</p>
-                      <p>点击量（次）</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="data-card">
-                  <div class="card-border flex">
-                    <div class="item">
-                      <p>{{total.CTR}}</p>
-                      <p>点击率（%）</p>
-                    </div>
-                    <div class="item">
-                      <p>{{total.CPC}}</p>
-                      <p>点击均价（元）</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="data-card">
-                  <div class="card-border flex">
-                    <div class="item">
-                      <p>{{total.CPM}}</p>
-                      <p>展示均价（元）</p>
-                    </div>
-                    <div class="item">
-                      <p>{{total.ADMoney}}</p>
-                      <p>今日消耗（元）</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="canvas-title">
-                <span :class="{'active': type === 'PV'}" @click="type = 'PV'" >曝光量</span>
-                <span :class="{'active': type === 'Click'}" @click="type = 'Click'">点击量</span>
-                <span :class="{'active': type === 'ADMoney'}" @click="type = 'ADMoney'">消费</span>
-              </div>
-              <canvas ref="canvasInfo" class="canvas" style="width:7.5rem; height:5.4rem;"></canvas>
-              <table>
-                <thead>
-                <tr>
-                  <th>曝光量</th>
-                  <th>点击量</th>
-                  <th>消费</th>
-                </tr>
-                <tr v-for="data in tableList">
-                  <td>{{data.PV}}</td>
-                  <td>{{data.Click}}</td>
-                  <td>{{data.ADMoney}}</td>
-                </tr>
-                </thead>
-              </table>
-          </div>
-
+      <div class="search-box flex" ref="searchBox">
+        <div class="flex search">
+          <i class="input-search-icon"></i>
+          <input type="search" v-model="query.search_text" placeholder="请输入客户的名称、ID ……" @search="change()">
+        </div>
+        <div class="flex search-screen" @click="show = !show">
+          <span>筛选</span>
+          <svg :class="{'active': show}" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:avocode="https://avocode.com/" viewBox="0 0 23 12">
+            <defs>
+              <path d="M708.49997,183.99986l-11.50002,-12.00004h22.99999z" id="Path-0"/>
+            </defs>
+            <desc>Generated with Avocode.</desc>
+            <g transform="matrix(1,0,0,1,-697,-172)">
+              <g>
+                <use xlink:href="#Path-0" fill="#666666" fill-opacity="1"/>
+              </g>
+            </g>
+          </svg>
         </div>
       </div>
 
+      <div class="content">
+        <div class="scroll-content" margin-tabbar style="padding-top: 0.94rem;" ref="scrollContent" v-listener-event:scroll="scrollLoadMore">
+
+          <div class="card-data flex" v-for="item in list" :key="item.creative_id" @click="go(item)">
+            <div class="status-item">
+              <div class="flex">
+                <div class="status-img">
+                  <img v-if="item.zc_audit_status == 'PENGING_AUDIT'" src="../../assets/img/user-wait-icon.png" alt="">
+
+                  <img v-if="item.zc_audit_status == 'AUDITED'" src="../../assets/img/user-adopt-icon.png" alt="">
+
+                  <img v-if="item.zc_audit_status == 'AUDIT_FAILED'" src="../../assets/img/user-fail-icon.png" alt="">
+
+                  <img v-if="item.zc_audit_status == 'FREEZE'" src="../../assets/img/user-frozen-icon.png" alt="">
+                </div>
+                <div class="status-info">
+                  <p>{{item.nick_name}}</p>
+                  <p>账号：{{item.user_name}}</p>
+                </div>
+              </div>
+              <p>[{{item.zc_audit_status_meaning}}] <span style="margin-left: 3.2rem;position: absolute;left: 0;">余额：{{item.balance}}</span></p>
+            </div>
+            <i class="status-go">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33"><defs><path id="sxdya" d="M700.86 300.8l3.01-3 16.1 16.08-16.1 16.08-3-3 13.08-13.08z"/></defs><g><g opacity=".8" transform="translate(-701 -297)"><use fill="#ccc" xlink:href="#sxdya"/></g></g></svg>
+            </i>
+          </div>
+
+          <p @click="dataList()" style="text-align: center;font-size: 0.32rem;padding: 0.15rem;color: #5b5b5b;">加载中。。。</p>
+
+        </div>
+      </div>
     </div>
+
+    <action-sheet v-model="show">
+      <div>
+        <div class="operating">
+          <h3 class="title-text">状态</h3>
+          <div class="flex item">
+            <span :class="{'selected': query.zc_audit_status===''}"   @click="query.zc_audit_status = '' ">全部</span>
+            <span v-for="ad_states in zc_audit_status" @click="query.zc_audit_status = ad_states.lookup_code" :class="{'selected': query.zc_audit_status=== ad_states.lookup_code}">{{ad_states.meaning}}</span>
+          </div>
+        </div>
+        <div class="flex operating-btn">
+          <button @click="recover()">重置</button>
+          <button @click="change();show = !show">确定</button>
+        </div>
+      </div>
+    </action-sheet>
+
+    <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
+      <router-view></router-view>
+    </transition>
+
   </div>
 </template>
 <script>
-  import {initData} from "../../services/service";
-
+  import {userInit, userList, userLogin} from '../../services/service'
   export default {
     data() {
       return {
-        type: 'PV',
-        flag : 'one',
-        begin_date: '',
-        end_date: '',
-        total: [],
-        tableList: [],
-        chats:{},
-        myChartRef: ''
+        show: false,
+        init:{},
+        list:[],
+        loadData:false,
+        zc_audit_status:[],
+        query:{
+          page_index:1,
+          page_size: 25,
+          search_text: '',
+          sort_expression: '',
+          zc_audit_status:'',
+        }
       };
     },
-    created() {
-      // 调试接口 这边数据写死先
-      // this.begin_date = this.fmtDate(0);
-      // this.end_date = this.fmtDate(0);
-      let myDate = new Date ( new Date().setFullYear(2018,6,1));
-      this.begin_date = this.test(myDate)
-      let myDate1 = new Date ( new Date().setFullYear(2018,6,30) );
-      this.end_date = this.test(myDate1);
-
-      this.init();
-    },
-    mounted() {
-
-      // let option = {
-      //   xAxis: {
-      //     type: 'category',
-      //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      //     splitLine: {
-      //       show: true
-      //     },
-      //     boundaryGap: true,
-      //     axisTick: {
-      //       show : true
-      //     }
-      //   },
-      //   yAxis: {
-      //     type: 'value',
-      //     splitLine: {
-      //       show: true
-      //     }
-      //   },
-      //   series: [{
-      //     data: [820, 932, 901, 934, 1290, 1330, 1320],
-      //     type: 'line',
-      //     itemStyle: {
-      //       normal: {
-      //         color: "blue",
-      //         lineStyle: {
-      //           color: "blue"
-      //         }
-      //       }
-      //     },
-      //   }]
-      // };
-
-      // 初次加载echarts
-      this.myChartRef  = this.$echarts.init(this.$refs.canvasInfo);
-      let option = {
-        tooltip: {
-          trigger: "axis"
-        },
-        grid: {
-          left: "4%",
-          right: "4%",
-          bottom: "3%",
-          top: "18%",
-          containLabel: true,
-          backgroundColor: "blue"
-        },
-        calculable: true,
-        xAxis: [
-          {
-            type: "category",
-            boundaryGap: false,
-            data: [],
-            axisLine: {
-              lineStyle: {
-                color: "#bfc4cd"
-              }
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: ["#f8f8f8"],
-                width: 1,
-                type: "solid"
-              }
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: "value",
-            axisLine: {
-              lineStyle: {
-                color: "#bfc4cd"
-              }
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: ["#f8f8f8"],
-                width: 1,
-                type: "solid"
-              }
-            }
-          }
-        ],
-        series: [
-          {
-            name: "hahahha",
-            type: "line",
-            smooth: true,
-            itemStyle: {
-              normal: {
-                color: "#47a4df" //图标颜色
-              }
-            },
-            lineStyle: {
-              normal: {
-                color: "#47a4df" //连线颜色
-              }
-            },
-            data: []
-          }
-        ]
-      };
-      this.myChartRef.setOption(option);
-    },
-    watch: {
-      flag: function(val) {
-           switch(val) {
-             case 'one':
-               this.begin_date = this.fmtDate(0)
-               this.end_date = this.fmtDate(0)
-               this.init();
-                   break;
-             case 'two':
-               this.begin_date = this.fmtDate(-1)
-               this.end_date = this.fmtDate(0)
-               this.init();
-               break;
-             case 'three':
-               this.begin_date = this.fmtDate(-6)
-               this.end_date = this.fmtDate(0)
-               this.init();
-               break;
-             case 'four':
-               this.begin_date = this.fmtDate(0)
-               this.end_date = this.fmtDate(-29)
-               this.init();
-               break;
-           }
-      },
-      type: function(val) {
-        this.myChartRef.setOption({
-          xAxis: [
-            {
-              data: this.chats.xAxisData,
-            }
-          ],
-          series: [
-            {
-              data: this.chats.yAxisData[val],
-            }
-          ]
-        });
-      }
+    created(){
+      userInit().then(res => {
+        this.zc_audit_status = res.result.zc_audit_status
+      })
+      this.dataList()
     },
     methods: {
+      go(data) {
+        const tem = window.open(); // 先打开页面
+        userLogin({user_id: data.user_id}).then(res => {
+          if(res.success == 200){
+            tem.location.href = window.location.origin + '/home?token=' + res.result
+          }
+        })
+      },
+      recover() {
+        this.query.show_state = '';
+        this.query.sort_expression = '';
+        this.query.current_state = '';
+      },
+      change() {
+        this.list.length = 0;
+        this.query.page_index = 1;
+        this.dataList()
+      },
+      dataList(){
+        userList(this.query).then(res => {
+          if(res.success == 200 && res.result.items.length){
+            this.list.push(...res.result.items)
+            this.loadData = false;
+          }
+        })
+      },
+      scrollLoadMore(event){
+        let n = event.target.scrollHeight - event.target.scrollTop - event.target.clientHeight
+        if(n > 150 || this.loadData) return;
+        this.loadData = true;
+        ++this.query.page_index
+        this.dataList()
+      },
       eventTouch(event) {
         let scrollTop = this.$refs.scrollContent.scrollTop;
-        let clientHeight = this.$refs.title.clientHeight;
+        let clientHeight = this.$refs.searchBox.clientHeight;
         if (event.position.y === 0) return;
-        if (event.position.y > 0) { // 往下滑动
-          this.$refs.title.classList.remove("slide");
-        } else if (event.position.y < 0 && scrollTop >= clientHeight) { // 往上滑动
-          this.$refs.title.classList.add("slide");
+        if (event.position.y > 0) {
+          this.$refs.searchBox.classList.remove("slide");
+        } else if (event.position.y < 0 && scrollTop >= clientHeight) {
+          this.$refs.searchBox.classList.add("slide");
         }
-      },
-      fmtDate(num){
-        let first = new Date();
-        let date = new Date (first.setDate(first.getDate() + num) )
-        let y = 1900+date.getYear();
-        let m = "0"+(date.getMonth()+1);
-        let d = "0"+date.getDate();
-        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
-      },
-      test(date) {
-        console.log(date)
-        let y = 1900+date.getYear();
-        let m = "0"+(date.getMonth()+1);
-        let d = "0"+date.getDate();
-        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
-      },
-      init() {
-        initData({
-          begin_date: this.begin_date,
-          end_date: this.end_date
-        }).then( res => {
-          this.total = res.result.total;
-          this.tableList = res.result.tableList;
-          this.chats = res.result.chats;
-          // 加载echarts
-          this.myChartRef.setOption({
-            xAxis: [
-              {
-                data: this.chats.xAxisData,
-              }
-            ],
-            series: [
-              {
-                data: this.chats.yAxisData[this.type],
-              }
-            ]
-          });
-        })
       }
     }
-  }
+  };
 </script>
 <style lang="less" scoped>
-  .title {
-    position: absolute;
-    top: 0;
+  .search-box {
+    &.slide {
+      top: -0.94rem;
+    }
     left: 0;
+    top: 0;
+    position: absolute;
     z-index: 10;
     width: 100%;
-
-    background-color: white;
-    border-bottom: 1px solid #d9d9d9;
-    display: flex;
-    justify-content: space-between;
-    li {
-      // display: inline-block;
-      // width: 24%;
-      // height: 1.28rem;
-      // line-height: 1.28rem;
-      height: 0.94rem;
-      line-height: 0.94rem;
-      flex: 1;
-      text-align: center;
-      color: #999999;
-      font-size: 0.38rem;
-      font-weight: 400;
-      position: relative;
-      &.active {
-        color: #0e86e3;
-        &::after{
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 0.06rem;
-          background-color: #0e86e3;
-        }
-      }
-    }
-    &.slide {
-      top: -1.28rem;
-    }
-  }
-
-  .canvas-title {
-    margin-top: 0.27rem;
-    background-color: white;
-    width: 7.5rem;
-    height: 0.93rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    border-bottom: 1px solid #d9d9d9;
-    span {
-      display: inline-block;
-      width: 30%;
-      height: 100%;
-      line-height: 0.93rem;
-      color: #999999;
-      font-size: 0.38rem;
-      font-weight: 400;
-      position: relative;
-      &.active {
-        color: #0e86e3;
-        &::after{
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 0.06rem;
-          background-color: #0e86e3;
-        }
-      }
-    }
-  }
-
-  .canvas {
-    background-color: white;
-    border: 1px solid red;
-  }
-
-  .data-card {
-    background: #ffffff;
+    height: 0.94rem;
+    box-shadow: 0 1px 0 rgba(204, 204, 204, 0.35);
+    background-color: #ffffff;
     padding: 0 0.3rem;
-    &:last-child {
-      .card-border {
-        border-bottom: none;
+    align-items: center;
+    transition: top 0.2s ease-in-out;
+    .input-search-icon {
+      width: 0.28rem;
+      height: 0.28rem;
+      display: block;
+      background: url("../../assets/img/input-search.png") no-repeat center;
+      background-size: 100%;
+    }
+    .search {
+      flex: 1;
+      height: 0.58rem;
+      border-radius: 0.1rem;
+      background-color: #eeeeee;
+      align-items: center;
+      margin-right: 0.4rem;
+      .input-search-icon {
+        margin: 0 0.2rem;
+      }
+      input {
+        flex: 1;
+        height: 100%;
+        border: none;
+        background: transparent;
+        font-size: 0.28rem;
+        font-weight: 400;
       }
     }
-    .card-border {
-      padding: 0.3rem 0;
-      border-bottom: 1px solid #efefef;
-      display: flex;
-      justify-content: space-around;
-    }
-    .item {
-      width: 46%;
-      &:nth-child(1) {
-        border-right: 1px solid #ccc;
+    .search-screen {
+      margin-left: auto;
+      align-items: center;
+      > span {
+        color: #666666;
+        font-size: 0.32rem;
+        font-weight: 400;
+        padding-right: 0.1rem;
       }
+      > svg {
+        width: 0.23rem;
+        height: 0.12rem;
+        transform: rotate(0deg);
+        transition: all 200ms;
+        &.active{
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  .card-data + .card-data {
+    margin-top: 1px;
+  }
+
+  .card-data {
+    padding: 0.3rem;
+    background: #ffffff;
+    align-items: center;
+    .status-img {
+      width: 0.8rem;
+      min-width: 0.8rem;
+      height: 0.8rem;
+    }
+    .status-info {
+      padding-left: 0.3rem;
       p:nth-child(1) {
         color: #333333;
-        font-size: 0.52rem;
+        font-size: 0.36rem;
+        font-weight: 400;
       }
       p:nth-child(2) {
-        color: #999999;
-        font-size: 0.28rem;
+        color: #666666;
+        font-size: 0.24rem;
         font-weight: 400;
+        padding: 0.08rem 0;
+      }
+      span {
+        color: #333333;
       }
     }
-  }
-
-  table {
-    margin-top: 0.27rem;
-    background-color: white;
-    width: 100%;
-    tr {
-      border-bottom: 1px solid #d9d9d9;
-      th {
-        color: #666666;
-        font-size: 0.38rem;
-        font-weight: 400;
-        padding: 0.3rem;
-      }
-      td {
-        padding: 0.3rem;
-        text-align: center;
+    .status-item {
+      // min-width: 6rem;
+      > p {
         color: #999999;
-        font-family: "Arial MT";
-        font-size: 0.28rem;
+        font-size: 0.24rem;
         font-weight: 400;
+        padding-left: 1.1rem;
       }
+    }
+    .status-go {
+      width: 0.2rem;
+      min-width: 0.2rem;
+      height: 0.33rem;
+      display: block;
+      margin-left: auto;
+      font-size: 0.2rem;
     }
   }
 </style>
