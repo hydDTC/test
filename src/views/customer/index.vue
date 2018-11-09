@@ -360,6 +360,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #d9d9d9;
+    transition: top 0.2s ease-in-out;
     li {
       height: 100%;
       line-height: 0.95rem;

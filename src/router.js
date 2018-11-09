@@ -13,7 +13,7 @@ const footer = () => import( /* webpackChunkName: "tabs" */ './components/footer
  *  投放
  * */
 const index = () => import( /* webpackChunkName: "tabs" */ './views/customer/index');
-const info = () => import( /* webpackChunkName: "tabs" */ './views/customer/info');
+const data = () => import( /* webpackChunkName: "tabs" */ './views/customer/data');
 const campaign = () => import( /* webpackChunkName: "tabs" */ './views/customer/campaign');
 const creative = () => import( /* webpackChunkName: "tabs" */ './views/customer/creative');
 const user = () => import( /* webpackChunkName: "user" */ './views/customer/user');
@@ -71,7 +71,7 @@ let tabs = [
     name: 'data',
     path: 'data',
     components: {
-      node: info,
+      node: data,
       footer: footer
     }
   },
