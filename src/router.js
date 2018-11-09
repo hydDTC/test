@@ -5,8 +5,8 @@ Vue.use(Router)
 
 const middle = () => import( /* webpackChunkName: "home" */ './views/middle');
 const home = () => import( /* webpackChunkName: "home" */ './views/home');
-const first = () => import( /* webpackChunkName: "first" */ './views/first');
-const test = () => import( /* webpackChunkName: "first" */ './views/test');
+const account = () => import( /* webpackChunkName: "account" */ './views/account');
+const test = () => import( /* webpackChunkName: "test" */ './views/test');
 const footer = () => import( /* webpackChunkName: "tabs" */ './components/footer');
 
 /**
@@ -20,17 +20,16 @@ const user = () => import( /* webpackChunkName: "user" */ './views/customer/user
 const campaignDetail = () => import( /* webpackChunkName: "campaign" */ './views/customer/campaignDetail');
 const creativeDetail = () => import( /* webpackChunkName: "creative" */ './views/customer/creativeDetail');
 
-
 /**
  * 代理
  * */
-const uindex = () => import( /* webpackChunkName: "tabs" */ './views/agent/index');
-const uinfo = () => import( /* webpackChunkName: "tabs" */ './views/agent/info');
-const ucampaign = () => import( /* webpackChunkName: "tabs" */ './views/agent/campaign');
-const ucreative = () => import( /* webpackChunkName: "tabs" */ './views/agent/creative');
-const uuser = () => import( /* webpackChunkName: "user" */ './views/agent/user');
-const ucampaignDetail = () => import( /* webpackChunkName: "campaign" */ './views/agent/campaignDetail');
-const ucreativeDetail = () => import( /* webpackChunkName: "creative" */ './views/agent/creativeDetail');
+const uindex = () => import( /* webpackChunkName: "utabs" */ './views/agent/index');
+const uinfo = () => import( /* webpackChunkName: "utabs" */ './views/agent/info');
+const ucampaign = () => import( /* webpackChunkName: "utabs" */ './views/agent/campaign');
+const ucreative = () => import( /* webpackChunkName: "utabs" */ './views/agent/creative');
+const uuser = () => import( /* webpackChunkName: "uuser" */ './views/agent/user');
+const ucampaignDetail = () => import( /* webpackChunkName: "ucampaign" */ './views/agent/campaignDetail');
+const ucreativeDetail = () => import( /* webpackChunkName: "ucreative" */ './views/agent/creativeDetail');
 
 let routes = [
   {
@@ -42,7 +41,7 @@ let routes = [
   {
     path: '/account',
     components: {
-      index: first
+      index: account
     },
   },
   {
@@ -103,22 +102,23 @@ let tabs = [
     }, ]
   }
 ]
+
 let utabs = [
   {
-    name: 'home',
+    name: 'uhome',
     path: 'home',
     components: {
       node: uindex,
       footer: footer
     },
     children: [{
-      name: 'user',
+      name: 'uuser',
       path: 'user',
       component: uuser
     }, ]
   },
   {
-    name: 'data',
+    name: 'udata',
     path: 'data',
     components: {
       node: uinfo,
@@ -126,35 +126,35 @@ let utabs = [
     }
   },
   {
-    name: 'campaign',
+    name: 'ucampaign',
     path: 'campaign',
     components: {
       node: ucampaign,
       footer: footer
     },
     children: [{
-      name: 'campaignDetail',
+      name: 'ucampaignDetail',
       path: 'campaignDetail',
       component: ucampaignDetail
     }, ]
 
   },
   {
-    name: 'creative',
+    name: 'ucreative',
     path: 'creative',
     components: {
       node: ucreative,
       footer: footer
     },
     children: [{
-      name: 'creativeDetail',
+      name: 'ucreativeDetail',
       path: 'creativeDetail',
       component: ucreativeDetail
     }, ]
   }
 ]
 
-let ads_tabs = [
+let middle_tabs = [
   {
     name: 'ads',
     path: '/ads',
@@ -186,14 +186,12 @@ const scrollBehavior = (to, from, savedPosition) => {
   }
 }
 
-
 export default new Router({
   mode: 'history',
   // base: process.env.BASE_URL,
   scrollBehavior,
   routes: [
     ...routes,
-    ...ads_tabs,
+    ...middle_tabs,
   ],
-
 })
