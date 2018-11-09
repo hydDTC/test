@@ -296,21 +296,19 @@
     beforeCreate() {
     },
     created() {
+      console.info('11')
      this.init();
     },
     mounted() {
     },
     methods: {
       eventTouch(event) {
-        console.log('kkkk')
-        console.log(event)
         let scrollTop = this.$refs.scrollContent.scrollTop;
         let clientHeight = this.$refs.title.clientHeight;
         if (event.position.y === 0) return;
         if (event.position.y > 0) { // 往下滑动
           this.$refs.title.classList.remove("slide");
         } else if (event.position.y < 0 && scrollTop >= clientHeight) { // 往上滑动
-          console.log('jinlai')
           this.$refs.title.classList.add("slide");
         }
       },
@@ -341,9 +339,6 @@
         })
       }
     },
-    // beforeRouteLeave(to, from, next) {
-    //   next();
-    // }
   };
 </script>
 <style lang="less" scoped>

@@ -160,13 +160,13 @@ let middle_tabs = [
     name: 'ads',
     path: '/ads',
     component: middle,
-    children: tabs
+    children: tabs,
   },
   {
     name: 'us',
     path: '/us',
     component: middle,
-    children: utabs
+    children: utabs,
   },
   {
     name: 'middle_home',
@@ -187,7 +187,7 @@ const scrollBehavior = (to, from, savedPosition) => {
   }
 }
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   // base: process.env.BASE_URL,
   scrollBehavior,
@@ -196,3 +196,14 @@ export default new Router({
     ...middle_tabs,
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  window.token = to.query.token
+  if(from.query.token && !to.query.token){
+    next({name: to.name, query: {...to.query,token: from.query.token}})
+  }else {
+    next()
+  }
+})
+
+export default router

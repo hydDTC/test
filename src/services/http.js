@@ -9,6 +9,9 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
     request => {
+      if(window.token){
+        request.headers.token = window.token
+      }
       Loading.open()
       return request;
     },
