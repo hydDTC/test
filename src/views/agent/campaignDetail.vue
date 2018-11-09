@@ -2,7 +2,7 @@
   <div class="content-modal">
     <y-header @btnLeft="btnLeft()" @btnRight="btnRight()" @btnTitle="btnTitle()">
       <template slot="btn-left">
-        <img src="../assets/img/left.png">
+        <img src="../../assets/img/left.png">
         <span>返回</span>
       </template>
       <span>活动详情</span>
@@ -159,9 +159,9 @@
 </template>
 
 <script>
-  import {campaignDetail} from "../services/service";
-  import {campaignUpdateBudget} from "../services/service";
-  import {updateShowHours} from "../services/service";
+  import {campaignDetail} from "../../services/service";
+  import {campaignUpdateBudget} from "../../services/service";
+  import {updateShowHours} from "../../services/service";
 
   export default {
 

@@ -29,11 +29,11 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img v-if="item.current_state_origin == 1" src="../../public/img/campaign-enable.png" alt="">
+                  <img v-if="item.current_state_origin == 1" src="../../../public/img/campaign-enable.png" alt="">
 
-                  <img v-if="item.current_state_origin == 2" src="../../public/img/campaign-suspend.png" alt="">
+                  <img v-if="item.current_state_origin == 2" src="../../../public/img/campaign-suspend.png" alt="">
 
-                  <img v-if="item.current_state_origin == 3" src="../../public/img/campaign-end.png" alt="">
+                  <img v-if="item.current_state_origin == 3" src="../../../public/img/campaign-end.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>{{item.creative_name}}</p>
@@ -93,7 +93,7 @@
   </div>
 </template>
 <script>
-  import {creativeInit, creativeList} from '../services/service'
+  import {creativeInit, creativeList} from '../../services/service'
   export default {
     data() {
       return {
@@ -181,7 +181,7 @@
       width: 0.28rem;
       height: 0.28rem;
       display: block;
-      background: url("../assets/img/input-search.png") no-repeat center;
+      background: url("../../assets/img/input-search.png") no-repeat center;
       background-size: 100%;
     }
     .search {

@@ -81,7 +81,7 @@
   </div>
 </template>
 <script>
-  import {initData} from "../services/service";
+  import {initData} from "../../services/service";
 
   export default {
     data() {

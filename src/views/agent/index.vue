@@ -70,7 +70,7 @@
             <div class="data-card account-info">
               <div class="flex">
                 <div class="info-icon">
-                  <img src="../assets/img/index-balance.png" alt="">
+                  <img src="../../assets/img/index-balance.png" alt="">
                 </div>
                 <p class="info-text">账户余额 （元）</p>
               </div>
@@ -80,7 +80,7 @@
             <div class="data-card account-info">
               <div class="flex">
                 <div class="info-icon">
-                  <img src="../assets/img/index-budget.png" alt="">
+                  <img src="../../assets/img/index-budget.png" alt="">
                 </div>
                 <p class="info-text">每日预算 （元）</p>
               </div>
@@ -93,7 +93,7 @@
             <div class="data-card account-info">
               <div class="flex">
                 <div class="info-icon">
-                  <img src="../assets/img/index-statistics.png" alt="">
+                  <img src="../../assets/img/index-statistics.png" alt="">
                 </div>
                 <p class="info-text">广告统计</p>
               </div>
@@ -117,15 +117,15 @@
 
             <ul class="first_part">
               <li>
-                <p><img src="../assets/img/yue.png"><span>累计充值（元）</span></p>
+                <p><img src="../../assets/img/yue.png"><span>累计充值（元）</span></p>
                 <p>&9500</p>
               </li>
               <li>
-                <p><img src="../assets/img/today.png"><span>今日花费（元）</span></p>
+                <p><img src="../../assets/img/today.png"><span>今日花费（元）</span></p>
                 <p>&9500</p>
               </li>
               <li>
-                <p><img src="../assets/img/leiji.png"><span>累计花费（元）</span></p>
+                <p><img src="../../assets/img/leiji.png"><span>累计花费（元）</span></p>
                 <p>&9500</p>
               </li>
             </ul>
@@ -180,15 +180,15 @@
 
             <ul class="first_part">
               <li>
-                <p><img src="../assets/img/chongzhi.png"><span>累计充值（元）</span></p>
+                <p><img src="../../assets/img/chongzhi.png"><span>累计充值（元）</span></p>
                 <p>&9500</p>
               </li>
               <li>
-                <p><img src="../assets/img/peisong.png"><span>累计配送（元）</span></p>
+                <p><img src="../../assets/img/peisong.png"><span>累计配送（元）</span></p>
                 <p>&9500</p>
               </li>
               <li>
-                <p><img src="../assets/img/tuikuan.png"><span>累计退款（元）</span></p>
+                <p><img src="../../assets/img/tuikuan.png"><span>累计退款（元）</span></p>
                 <p>&9500</p>
               </li>
             </ul>
@@ -277,8 +277,8 @@
   </div>
 </template>
 <script>
-  import {homeInit} from "../services/service";
-  import {updateMaxDayMoney} from "../services/service";
+  import {homeInit} from "../../services/service";
+  import {updateMaxDayMoney} from "../../services/service";
 
   export default {
     data() {
@@ -391,7 +391,7 @@
     .user-header {
       box-shadow: 0 1px 0 rgba(204, 204, 204, 0.35);
       height: 1.8rem;
-      background: url("../assets/img/index-header.png") no-repeat center;
+      background: url("../../assets/img/index-header.png") no-repeat center;
       background-size: auto 100%;
       display: flex;
       align-items: center;
@@ -421,7 +421,7 @@
         }
       }
       .user-right-go {
-        background: url("../assets/img/right-go.png");
+        background: url("../../assets/img/right-go.png");
         background-size: 100%;
         display: block;
         width: 0.2rem;

@@ -3,12 +3,12 @@
 
     <y-header @btnLeft="btnLeft()" @btnRight="btnRight()" @btnTitle="btnTitle()">
       <template slot="btn-left">
-        <img src="../assets/img/left.png">
+        <img src="../../assets/img/left.png">
         <span>返回</span>
       </template>
       <span>智橙广告投放平台</span>
       <template slot="btn-right">
-        <img class="right" src="../assets/img/menus.png">
+        <img class="right" src="../../assets/img/menus.png">
       </template>
     </y-header>
 
@@ -27,7 +27,7 @@
 
         <div class="title-bg"></div>
         <div class="title-img">
-          <img src="../assets/img/3-layers.png">
+          <img src="../../assets/img/3-layers.png">
         </div>
 
         <div class="user-content">
@@ -47,7 +47,7 @@
 
         <div class="remind">
           <div>
-            <img src="../assets/img/clock.png"><span class="status">提醒设置</span>
+            <img src="../../assets/img/clock.png"><span class="status">提醒设置</span>
           </div>
 
           <i class="status-go">
@@ -129,7 +129,7 @@ export default {
 
 .title-bg {
   height: 1.8rem;
-  background: #216ad1 url("../assets/img/user-bg.png") no-repeat;
+  background: #216ad1 url("../../assets/img/user-bg.png") no-repeat;
 }
 
 .title-img {

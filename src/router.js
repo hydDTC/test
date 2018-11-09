@@ -7,16 +7,30 @@ const middle = () => import( /* webpackChunkName: "home" */ './views/middle');
 const home = () => import( /* webpackChunkName: "home" */ './views/home');
 const first = () => import( /* webpackChunkName: "first" */ './views/first');
 const test = () => import( /* webpackChunkName: "first" */ './views/test');
-
 const footer = () => import( /* webpackChunkName: "tabs" */ './components/footer');
-const index = () => import( /* webpackChunkName: "tabs" */ './views/index');
-const info = () => import( /* webpackChunkName: "tabs" */ './views/info');
-const campaign = () => import( /* webpackChunkName: "tabs" */ './views/campaign');
-const creative = () => import( /* webpackChunkName: "tabs" */ './views/creative');
 
-const user = () => import( /* webpackChunkName: "user" */ './views/user');
-const campaignDetail = () => import( /* webpackChunkName: "campaign" */ './views/campaignDetail');
-const creativeDetail = () => import( /* webpackChunkName: "creative" */ './views/creativeDetail');
+/**
+ *  投放
+ * */
+const index = () => import( /* webpackChunkName: "tabs" */ './views/customer/index');
+const info = () => import( /* webpackChunkName: "tabs" */ './views/customer/info');
+const campaign = () => import( /* webpackChunkName: "tabs" */ './views/customer/campaign');
+const creative = () => import( /* webpackChunkName: "tabs" */ './views/customer/creative');
+const user = () => import( /* webpackChunkName: "user" */ './views/customer/user');
+const campaignDetail = () => import( /* webpackChunkName: "campaign" */ './views/customer/campaignDetail');
+const creativeDetail = () => import( /* webpackChunkName: "creative" */ './views/customer/creativeDetail');
+
+
+/**
+ * 代理
+ * */
+const uindex = () => import( /* webpackChunkName: "tabs" */ './views/agent/index');
+const uinfo = () => import( /* webpackChunkName: "tabs" */ './views/agent/info');
+const ucampaign = () => import( /* webpackChunkName: "tabs" */ './views/agent/campaign');
+const ucreative = () => import( /* webpackChunkName: "tabs" */ './views/agent/creative');
+const uuser = () => import( /* webpackChunkName: "user" */ './views/agent/user');
+const ucampaignDetail = () => import( /* webpackChunkName: "campaign" */ './views/agent/campaignDetail');
+const ucreativeDetail = () => import( /* webpackChunkName: "creative" */ './views/agent/creativeDetail');
 
 let routes = [
   {
@@ -39,7 +53,8 @@ let routes = [
   }
 ];
 
-let tabs = [{
+let tabs = [
+  {
     name: 'home',
     path: 'home',
     components: {
@@ -88,6 +103,56 @@ let tabs = [{
     }, ]
   }
 ]
+let utabs = [
+  {
+    name: 'home',
+    path: 'home',
+    components: {
+      node: uindex,
+      footer: footer
+    },
+    children: [{
+      name: 'user',
+      path: 'user',
+      component: uuser
+    }, ]
+  },
+  {
+    name: 'data',
+    path: 'data',
+    components: {
+      node: uinfo,
+      footer: footer
+    }
+  },
+  {
+    name: 'campaign',
+    path: 'campaign',
+    components: {
+      node: ucampaign,
+      footer: footer
+    },
+    children: [{
+      name: 'campaignDetail',
+      path: 'campaignDetail',
+      component: ucampaignDetail
+    }, ]
+
+  },
+  {
+    name: 'creative',
+    path: 'creative',
+    components: {
+      node: ucreative,
+      footer: footer
+    },
+    children: [{
+      name: 'creativeDetail',
+      path: 'creativeDetail',
+      component: ucreativeDetail
+    }, ]
+  }
+]
 
 let ads_tabs = [
   {
@@ -95,6 +160,12 @@ let ads_tabs = [
     path: '/ads',
     component: middle,
     children: tabs
+  },
+  {
+    name: 'us',
+    path: '/us',
+    component: middle,
+    children: utabs
   },
   {
     name: 'middle_home',
@@ -105,9 +176,6 @@ let ads_tabs = [
 
 // 并没有什么用哎  浏览器的前退后进
 const scrollBehavior = (to, from, savedPosition) => {
-  // console.log(to)
-  // console.log(from)
-  // console.log(savedPosition)
   if (savedPosition) {
     return savedPosition
   } else {

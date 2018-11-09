@@ -2,7 +2,7 @@
   <div class="content-modal">
     <y-header @btnLeft="btnLeft()" @btnRight="btnRight()" @btnTitle="btnTitle()">
       <template slot="btn-left">
-        <img src="../assets/img/left.png">
+        <img src="../../assets/img/left.png">
         <span>返回</span>
       </template>
       <span>创意详情</span>
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import {creativeEdit, creativeUpdatePrice} from '../services/service'
+import {creativeEdit, creativeUpdatePrice} from '../../services/service'
 export default {
   data() {
     return {
