@@ -56,6 +56,9 @@ export function creativeEdit(body = {}){
 export function creativeUpdatePrice(body = {}){
   return postJson('/ads/creative/update_ad_price', body);
 }
+export function creativeShowState (body = {}){
+  return postJson('/ads/creative/update_show_state', body);
+}
 
 /**
  *  首页相关接口
@@ -67,6 +70,20 @@ export function homeInit(body = {}){
 export function updateMaxDayMoney(body = {}){
   return postJson('/ads/home/updateMaxDayMoney', body);
 }
+export function consumeRecord(body = {}){
+  return get('/ads/home/consume_record', body);
+}
+// ads/home/consume_list?begin_date=2018-09-01&end_date=2018-10-02
+export function consumeList(body = {}){
+  return get('/ads/home/consume_list', body);
+}
+export function rechargeRecord(body = {}){
+  return get('/ads/home/recharge_record', body);
+}
+export function rechargeList(body = {}){
+  return get('/ads/home/recharge_list', body);
+}
+
 
 
 

@@ -96,8 +96,8 @@
       </div>
 
       <div class="footer">
-        <span>状态：<span class="status">投放中</span></span>
-        <switch-input v-model="valueStatus" @change="change_state"></switch-input>
+        <span>状态：<span class="status">{{ init.show_state_meaning}}</span></span>
+        <switch-input v-model="valueStatus" @changed="change_state"></switch-input>
       </div>
 
       <!-- 修改预算 -->
@@ -170,7 +170,7 @@
       return {
         arr:[],
         init: {},
-        valueStatus: true,
+        valueStatus: false,
         day_budget: '',
         budget_show: false,
         creatives: [],
@@ -186,24 +186,28 @@
     created() {
      this.initList();
     },
+    mounted() {
+      // this.initList();
+    },
     methods: {
       change_state(){
         console.log(this.valueStatus)
         let obj = {
           campaign_id: this.init.campaign_id,
-          show_state: this.valueStatus
+          show_state: this.valueStatus ? 1 : 2
         }
         updateShowState(obj).then( res => {
-
+              if (res.success == 200 ) {
+                this.init.show_state =  this.valueStatus ? 1 : 2;
+              }
         })
       },
 
       initList(){
         campaignDetail(this.$route.query).then( res => {
-          this.init = JSON.parse(JSON.stringify(res.result.campaign)); // 这边budget需要修改
+          this.init = res.result.campaign; // 这边budget需要修改
           this.creatives = res.result.creatives;
-          this.valueStatus =  this.init.show_state === 1 ? true : false;
-          console.log(this.valueStatus)
+          this.valueStatus =  this.init.show_state === 1;
           if (this.market.show_time_type === 0) { // 不限
             for (let i = 0; i < 24; i ++) {
               this.market.show_hours.push( 1 )  // 对应的就是全都是1 但是这边后台不给  自己前端初始化

@@ -4,7 +4,7 @@
       <div class="search-box flex" ref="searchBox">
         <div class="flex search">
           <i class="input-search-icon"></i>
-          <input type="search" placeholder="请输入创意的名称、ID ……" @search="change()" v-model="query.search_text">
+          <input type="search" placeholder="请输入活动的名称、ID ……" @search="change()" v-model="query.search_text">
         </div>
         <div class="flex search-screen" @click="show = !show">
           <span>筛选</span>
@@ -188,8 +188,8 @@
         console.log("push");
         let obj = {
           campaign_id: id,
-          beginDate: this.query.begin_date,
-          endDate: this.query.end_date
+          begin_date: this.query.begin_date,
+          end_date: this.query.end_date
         }
         this.$router.push({name: "campaignDetail",  query: obj });
       },

@@ -3,16 +3,10 @@
 
     <div class="tab-content" v-touch-event="eventTouch">
 
-      <ul class="title flex" ref="title">
-        <li @click="type='one'" :class="{'active': type==='one'}">我的账户</li>
-        <li @click="type='two'" :class="{'active': type==='two'}">消费记录</li>
-        <li @click="type='three'" :class="{'active': type==='three'}">充值记录</li>
-      </ul>
-
       <div class="content">
-        <div class="scroll-content" margin-tabbar  ref="scrollContent" style="padding-top: 0.95rem;">
+        <div class="scroll-content" margin-tabbar  ref="scrollContent">
 
-          <div v-if="type === 'one' " class="one">
+          <div class="one">
             <router-link :to="{name:'user'}">
               <div class="user-header">
                 <div class="user-head">
@@ -113,132 +107,6 @@
               </div>
             </div>
           </div>
-          <div v-if="type === 'two' " class="two">
-
-            <ul class="first_part">
-              <li>
-                <p><img src="../../assets/img/yue.png"><span>累计充值（元）</span></p>
-                <p>&9500</p>
-              </li>
-              <li>
-                <p><img src="../../assets/img/today.png"><span>今日花费（元）</span></p>
-                <p>&9500</p>
-              </li>
-              <li>
-                <p><img src="../../assets/img/leiji.png"><span>累计花费（元）</span></p>
-                <p>&9500</p>
-              </li>
-            </ul>
-
-            <div class="second_part">
-              <div class="choose">
-                <span>筛选</span>
-                <input type="date" v-model="begin_date">
-                <input type="date" v-model="end_date">
-              </div>
-
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-
-            </div>
-
-          </div>
-          <div v-if="type === 'three' " class="two">
-
-            <ul class="first_part">
-              <li>
-                <p><img src="../../assets/img/chongzhi.png"><span>累计充值（元）</span></p>
-                <p>&9500</p>
-              </li>
-              <li>
-                <p><img src="../../assets/img/peisong.png"><span>累计配送（元）</span></p>
-                <p>&9500</p>
-              </li>
-              <li>
-                <p><img src="../../assets/img/tuikuan.png"><span>累计退款（元）</span></p>
-                <p>&9500</p>
-              </li>
-            </ul>
-
-            <div class="second_part">
-              <div class="choose">
-                  <span>筛选</span>
-                  <input type="date" v-model="begin_date">
-                  <input type="date" v-model="end_date">
-              </div>
-
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-              <div class="data">
-                <p>
-                  <span>消费</span>
-                  <span>-1200</span>
-                </p>
-                <p>2018-11-06  20:26</p>
-              </div>
-
-            </div>
-
-          </div>
 
         </div>
       </div>
@@ -302,8 +170,6 @@
     },
     methods: {
       eventTouch(event) {
-        console.log('kkkk')
-        console.log(event)
         let scrollTop = this.$refs.scrollContent.scrollTop;
         let clientHeight = this.$refs.title.clientHeight;
         if (event.position.y === 0) return;
@@ -586,95 +452,5 @@
     }
   }
 
-  /* 消费记录  */
-
-  .two {
-    .first_part {
-      background-color: white;
-      padding: 0 0.2rem;
-      li {
-        height: 2.20rem;
-        padding:0.44rem 0 0.54rem 0.34rem;
-        border-bottom: 1px solid  #efefef;
-        p{
-          &:nth-child(1){
-            display: flex;
-            align-items: center;
-            > img {
-              min-width: 0.59rem;
-              width: 0.59rem;
-              height: 0.57rem;
-              margin-right: 0.31rem;
-            }
-            color: #333333;
-            font-size: 0.32rem;
-            font-weight: 400;
-          }
-          &:nth-child(2){
-            margin-top: 0.37rem;
-            color: #333333;
-            font-size: 0.52rem;
-            font-weight: 400;
-            font-family: "Arial MT";
-          }
-        }
-        &:last-child{
-          border: none;
-        }
-      }
-    }
-    .second_part {
-      background-color: white;
-      margin-top: 0.19rem;
-      .choose {
-        height: 0.94rem;
-        line-height: 0.94rem;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        border-bottom: 1px solid  #efefef;
-        span {
-          color: #666666;
-          font-size: 0.32rem;
-          font-weight: 400;
-        }
-        input {
-          height: 0.6rem;
-          background-color: #f7f7f7;
-          border: transparent;
-
-        }
-      }
-      .data {
-        height: 1.30rem;
-        border-bottom: 1px solid  #efefef;
-        padding: 0.34rem 0 0.27rem 0.27rem;
-        p{
-          font-weight: 400;
-          &:nth-child(1){
-            display: flex;justify-content: space-between;
-            span {
-              font-size: 0.30rem;
-              &:nth-child(1){
-                color: #333333;
-              }
-              &:nth-child(2){
-                color: #ec7534;
-                margin-right: 0.3rem;
-              }
-            }
-          }
-          &:nth-child(2){
-            margin-top: 0.15rem;
-            color: #999999;
-            font-size: 0.2rem;
-          }
-        }
-        &:last-child {
-          border: none;
-        }
-      }
-    }
-  }
 
 </style>

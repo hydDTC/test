@@ -19,10 +19,6 @@ export default {
     color: {
       type: String,
       default: "#ccc"
-    },
-    change: {
-      type: Function,
-      default: () =>{}
     }
   },
   data() {
@@ -42,7 +38,7 @@ export default {
   methods: {
     change(evnt) {
       this.$emit("input", evnt.target.checked);
-      this.$emit("change", evnt.target.checked);
+      this.$emit("changed", evnt.target.checked);
     }
   }
 };
