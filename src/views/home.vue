@@ -167,14 +167,14 @@
                   <div class="connect">
                     <img src="../assets/home/phone-icon.png" class="img"/>
                     <div class="input">
-                      <input v-model="form.phone" type="text" placeholder="以1开头的11位手机号码(必填)" required pattern="^1\d{10}$">
+                      <input v-model="form.phone" type="number" placeholder="以1开头的11位手机号码(必填)" required pattern="^1\d{10}$">
                     </div>
                   </div>
 
                   <div class="connect code">
                     <img class="icon img" src="../assets/css/login/yanzhengma.png"/>
                     <div class="input">
-                      <input v-model="form.img_code" type="text" placeholder="验证码" required>
+                      <input v-model="form.img_code" type="text" placeholder="验证码(必填)" required>
                     </div>
                     <a><img :src="vertCodeUrl" width="100%" height="100%"  title="看不清" @click="verifyCode()"></a>
                   </div>

@@ -13,7 +13,7 @@
     </y-header>
 
     <div class="content">
-      <div class="scroll-content" margin-header>
+      <div class="scroll-content" margin-header style="background-color: white">
         <!--<router-link to="/index"> <span>返回</span> </router-link>-->
         <!--<h1>当前账户</h1>-->
         <!--index-->
@@ -36,9 +36,9 @@
             <div>
               <span>用户名：<span class="status">{{user.user_name}}</span> </span>
             </div>
-            <!-- <div>
-              <span>昵称：<span class="status">{{user.nick_name}}</span></span>
-            </div> -->
+             <div>
+              <span>公司名称：<span class="status">{{user.nick_name}}</span></span>
+            </div>
             <!-- <div>
               <span>手机：<span class="status">投放中</span> </span>
             </div> -->

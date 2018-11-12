@@ -67,6 +67,10 @@ export function homeInit(body = {}){
   return get('/ads/home/init', body);
 }
 
+export function usInit(body = {}){
+  return get('/us/home/init', body);
+}
+
 export function updateMaxDayMoney(body = {}){
   return postJson('/ads/home/updateMaxDayMoney', body);
 }

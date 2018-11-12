@@ -89,20 +89,24 @@
                 <div class="info-icon">
                   <img src="../../assets/img/index-statistics.png" alt="">
                 </div>
-                <p class="info-text">广告统计</p>
+                <p class="info-text">客户统计</p>
               </div>
               <div class="flex">
                 <div class="status-item">
-                  <p>{{advert_Total.wait_count}}</p>
+                  <p>{{advert_Total.penging_audit}}</p>
                   <p>待审核</p>
                 </div>
                 <div class="status-item">
-                  <p>{{advert_Total.wait_submit_count}}</p>
-                  <p>未通过</p>
+                  <p>{{advert_Total.audited}}</p>
+                  <p>审核通过</p>
                 </div>
                 <div class="status-item">
-                  <p>{{advert_Total.pass_count}}</p>
-                  <p>有效广告</p>
+                  <p>{{advert_Total.audit_failed}}</p>
+                  <p>审核失败</p>
+                </div>
+                <div class="status-item">
+                  <p>{{advert_Total.freeze}}</p>
+                  <p>冻结</p>
                 </div>
               </div>
             </div>
@@ -145,7 +149,7 @@
   </div>
 </template>
 <script>
-  import {homeInit, current} from "../../services/service";
+  import {usInit, current} from "../../services/service";
   import {updateMaxDayMoney} from "../../services/service";
 
   export default {
@@ -176,7 +180,7 @@
     },
     methods: {
       init() {
-        homeInit({}).then( res => {
+        usInit({}).then( res => {
           this.report_data = res.result.report_data;
           this.advert_Total = res.result.advert_Total;
           this.account_info = res.result.account_info;

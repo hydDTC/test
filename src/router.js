@@ -102,8 +102,13 @@ let tabs = [
     children: [{
       name: 'campaignDetail',
       path: 'campaignDetail',
-      component: campaignDetail
-    }, ]
+      component: campaignDetail,
+      children: [{
+        name: 'camcreativeDetail',
+        path: 'creativeDetail',
+        component: creativeDetail
+      }]
+    }]
 
   },
   {

@@ -8,7 +8,7 @@
       <span>创意详情</span>
     </y-header>
     <div class="content">
-      <div class="scroll-content" margin-header>
+      <div class="scroll-content" margin-header margin-tabbar>
 
         <!-- <div class="material-list-box"> -->
           <div class="material-box" v-for="ma in material">
@@ -32,7 +32,6 @@
             </template>
           </div>
         <!-- </div> -->
-
 
 
         <div class="img-text">
@@ -94,11 +93,7 @@
             <span class="status">{{creative.ad_price}}</span>
             <button class="btn btn-primary" @click="show = !show;ad_price = creative.ad_price">修改</button>
           </div>
-          <div class="flex" style="align-items: center; justify-content: center">
-            <span>创意状态： </span>
-            <span class="status">{{creative.current_state_meaning}}</span>
-            <switch-input v-model="valueStatus" @changed="change_state" style="margin-left: auto"></switch-input>
-          </div>
+
         </div>
 
         <div class="detail detail-bottom">
@@ -124,6 +119,21 @@
         <!--<span><router-link to="/creative">返回</router-link></span>-->
         <!--<span>创意详情</span>-->
       </div>
+
+      <div class="footer">
+
+        <!--<div class="flex" style="align-items: center; justify-content: center">-->
+          <!--<span>创意状态： </span>-->
+          <!--<span class="status">{{creative.current_state_meaning}}</span>-->
+          <!--<switch-input v-model="valueStatus" @changed="change_state" style="margin-left: auto"></switch-input>-->
+        <!--</div>-->
+
+        <span>状态：<span class="status">
+          [ {{creative.current_state_origin_meaning}} - {{creative.current_state_meaning}} ]
+        </span></span>
+        <switch-input v-model="valueStatus" @changed="change_state"></switch-input>
+      </div>
+
     </div>
 
     <modal v-model="show">
@@ -184,7 +194,11 @@ export default {
         show_state: this.valueStatus
       }
       creativeShowState(obj).then( res => {
-        this.creative.show_state = this.valueStatus
+        if (res.success === 200) {
+          this.creative.show_state = this.valueStatus
+        } else {
+          this.valueStatus = !this.valueStatus;
+        }
       })
     },
     updatePrice(){
@@ -215,13 +229,16 @@ export default {
       });
     },
     btnLeft() {
-      this.$router.replace({name:'creative'})
+      // this.$router.replace({name:'creative'})
+      this.$router.go(-1);
     },
     btnRight() {
-      this.$router.replace({name:'creative'})
+      // this.$router.replace({name:'creative'})
+      this.$router.go(-1)
     },
     btnTitle() {
-      this.$router.replace({name:'creative'})
+      // this.$router.replace({name:'creative'})
+      this.$router.go(-1)
     },
   }
 };
@@ -390,11 +407,8 @@ export default {
 
 .detail {
   background-color: white;
-  margin: 0.25rem 0;
+  margin: 0.25rem 0 0 0;
   padding: 0 0.3rem;
-  &.detail-bottom {
-    margin-bottom: 0.63rem;
-  }
   > div {
     border-bottom: 1px solid #efefef;
     line-height: 1rem;
@@ -415,6 +429,25 @@ export default {
     }
     button {
       margin-left: auto;
+    }
+  }
+}
+.footer {
+  padding: 0 0.35rem;
+  width: 100%;
+  height: 1rem;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    color: #333333;
+    font-size: 0.22rem;
+    font-weight: 400;
+    /* Text style for "状态：" */
+    .status {
+      color: #999999;
     }
   }
 }

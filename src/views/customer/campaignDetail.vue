@@ -71,7 +71,7 @@
         <div class="campaign">
           <div class="campaign-title"><span>此活动包含{{creatives.length}}个创意：</span></div>
           <ul>
-            <li v-for="creative in  creatives">
+            <li v-for="creative in  creatives" @click="skip(creative)">
               <div>{{creative.creative_name}} <span>[{{creative.zc_audit_status_name}}]</span></div>
               <i class="status-go">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19 33">
@@ -96,10 +96,15 @@
       </div>
 
       <div class="footer">
-        <span>状态：<span class="status">{{ init.show_state_meaning}}</span></span>
+        <span>状态：<span class="status">
+          [ {{init.current_state_origin_meaning}} - {{init.current_state_meaning}} ]
+        </span></span>
         <switch-input v-model="valueStatus" @changed="change_state"></switch-input>
       </div>
 
+      <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
+        <router-view></router-view>
+      </transition>
       <!-- 修改预算 -->
       <!--  :value="show" @input="handleInput"  v-modal的缩写-->
       <modal v-model="budget_show">
@@ -190,15 +195,22 @@
       // this.initList();
     },
     methods: {
+      skip(data) {
+        this.$router.push({name: "camcreativeDetail", query:{creative_id:data.creative_id,begin_date: data.begin_date,end_date: data.end_date}});
+      },
       change_state(){
-        console.log(this.valueStatus)
         let obj = {
           campaign_id: this.init.campaign_id,
           show_state: this.valueStatus ? 1 : 2
         }
         updateShowState(obj).then( res => {
               if (res.success == 200 ) {
-                this.init.show_state =  this.valueStatus ? 1 : 2;
+                if (res.success === 200) {
+                  this.init.show_state = this.valueStatus
+                } else {
+                  this.valueStatus = !this.valueStatus;
+                }
+                // this.init.show_state =  this.valueStatus ? 1 : 2;
               }
         })
       },
@@ -267,13 +279,13 @@
         this.time_show = false;
       },
       btnLeft() {
-        this.$router.replace({name:'campaign'})
+        this.$router.push({name:'campaign'})
       },
       btnRight() {
-        this.$router.replace({name:'campaign'})
+        this.$router.push({name:'campaign'})
       },
       btnTitle() {
-        this.$router.replace({name:'campaign'})
+        this.$router.push({name:'campaign'})
       },
     }
   };
@@ -413,7 +425,7 @@
     align-items: center;
     span {
       color: #333333;
-      font-size: 0.32rem;
+      font-size: 0.22rem;
       font-weight: 400;
       /* Text style for "状态：" */
       .status {

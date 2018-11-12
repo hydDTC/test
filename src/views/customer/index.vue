@@ -132,9 +132,14 @@
 
             <div class="second_part">
               <div class="choose">
-                <span>筛选</span>
-                <span class="up" @click="triangle_show = !triangle_show; consume_query.sort_direction = 1;" v-if="!triangle_show"></span>
-                <span class="down" @click="triangle_show = !triangle_show; consume_query.sort_direction = 0;" v-if="triangle_show"></span>
+                <span class="spann" @click="triangle_show = !triangle_show; consume_query.sort_direction = 1;" v-if="!triangle_show">
+                   <span>筛选</span>
+                   <span class="up"></span>
+                </span>
+                <span  class="spann" @click="triangle_show = !triangle_show; consume_query.sort_direction = 0;" v-if="triangle_show">
+                   <span>筛选</span>
+                   <span class="down"></span>
+                </span>
                 <input type="date" v-model="consume_query.begin_date">
                 <input type="date" v-model="consume_query.end_date">
               </div>
@@ -168,9 +173,15 @@
 
             <div class="second_part">
               <div class="choose">
-                  <span>筛选</span>
-                  <span class="up" @click="triangle_show_recharge = !triangle_show_recharge; recharge_query.sort_direction = 1;" v-if="!triangle_show_recharge"></span>
-                  <span class="down" @click="triangle_show_recharge = !triangle_show_recharge; recharge_query.sort_direction = 0;" v-if="triangle_show_recharge"></span>
+                <span class="spann" v-if="!triangle_show_recharge" @click="triangle_show_recharge = !triangle_show_recharge; recharge_query.sort_direction = 1;">
+                   <span>筛选</span>
+                   <span class="up"></span>
+                </span>
+                <span  class="spann" v-if="triangle_show_recharge" @click="triangle_show_recharge = !triangle_show_recharge; recharge_query.sort_direction = 0;">
+                   <span>筛选</span>
+                   <span class="down"></span>
+                </span>
+
                   <input type="date" v-model="recharge_query.begin_date">
                   <input type="date" v-model="recharge_query.end_date">
               </div>
@@ -660,12 +671,18 @@
         justify-content: space-around;
         align-items: center;
         border-bottom: 1px solid  #efefef;
+
         span {
           color: #666666;
           font-size: 0.32rem;
           font-weight: 400;
+          &.spann {
+            width: 1.2rem;
+            display:flex;
+            align-items: center;
+            justify-content: space-around;
+          }
           &.up{
-            margin-left: -0.5rem;
             width:0;
             height:0;
             border-width:0 5px 5px;
@@ -673,7 +690,6 @@
             border-color:transparent transparent red;/*透明 透明  灰*/
           }
           &.down {
-            margin-left: -0.5rem;
             width:0;
             height:0;
             border-width:5px 5px 0;
