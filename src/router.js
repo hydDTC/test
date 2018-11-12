@@ -8,6 +8,8 @@ const middle = () => import( /* webpackChunkName: "home" */ './views/middle');
 const home = () => import( /* webpackChunkName: "home" */ './views/home');
 const account = () => import( /* webpackChunkName: "account" */ './views/account');
 const test = () => import( /* webpackChunkName: "test" */ './views/test');
+const register = () => import( /* webpackChunkName: "test" */ './views/register');
+const login = () => import( /* webpackChunkName: "test" */ './views/login');
 const footer = () => import( /* webpackChunkName: "tabs" */ './components/footer');
 
 /**
@@ -33,7 +35,12 @@ let routes = [
   {
     path: '*',
     components: {
-      index: home
+      index: home,
+      // children: [{
+      //   name: 'register',
+      //   path: '/register',
+      //   component: register
+      // }, ]
     },
   },
   {
@@ -47,6 +54,18 @@ let routes = [
     path: '/test',
     components: {
       index: test
+    },
+  },
+  {
+    path: '/register',
+    components: {
+      index: register
+    },
+  },
+  {
+    path: '/login',
+    components: {
+      index: login
     },
   }
 ];

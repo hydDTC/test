@@ -1,4 +1,4 @@
-import {get, postForm, postJson, postFormData} from './http'
+import {get, postForm, postJson, postFormData,getUrl} from './http'
 
 
 /**
@@ -150,5 +150,25 @@ export function current(body = {}){
 
 export function quit(body = {}){
   return get('/jurisdiction/quit', body)
+}
+export function verifycode(body = {}){
+  return get('/jurisdiction/sms/verifycode', body, {
+  })
+}
+//  login首页验证码
+export function verify_code(body = {}){
+  return getUrl('/verifyCode', body, {
+  })
+}
+export function existUser(body = {}){
+  return get('/jurisdiction/exist/user', body, {
+  })
+}
+export function register(body = {}) {
+  return postJson('/jurisdiction/register', body, {});
+}
+
+export function customer(body = {}) {
+  return postJson('/jurisdiction/customer', body);
 }
 
