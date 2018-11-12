@@ -11,7 +11,6 @@ import echarts from 'echarts'
 component(Vue) // 全局注册的component
 directive(Vue) // 全局注册的directive
 
-
 Vue.config.productionTip = false;
 Vue.prototype.$echarts = echarts;
 
