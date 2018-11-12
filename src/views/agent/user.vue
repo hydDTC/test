@@ -150,7 +150,7 @@ export default {
   position: absolute;
   top: 0.67rem;
   left: 2.76rem;
-  img {
+  >img {
     width: 100%;
     height: 100%;
   }

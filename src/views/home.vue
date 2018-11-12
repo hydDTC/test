@@ -824,7 +824,7 @@
                     vertical-align: middle;
                     width: 0.69rem;
                     height: 0.66rem;
-                    img {
+                    > img {
                       width: 100%;
                       height: 100%;
                     }

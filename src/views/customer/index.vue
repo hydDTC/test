@@ -426,7 +426,7 @@
         width: 1rem;
         height: 1rem;
         margin: 0 0.35rem;
-        img {
+        > img {
           max-width: 100%;
           max-height: 100%;
         }
@@ -501,7 +501,7 @@
       .info-icon {
         width: 0.6rem;
         height: 0.6rem;
-        img {
+        > img {
           max-width: 100%;
           max-height: 100%;
         }
