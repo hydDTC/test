@@ -146,28 +146,41 @@
             </div>
             <div class="banner-content">
               <div class="form">
-                <div class="connect">
-                  <img src="../assets/home/company-icon.png"/>
-                  <div class="input">
-                    <input v-model="form.company_name" placeholder="企业名称(必填)" type="text">
-                  </div>
-                </div>
+                <form  id="consult" target="consult" @submit="goConsult" >
 
-                <div class="connect">
-                  <img src="../assets/home/name-icon.png"/>
-                  <div class="input">
-                    <input v-model="form.userName" type="customer_name" placeholder="姓名(必填)">
+                  <iframe name='consult' style='display: none;'></iframe>
+                  <div class="connect">
+                    <img src="../assets/home/company-icon.png" class="img" />
+                    <div class="input">
+                      <input v-model="form.company_name" placeholder="企业名称(必填)" type="text" required>
+                    </div>
                   </div>
 
-                </div>
+                  <div class="connect">
+                    <img src="../assets/home/name-icon.png" class="img" />
+                    <div class="input">
+                      <input v-model="form.customer_name" type="customer_name" placeholder="姓名(必填)" required >
+                    </div>
 
-                <div class="connect">
-                  <img src="../assets/home/phone-icon.png"/>
-                  <div class="input">
-                    <input v-model="form.phone" type="text" placeholder="以1开头的11位手机号码(必填)">
                   </div>
-                </div>
-                <button>预约顾客咨询</button>
+
+                  <div class="connect">
+                    <img src="../assets/home/phone-icon.png" class="img"/>
+                    <div class="input">
+                      <input v-model="form.phone" type="text" placeholder="以1开头的11位手机号码(必填)" required pattern="^1\d{10}$">
+                    </div>
+                  </div>
+
+                  <div class="connect code">
+                    <img class="icon img" src="../assets/css/login/yanzhengma.png"/>
+                    <div class="input">
+                      <input v-model="form.img_code" type="text" placeholder="验证码" required>
+                    </div>
+                    <a><img :src="vertCodeUrl" width="100%" height="100%"  title="看不清" @click="verifyCode()"></a>
+                  </div>
+
+                  <button type="submit">预约顾客咨询</button>
+                </form>
               </div>
 
               <div class="center">
@@ -195,8 +208,13 @@
       </div>
 
       <div class="login" ref="login">
-        <button @click="login">登陆平台</button>
-        <button>注册账号</button>
+        <router-link to="/login">
+          <button>登陆平台</button>
+        </router-link>
+
+        <router-link to="/register">
+          <button>注册账号</button>
+        </router-link>
       </div>
 
       <div class="slipping" ref="slipping">
@@ -204,128 +222,20 @@
         <img src="../assets/home/slipping.png"/>
       </div>
 
-
-      <modal v-model="login_show">
-        <div class="login_show">
-
-          <div class="close" @click="cancel()">
-            <img src="../assets/css/login/close.png">
-          </div>
-
-          <div class="title">
-            <span @click="flag ='login'" :class="{'active': flag ==='login'}">登陆</span>
-            <span @click="flag ='register'" :class="{'active': flag ==='register'}">注册</span>
-          </div>
-
-          <!-- login-->
-          <div class="form" v-if=" flag ==='login' ">
-            <form  id="myform" ref="myform" target="frameFile" @submit="goLogin()" >
-
-              <iframe name='frameFile' style='display: none;'></iframe>
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/mail.png" />
-                <!-- 套一层 因为input边框每个浏览器渲染的样式不一样 -->
-                <div class="input">
-                  <input v-model="form1.username" placeholder="用户名" type="text" required>
-                </div>
-              </div>
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/pwd.png" />
-                <div class="input">
-                  <input v-model="form1.password" type="customer_name" placeholder="密码" required >
-                </div>
-              </div>
-
-              <div class="connect code">
-                <img class="icon" src="../assets/css/login/yanzhengma.png" />
-                <div class="input">
-                  <input v-model="form1.veritycode" type="text" placeholder="验证码" required>
-                </div>
-                <a><img src="../assets/css/login/code.png"></a>
-              </div>
-              <button  type="submit">登陆</button>
-            </form>
-
-          </div>
-
-          <!--register-->
-          <div class="form" v-if=" flag ==='register' ">
-
-            <form  target="frameFile1" @submit="goRegister()" >
-              <iframe name='frameFile1' style='display: none;'></iframe>
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/mail.png" />
-                <div class="input">
-                  <input v-model="user.user_name" placeholder="登录邮箱" type="text" required pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$">
-                </div>
-              </div>
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/pwd.png" />
-                <div class="input">
-                  <input v-model="user.password" placeholder="设置密码" type="text" required  pattern="((?=.*\d)(?=.*[A-Za-z]))^[A-Za-z\d]{6,18}$">
-                </div>
-              </div>
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/pwd.png" />
-                <div class="input">
-                  <input v-model="user.old_pwd" placeholder="确认密码" type="text" required>
-                </div>
-              </div>
-
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/company.png" />
-                <div class="input">
-                  <input v-model="user.nick_name" placeholder="企业名称" type="text" required>
-                </div>
-              </div>
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/link-people.png" />
-                <div class="input">
-                  <input v-model="user.link_user" type="text" placeholder="联系人" required>
-                </div>
-              </div>
-
-              <div class="connect">
-                <img class="icon" src="../assets/css/login/loginphone.png" />
-                <div class="input">
-                  <input v-model="user.mobile_phone" placeholder="联系电话" type="text" required pattern="^1\d{10}$">
-                </div>
-              </div>
-
-              <div class="connect code">
-                <img class="icon" src="../assets/css/login/yanzhengma.png" />
-                <div class="input">
-                  <input v-model="user.verify_code" type="text" placeholder="验证码" required>
-                </div>
-                <a @click="verifyCode()"><img src="../assets/css/login/code.png"></a>
-              </div>
-              <button type="submit">登陆</button>
-            </form>
-          </div>
-        </div>
-      </modal>
-
       <!--<y-login v-if="login_show" @login_cancel="login_cancel"></y-login>-->
     </div>
+
+    <transition name="custom-classes-transition" enter-active-class="animated nav-open" leave-active-class="animated nav-close">
+      <router-view></router-view>
+    </transition>
   </div>
-
-
-
-
 </template>
 
 <script>
-  import {jurisdictionLogin} from "../services/service";
+  import {verify_code, customer} from "../services/service";
   export default {
     data() {
       return {
-        login_show: false,
         /* 第一屏的背景图片的宽高 */
         topTwo: 0,
         path: true,
@@ -602,8 +512,9 @@
         mediaArr: [],
         form: {
           company_name: "",
-          userName: "",
-          phone: ""
+          customer_name:'',
+          phone: "",
+          img_code: ''
         },
         /*   */
         startx: 0,
@@ -615,25 +526,7 @@
         ny: "",
         angle: "",
         startTime: "",
-        /*  登入 注册这方面的 */
-        form1 : {
-          username: '',
-          password:'',
-          veritycode:''
-        },
-        flag: 'login',
-        user : {
-          nick_name:'',
-          link_user:'',
-          user_name:'',
-          password:'',
-          old_pwd:'',
-          mobile_phone:'',
-          verify_code:''
-        },
-        countdown :  60,
-        flagCode : false,
-        codeText : '获取验证码'
+        vertCodeUrl: ''
       };
     },
 
@@ -644,6 +537,12 @@
       }
       this.success_obj = this.success_program[0][0];
       this.success_arr = this.success_program[0];
+      let obj = {
+        _: Date.now(),
+        w: 90,
+        h: 25
+      };
+      this.vertCodeUrl = verify_code(obj)
     },
     mounted() {
       //  动态计算高度
@@ -696,8 +595,6 @@
       });
 
       this.$refs.containerFull.addEventListener("touchend", event => {
-        console.log("哈哈哈哈");
-        console.log(this.$refs.containerFull.scrollTop);
         this.endy = event.changedTouches[0].pageY;
         this.endx = event.changedTouches[0].pageX;
         this.ny = this.endy - this.starty;
@@ -730,9 +627,7 @@
         //通过滑动的角度判断触摸的方向  向下滑动
         this.angle = (Math.atan2(this.ny, this.nx) * 180) / Math.PI;
         if (this.angle <= -45 && this.angle >= -135) {
-          console.log("上滑动");
         } else if (this.angle < 135 && this.angle >= 45) {
-          //  console.log('下滑动')
           if (!this.path && this.$refs.containerFull.scrollTop === 0) {
             if (-this.topTwo < this.$refs.bannerTop.offsetHeight / 1.5) {
               this.$refs.containerCon.style.top = 0;
@@ -748,7 +643,24 @@
         }
       });
     },
+
     methods: {
+      verifyCode() {
+        let obj = {
+          _: Date.now(),
+          w: 90,
+          h: 25
+        };
+        this.vertCodeUrl = verify_code(obj)
+      },
+      goConsult() {
+        customer(this.form).then( res => {
+            if (res.success === 200) {
+              alert('预约成功!')
+              this.form = {};
+            }
+        })
+      },
       change_success: function (obj) {
         this.isTrue = obj.type;
         this.isTrueChild = obj.type_child;
@@ -768,7 +680,6 @@
           this.setIntervalFun();
         }, 1000);
       },
-
       setIntervalFun: function () {
         // 2张或者以上图片才滑动
         if (this.success_arr.length > 1) {
@@ -797,72 +708,12 @@
           this.isTrueChild = this.success_obj.type;
         }
       },
-
       scrollSetInterval: function () {
         this.time = setInterval(() => {
           this.setIntervalFun();
         }, 1000);
       },
       /* 动画  */
-
-      /*login */
-      login() {
-        this.form1 = {};
-        this.login_show = true;
-      },
-      cancel() {
-        this.login_show = false;
-      },
-
-      /*login */
-      goLogin() {
-        jurisdictionLogin(this.form1).then( res => {
-          if (res.success != 200) {
-            alert(res.errorList[0]._description)
-          } else {
-            this.login_show = false;
-          }
-
-        })
-      },
-      /* register */
-      goRegister() {
-        jurisdictionLogin(this.user).then( res => {
-          if (res.success != 200) {
-            alert(res.errorList[0]._description)
-          } else {
-            this.login_show = false;
-          }
-
-        })
-      },
-      verifyCode() {
-        if (!this.user.mobile_phone) {
-           alert('请输入手机号');
-           return;
-        }
-        this.countdown --;
-        localStorage.setItem('countdown', this.countdown + '');
-        this.codeTest()
-        // this._publicService.RegisterVerifyCode({mobile_number: this.user.mobile_phone}).subscribe( res => {})
-      },
-      codeTest() {
-        if (localStorage.getItem('countdown') && +localStorage.getItem('countdown') <  60 && +localStorage.getItem('countdown') > 0) {
-          this.countdown = +localStorage.getItem('countdown');
-          this.countdown --;
-          this.flagCode = true;
-          this.codeText = '重新发送';
-          localStorage.setItem('countdown', this.countdown + '');
-          setTimeout( () => {
-            this.codeTest();
-          }, 1000)
-        } else {
-          this.countdown = 60;
-          this.flagCode = false;
-          this.codeText = '获取验证码';
-          localStorage.setItem('countdown', this.countdown + '');
-        }
-      }
     }
   };
 </script>
@@ -1215,19 +1066,37 @@
                   /* input默认的背景图是白色的 */
                   background-color: white;
                   input {
+                    color: black;
                     text-indent: 0.5rem;
                     width: 100%;
                     height: 100%;
                     border: none;
                   }
                 }
-
-                img {
+                .img {
                   width: 0.27rem;
                   height: 0.28rem;
                   position: absolute;
                   left: 0.1rem;
                   top: 0.15rem;
+                }
+                /* 验证码 */
+                &.code {
+                  display: flex;
+                  text-align: left;
+                  justify-content: space-between;
+                  input {
+                    width : 3.8rem;
+                  }
+                  button {
+                    width: 1.9rem;
+                    background-color: #12a6ff;
+                    color: white;
+                    &:disabled {
+                      background-color: gray;
+                      color: white;
+                    }
+                  }
                 }
               }
             }
@@ -1358,86 +1227,5 @@
     }
   }
 
-  /*  登录  */
-  .login_show {
-    > .close {
-      position:absolute;
-      width:0.28rem;
-      height:0.28rem;
-      top: 0.2rem;
-      right: 0.2rem;
-      img {
-        min-width: 100%;
-      }
-    }
-    .title {
-      height:1.08rem;
-      line-height: 0.58rem;
-      text-align: center;
-      background: #fcfcfc;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-evenly;
-      span {
-        display:inline-block;
-        width:0.9rem;
-        height: 0.74rem;
-        &.active {
-          border-bottom: 2px solid blue;
-        }
-      }
-    }
-
-    .form {
-      text-align: center;
-      margin-top:0.52rem;
-      .connect{
-        margin: 0 auto 0.25rem auto;
-        width : 5rem;
-        height: 0.55rem;
-        position: relative;
-        .input {
-          border: 1px solid #e1e3e5;
-          height: 100%;
-          border-radius: 0.03rem;
-          input {
-            width : 100%;
-            height: 100%;
-            text-indent: 0.9rem;
-            border: none;
-          }
-        }
-        .icon {
-          width: 0.23rem;
-          height:0.31rem;
-          position: absolute;
-          left: 0.3rem;
-          top: 0.1rem;
-        }
-        /* 验证码 */
-        &.code {
-          display: flex;
-          text-align: left;
-          input {
-            width : 3.54rem;
-          }
-          a {
-            img {
-              width: 1.32rem;
-              height: 0.55rem;
-            }
-          }
-        }
-      }
-      button {
-        width : 5rem;
-        height: 0.55rem;
-        border-radius: 0.03rem;
-        margin-top: 0.2rem;
-        margin-bottom: 0.6rem;
-        background-color: #12a6ff;
-      }
-    }
-  }
 
 </style>

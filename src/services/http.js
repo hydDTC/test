@@ -54,4 +54,17 @@ export function postFormData(url, body = {}, config = {}) {
     return instance.post(url, f, config)
 }
 
+export function getUrl(url, body = {}) {
+  console.log('进来')
+  // let token = this._global.token;
+  // if (token && !body.token) {
+  //   body.token = token;
+  // }
+  let search = qs.stringify(body);
+  if (search) {
+    return 'http://192.168.100.163:8190' + url + '?' + search;
+  }
+  return 'http://192.168.100.163:8190' + url;
+}
+
 
