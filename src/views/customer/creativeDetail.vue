@@ -11,26 +11,32 @@
       <div class="scroll-content" margin-header>
 
         <!-- <div class="material-list-box"> -->
-          <div class="material-box" v-for="ma in material">
-            <template v-for="ele in ma.title_list">
-              <p>{{ele[ele.name]}}</p>
-            </template>
-
+          <template v-if="material && material.length">
             <preview-img>
-              <div class="img-box" v-for="ele in ma.file_list">
+              <div class="material-box" v-for="ma in material">
+                <template v-for="ele in ma.title_list">
+                  <p>{{ele[ele.name]}}</p>
+                </template>
 
-                <img v-if="ele.element_type === 'img'" :src="ele[ele.name]">
-                <video v-if="ele.element_type === 'video'" :src="ele[ele.name]" autoplay loop></video>
-                <!-- <span>{{ele.file_size}}</span> -->
-                <!-- <div class="mask"></div> -->
+                <preview-img>
+                  <div class="img-box" v-for="ele in ma.file_list">
 
+                    <img v-if="ele.element_type === 'img'" :src="ele[ele.name]">
+                    <video v-if="ele.element_type === 'video'" :src="ele[ele.name]" autoplay loop></video>
+                    <!-- <span>{{ele.file_size}}</span> -->
+                    <!-- <div class="mask"></div> -->
+
+                  </div>
+                </preview-img>
+
+                <template v-for="ele in ma.text_list">
+                  <p>{{ele[ele.name]}}</p>
+                </template>
               </div>
             </preview-img>
+          </template>
 
-            <template v-for="ele in ma.text_list">
-              <p>{{ele[ele.name]}}</p>
-            </template>
-          </div>
+
         <!-- </div> -->
 
 
@@ -167,6 +173,7 @@ export default {
       let material = res.result.creative.material_elements.data_list
       this.assignDefaultData(material, value);
       material.forEach((item) => {
+        if(!item.text_list) return;
         let title = item.text_list.find(t => t.name === 'title')
         if(title) {
           item.title_list = [title]
@@ -287,6 +294,9 @@ export default {
   border-bottom: 1px solid #efefef;
   background: #fff;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   > p{
     padding: 0.1rem 0.3rem;
     font-size: 0.28rem;
@@ -297,7 +307,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    > img {
+    > img,video {
       max-width: 100%;
       max-height: 100%;
     }

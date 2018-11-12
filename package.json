@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
-    "build": "vue-cli-service build --mode production",
+    "build": "vue-cli-service build --mode production && node push",
     "push": "git add . && git commit -am '1' && git pull origin master && git push origin master"
   },
   "dependencies": {

@@ -9,7 +9,7 @@ export default {
   props: {
     time:{
       type: Number,
-      default: 2000,
+      default: 4000,
     }
   },
   data() {
@@ -26,6 +26,7 @@ export default {
   created() {},
   mounted() {
     let children = Array.from(this.$refs.box.children);
+    console.info(children)
     this.number = children.length;
     children.forEach(item => {
       item.style.width = item.clientWidth + 'px'
