@@ -29,7 +29,9 @@
             <div class="status-item">
               <div class="flex">
                 <div class="status-img">
-                  <img :src="list.current_state_origin | imgFilter  " alt="">
+                  <img v-if="list.current_state_origin == 1" src="../../assets/img/campaign-enable.png" alt="">
+                  <img v-if="list.current_state_origin == 2" src="../../assets/img/campaign-suspend.png" alt="">
+                  <img v-if="list.current_state_origin == 3" src="../../assets/img/campaign-end.png" alt="">
                 </div>
                 <div class="status-info">
                   <p>{{list.campaign_name}}</p>
